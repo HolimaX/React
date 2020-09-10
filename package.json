@@ -27,7 +27,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bootstrap": "^4.2.1",
     "jquery": "^3.5.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
     "react-bootstrap4-modal": "^1.7.0",
