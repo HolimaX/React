@@ -1,8 +1,8 @@
 {
-  "name": "@HolimaX/beerbank",
-  "proxy": "http://localhost:3001",
-  "version": "0.1.2",
-  "description": "Cloud Dashboard DEMO CRUD application using ReactJS",
+  "name": "beerbank",
+  "version": "0.1.1",
+  "private": true,
+  "description": "DEMO CRUD application using ReactJS",
   "keywords": [
     "reactjs",
     "crud"
@@ -12,18 +12,10 @@
     "url": "https://github.com/HolimaX/React/issues",
     "email": "hx@inbox.lv"
   },
-  "author": {
-    "name": "Linards Liepins",
-    "email": "hx@inbox.lv",
-    "url": "https://linardsliepins.wordpress.com"
-  },
   "contributors": [
     "Linards Liepins <hx@inbox.lv> (https://linardsliepins.wordpress.com)"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "homepage": "https://linardsliepins.wordpress.com",
+  "homepage": "https://www.turing.ly",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -36,7 +28,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "chalk": "^2.4.2",
     "bootstrap": "^4.2.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "node-sass": "^4.13.1",
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
@@ -44,9 +36,11 @@
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.1.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "serve": "^11.1.0",
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "start": "react-scripts start",
