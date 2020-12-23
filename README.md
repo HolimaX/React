@@ -87,3 +87,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## Integrations
+The supported method is via C-style header SO libraries. See https://medium.com/learning-the-go-programming-language/calling-go-functions-from-other-languages-4c7d8bcc69bf for details. Note that only CircleCI is building the header files.
+
+As of now, the pod configuration is adjusted in case there is incoming function call from integrated applications. This implementation is not aimed to push changes, but 'pull' instead.
