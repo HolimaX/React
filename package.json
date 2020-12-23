@@ -1,11 +1,21 @@
 {
+  "config": {
+    "productFlavour": "",
+    "versionCode": "1",
+    "versionName": "4",
+    "authProviderCID": ""
+  },
   "name": "@HolimaX/beerbank",
   "proxy": "http://localhost:3001",
-  "version": "0.1.2",
-  "description": "Cloud Dashboard DEMO CRUD application using ReactJS",
+  "version": "0.1.4",
+  "description": "Cloud Dashboard DEMO CRUD application open/public (non-restricted) modules using ReactJS",
   "keywords": [
+    "basic",
+    "standard",
     "reactjs",
-    "crud"
+    "crud",
+    "app",
+    "non-restricted"
   ],
   "man": "./man/doc.1",
   "bugs": {
@@ -29,30 +39,39 @@
     "type": "git",
     "url": "https://github.com/HolimaX/React.git"
   },
+  "funding": {
+    "type": "Development Team at PayPal",
+    "url": "https://www.paypal.com/donate/?cmd=_donations&business=BLC2P5B987NS2&item_name=Support+of+developments+that+are+mentioned+in+forked+Repo+README.md+files&currency_code=EUR&source=url"
+  },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.13",
     "@okta/okta-react": "^1.2.3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.12",
-    "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@fortawesome/react-fontawesome": "^0.1.4",
+    "bootstrap": "^4.5.3",
     "chalk": "^2.4.2",
-    "bootstrap": "^4.2.1",
-    "jquery": "^3.3.1",
+    "cross-env": "^7.0.3",
+    "jquery": "^3.5.1",
     "node-sass": "^4.13.1",
     "popper.js": "^1.14.6",
-    "react": "^16.7.0",
-    "react-bootstrap4-modal": "^1.7.0",
-    "react-dom": "^16.7.0",
+    "react": "^16.14.0",
+    "react-bootstrap4-modal": "^1.7.5",
+    "react-dom": "^16.14.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.4.4",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
+    "start": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
+    "build": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
+    "pretest": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
+    "test": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
     "eject": "react-scripts eject",
+    "prepublish": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
+    "publish": "npm publish --tag %npm_package_config_name%%npm_package_config_productFlavour% --access restricted",
     "deploy": "./deploy.sh"
   },
   "eslintConfig": {

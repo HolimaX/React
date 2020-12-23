@@ -41,3 +41,6 @@ export default withAuth(class Navigation extends React.Component {
     )
   }
 });
+
+// Node.js syntax: export navigation class to allow custom use
+//module.exports.createCoreNavigationPage = withAuth(Navigation);

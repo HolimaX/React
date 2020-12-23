@@ -33,3 +33,6 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+// Node.js syntax: export user dashboard to allow custom use
+//module.exports.createCoreUserDashboardPage = Dashboard;
