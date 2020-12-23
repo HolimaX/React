@@ -1,22 +1,49 @@
 /**
-NOT TESTED ON REAL JENKINS ENVIRONMENT. YET! :)
+NOT TESTED ON REAL JENKINS(x) ENVIRONMENT. YET! :)
 **/
 
 // shenbag in case shared libs are used
 #!/usr/bin/env groovy
 
+//TODO: Add check for compatibility for shared libraries features like dynamic loading
+// Loading libraries from supported projects via Groovy libs to use created SO objects
+// Compliant with feature/C_SO_integration branches for other repos
+@Library(['python_project@1.0.0','go_project@1.0.0','java_project@1.0.0']) _
+
 // main body
 pipeline {
   agent any
+  properties(
+    [parameters(
+      [string(name: 'LIB_VERSION', defaultValue: 'latest')]
+    )]
+  )
+  options {
+    timestamps()
+  }
   stages {
     stage('Checkout') {
       steps {
         // source
         sh "echo 'This will retrieve sourcecode for ecosystem...'"
         checkout scm
+        // ecosystem
+        sh "echo '********************* NOTES *********************'"
+        script {
+          println GroovySystem.version
+          java -jar /usr/share/jenkins/jenkins.war --version
+        }
       }
     }
-    stage('Provision - Contenarize - Build - Deploy') {
+    stage('Quality Assurance') {
+      steps {
+        //TODO: Implement jenkinsci/JenkinsPipelineUnit
+        script {
+          library "generic_test@${params.LIB_VERSION}"
+        }
+      }
+    }
+    stage('Provision - Containerize - Build - Deploy') {
       // workflow validation
       timeout(time: 30, unit: 'SECONDS') {
         input {
@@ -30,46 +57,48 @@ pipeline {
         }
       }
       steps {
-        // aws resources
-        sh "echo 'This will prepare ecosystem and build React Frontend for the defined backend...'"
-        sh "echo ' [Task 1] Creating resources ...'"
-        dir('../.terraformconfig') {
-          sh 'which terraform'
-          sh 'terraform init && terraform fmt && terraform validate -check-variables=true && terraform plan'
-          sh 'terraform apply -refresh=true'
-        }
-        sh 'sleep 600'
-        // aws k8s self-managed cluster
-        sh "echo ' [Task 2] Creating ecosystem ...'"
-        dir('../.k8sconfig') {
-          sh 'which kubectl'
-          sh 'kubectl apply --validate=true --dry-run=true --filename=task_2.yaml'
-          sh 'kubectl apply -f task_2.yaml'
-        }
-        sh 'sleep 600'
-        // aws k8s self-managed node
-        sh "echo ' [Task 3] Creating HA setup ...'"
-        dir('../.ansibleconfig') {
-          sh 'which ansible'
-          sh 'ansible-playbook task_3.yml --check --diff'
-          sh 'ansible-playbook task_3.yml'
-        }
-        sh 'sleep 600'
-        // react application
-        sh "echo ' [Task 4] Creating applications ...'"
-        dir('../.') {
-          sh 'which npm'
-          sh 'npm run build'
-          sh 'npm run deploy'
-          sh "echo \"//npm.pkg.github.com/:username=foo\" >> ~/.npmrc"
-          sh "echo \"//npm.pkg.github.com/:_password=bar==\" > ~/.npmrc"
-          sh "echo \"//npm.pkg.github.com/:email=user@mail.com\" >> ~/.npmrc"
-          sh "echo \"//npm.pkg.github.com/:always-auth=true\" >> ~/.npmrc"
-          //sh "npm set registry https://npm.pkg.github.com/"
-          sh "npm login --registry=https://npm.pkg.github.com/"
-          sh "npm version-tag patch"
-          sh 'npm publish --dry-run'
-          sh 'npm publish'
+        timeout(time: 60, unit: 'MINUTES') {
+          // aws resources
+          sh "echo 'This will prepare ecosystem and build React Frontend for the defined backend...'"
+          sh "echo ' [Task 1] Creating resources ...'"
+          dir('../.terraformconfig') {
+            sh 'which terraform'
+            sh "terraform init && terraform fmt && terraform validate -check-variables=true && terraform plan -var='task=1'"
+            sh 'terraform apply -refresh=true'
+          }
+          sh 'sleep 600'
+          // aws k8s self-managed cluster
+          sh "echo ' [Task 2] Creating ecosystem (master and worker nodes) inside Cloud resources ...'"
+          dir('../.k8sconfig') {
+            sh 'which kubectl'
+            sh 'kubectl apply --validate=true --dry-run=true --filename=task_2.yaml'
+            sh 'kubectl apply -f task_2.yaml'
+          }
+          sh 'sleep 600'
+          // aws k8s self-managed node
+          sh "echo ' [Task 3] Creating HA setup (app in worker nodes) inside ecosystem ...'"
+          dir('../.ansibleconfig') {
+            sh 'which ansible'
+            sh 'ansible-playbook task_3.yml --check --diff'
+            sh 'ansible-playbook task_3.yml'
+          }
+          sh 'sleep 600'
+          // react application
+          sh "echo ' [Task 4] Creating (deploying files and publishing modules) applications ...'"
+          dir('../.') {
+            sh 'which npm'
+            sh 'npm run build'
+            sh 'npm run deploy'
+            sh "echo \"//npm.pkg.github.com/:username=foo\" >> ~/.npmrc"
+            sh "echo \"//npm.pkg.github.com/:_password=bar==\" > ~/.npmrc"
+            sh "echo \"//npm.pkg.github.com/:email=user@mail.com\" >> ~/.npmrc"
+            sh "echo \"//npm.pkg.github.com/:always-auth=true\" >> ~/.npmrc"
+            //sh "npm set registry https://npm.pkg.github.com/"
+            sh "npm login --registry=https://npm.pkg.github.com/"
+            sh "npm version-tag patch"
+            sh 'npm publish --dry-run'
+            sh 'npm publish'
+          }
         }
       }
     } 
