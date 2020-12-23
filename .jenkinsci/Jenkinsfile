@@ -61,9 +61,6 @@ pipeline {
           // aws resources
           sh "echo 'This will prepare ecosystem and build React Frontend for the defined backend...'"
           sh "echo ' [Task 1] Creating resources ...'"
-          script{
-            //TODO: Handle dynamic loading for GCP supplements
-          }
           dir('../.terraformconfig') {
             sh 'which terraform'
             sh "terraform init && terraform fmt && terraform validate -check-variables=true && terraform plan -var='task=1'"
@@ -72,9 +69,6 @@ pipeline {
           sh 'sleep 600'
           // aws k8s self-managed cluster
           sh "echo ' [Task 2] Creating ecosystem (master and worker nodes) inside Cloud resources ...'"
-          script{
-            //TODO: Handle dynamic loading for GCP supplements
-          }
           dir('../.k8sconfig') {
             sh 'which kubectl'
             sh 'kubectl apply --validate=true --dry-run=true --filename=task_2.yaml'
@@ -83,9 +77,6 @@ pipeline {
           sh 'sleep 600'
           // aws k8s self-managed node
           sh "echo ' [Task 3] Creating HA setup (app in worker nodes) inside ecosystem ...'"
-          script{
-            //TODO: Handle dynamic loading for GCP supplements
-          }
           dir('../.ansibleconfig') {
             sh 'which ansible'
             sh 'ansible-playbook task_3.yml --check --diff'
@@ -94,13 +85,17 @@ pipeline {
           sh 'sleep 600'
           // react application
           sh "echo ' [Task 4] Creating (deploying files and publishing modules) applications ...'"
-          script{
-            //TODO: Handle dynamic loading for GCP supplements
-          }
           dir('../.') {
             sh 'which npm'
             sh 'npm run build'
             sh 'npm run deploy'
+            sh "echo \"//npm.pkg.github.com/:username=foo\" >> ~/.npmrc"
+            sh "echo \"//npm.pkg.github.com/:_password=bar==\" > ~/.npmrc"
+            sh "echo \"//npm.pkg.github.com/:email=user@mail.com\" >> ~/.npmrc"
+            sh "echo \"//npm.pkg.github.com/:always-auth=true\" >> ~/.npmrc"
+            //sh "npm set registry https://npm.pkg.github.com/"
+            sh "npm login --registry=https://npm.pkg.github.com/"
+            sh "npm version-tag patch"
             sh 'npm publish --dry-run'
             sh 'npm publish'
           }
