@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { Security } from '@okta/okta-react';
 import "./index.css";
+import config from './app.config';
 import App from "./App";
 
 import { Provider } from "react-redux";
@@ -23,10 +25,21 @@ import { faStar, faBeer } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faStar, faBeer);
 
+function onAuthRequired({ history }) {
+  history.push('/login');
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
+      <Security
+        issuer={config.issuer}
+        client_id={config.client_id}
+        redirect_uri={config.redirect_uri}
+        onAuthRequired={onAuthRequired}
+      >
       <App />
+      </Security>
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

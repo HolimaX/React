@@ -76,3 +76,6 @@ export default connect(
   mapStateToProps,
   { fetchBeers, fetchMoreBeers }
 )(Home);
+
+// Node.js syntax: export home dashboard to allow custom use
+//module.exports.createCoreHomeDashboardPage = Home;

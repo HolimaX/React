@@ -1,3 +1,3 @@
 # Introduction
 
-This folder contains C/C** header fields and Shareable Objects to enable integration with other projects via API and ABI.
+This folder contains C/C** header fiels nad Shareable Objects to enable integration with other projects via API and ABI.
