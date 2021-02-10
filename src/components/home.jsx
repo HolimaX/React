@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchBeers, fetchMoreBeers } from "../actions/beerActions";
+import { fetchBeers, fetchMoreBeers, fetchPlatformApps } from "../actions/beerActions";
 
 import Search from "./search";
 import Beers from "./beers";
 
 class Home extends Component {
   componentWillMount() {
-    // load beers if none are found in state
-    if (this.props.beers && this.props.beers.length === 0)
+    // load apps and beers if none are found in state
+    if (this.props.platformapps && this.props.beers.platformapps === 0) 
+      this.props.fetchPlatformApps(this.props.page);
+    if (this.props.beers && this.props.beers.length === 0) 
       this.props.fetchBeers(this.props.page);
   }
 
@@ -44,13 +46,14 @@ class Home extends Component {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1 className="font-weight-bold">The Beer Bank</h1>
+                <h1 className="font-weight-bold">The Beer Bank (a.k.a Cloud Dashboard)</h1>
                 <p>Find your favourite beer here</p>
               </div>
             </div>
             <Search />
           </div>
         </header>
+        
         <Beers beers={this.props.beers} />
       </>
     );
