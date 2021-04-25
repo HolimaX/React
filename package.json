@@ -63,7 +63,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "serve": "^11.1.0",
-    "yarn": "^1.17.3"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
