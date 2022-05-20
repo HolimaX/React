@@ -37,3 +37,6 @@ export default connect(
   mapStateToProps,
   {}
 )(Favourites);
+
+// Node.js syntax: export favorites dashboard to allow custom use
+//module.exports.createCoreFavouritesDashboardPage = Favourites;

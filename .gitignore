@@ -31,3 +31,4 @@ yarn-error.log*
 
 # Sensitive Files
 .terraformconfig/variables.tf
+node_modules
