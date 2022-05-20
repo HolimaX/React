@@ -9,7 +9,7 @@ import Beers from "./beers";
 class Home extends Component {
   componentWillMount() {
     // load apps and beers if none are found in state
-    if (this.props.platformapps && this.props.beers.platformapps === 0) 
+    if (this.props.platformapps && this.props.platformapps.length === 0) 
       this.props.fetchPlatformApps(this.props.page);
     if (this.props.beers && this.props.beers.length === 0) 
       this.props.fetchBeers(this.props.page);
@@ -54,7 +54,7 @@ class Home extends Component {
           </div>
         </header>
         
-        <Beers beers={this.props.beers} />
+        <Beers beers={this.props.beers} platformapps={this.props.platformapps}/>
       </>
     );
   }
@@ -65,11 +65,13 @@ Home.propTypes = {
   fetchBeers: PropTypes.func.isRequired,
   fetchMoreBeers: PropTypes.func.isRequired,
   beers: PropTypes.array.isRequired,
+  //platformapps: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  //platformapps: state.platformapps.platformapp,
   beers: state.beer.beers,
   page: state.beer.page,
   isLoading: state.beer.isLoading
