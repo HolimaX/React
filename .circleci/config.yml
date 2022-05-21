@@ -13,8 +13,6 @@ jobs:
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
-    environment:
-      CI: false
 
     working_directory: ~/repo
 
@@ -32,11 +30,7 @@ jobs:
 
       - run: yarn upgrade
 
-      - run: 
-          name: npm run build
-          command: cross-env CI=false npm run build
-          environment:
-            CI: false
+      - run: cross-env CI= npm run build
 
       - save_cache:
           paths:
