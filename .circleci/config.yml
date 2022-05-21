@@ -30,7 +30,7 @@ jobs:
 
       - run: yarn upgrade
 
-      - run: CI= npm run build
+      - run: 'CI=false && npm run build'
 
       - save_cache:
           paths:
