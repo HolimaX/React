@@ -30,7 +30,7 @@ jobs:
 
       - run: yarn upgrade
 
-      - run: cross-env CI= npm run build
+      - run: CI= npm run build
 
       - save_cache:
           paths:
