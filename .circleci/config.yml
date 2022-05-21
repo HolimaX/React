@@ -28,7 +28,9 @@ jobs:
 
       - run: yarn install
 
-      - run: npm run build
+      - run: yarn upgrade
+
+      - run: 'CI=false && npm run build'
 
       - save_cache:
           paths:
