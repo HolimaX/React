@@ -69,7 +69,7 @@
   "scripts": {
     "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
     "start": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
-    "build": "CI=false cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
+    "build": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
     "pretest": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
     "test": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
     "postbuild": "node ./src/generate-sitemap.mjs",
