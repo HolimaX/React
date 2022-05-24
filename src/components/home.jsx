@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchBeers, fetchMoreBeers, fetchPlatformApps } from "../actions/beerActions";
+import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } from "../actions/beerActions";
 
 import Search from "./search";
 import Beers from "./beers";
@@ -36,6 +36,7 @@ class Home extends Component {
     ) {
       // load more beers and append to state
       this.props.fetchMoreBeers(this.props.page);
+      this.props.fetchMorePlatformApps(this.props.page);
     }
   };
 
@@ -64,14 +65,16 @@ class Home extends Component {
 Home.propTypes = {
   fetchBeers: PropTypes.func.isRequired,
   fetchMoreBeers: PropTypes.func.isRequired,
+  fetchPlatformApps: PropTypes.func.isRequired,
+  fetchMorePlatformApps: PropTypes.func.isRequired,
   beers: PropTypes.array.isRequired,
-  //platformapps: PropTypes.array.isRequired,
+  platformapps: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  //platformapps: state.platformapps.platformapp,
+  platformapps: state.platformapp.platformapps,
   beers: state.beer.beers,
   page: state.beer.page,
   isLoading: state.beer.isLoading
@@ -79,7 +82,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchBeers, fetchMoreBeers }
+  { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps }
 )(Home);
 
 // Node.js syntax: export home dashboard to allow custom use

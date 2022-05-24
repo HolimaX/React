@@ -1,11 +1,14 @@
 import { beerActionTypes as actionTypes } from "./types";
 
+// TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
+// See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
+// See https://stackoverflow.com/questions/47444672/how-do-i-access-a-modules-method-in-react-from-another-module
 // PlatformApps
-export const fetchPlatformApps = (page = 1) => dispatch => {
+export const fetchPlatformApps = (page = 1,pcd_url = process.env.PCD_PATH) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
-  const url = `https://api-project-668384552013.appspot.com/api/people/L${page}`;
+  const url = `${pcd_url}api/people/L${page}`;
   fetch(url)
     .then(res => res.json())
     .then(platformapps =>
@@ -20,7 +23,7 @@ export const fetchMorePlatformapps = page => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
-  const url = `https://api-project-668384552013.appspot.com/api/people/L${page}`;
+  const url = `${pcd_url}api/people/L${page}`;
   fetch(url)
     .then(res => res.json())
     .then(platformapps =>
@@ -35,7 +38,7 @@ export const searchPlatformapps = keyword => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
-  const url = `https://api-project-668384552013.appspot.com/api/people/L${keyword}`;
+  const url = `${pcd_url}api/people/L${keyword}`;
   fetch(url)
     .then(res => res.json())
     .then(platformapps => {
@@ -57,7 +60,7 @@ export const displayPlatformapp = platformapp => dispatch => {
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
   // fetch similar beers based on their yeast ingredient
-  const url = `https://api-project-668384552013.appspot.com/api/people/L${
+  const url = `${pcd_url}api/people/L${
     platformapp.ingredients.yeast
   }`;
 

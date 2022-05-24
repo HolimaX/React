@@ -23,7 +23,7 @@ class Dashboard extends Component {
             <p>Currently these resources are available for general use:</p>
             <ul>
               <li>Data Source Visualizer</li>
-              <li>Health Dashbaord</li>
+              <li>Health Dashboard</li>
             </ul>
           </div>
         </section>

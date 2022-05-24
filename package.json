@@ -3,7 +3,8 @@
     "productFlavour": "",
     "versionCode": "1",
     "versionName": "4",
-    "authProviderCID": ""
+    "authProviderCID": "",
+    "pcdPath": ""
   },
   "name": "@HolimaX/beerbank",
   "proxy": "http://localhost:3001",
@@ -67,10 +68,10 @@
   },
   "scripts": {
     "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
-    "start": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
-    "build": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
+    "start": "cross-env PCD_PATH=%npm_package_config_pcdPath% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
+    "build": "cross-env PCD_PATH=%npm_package_config_pcdPath% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
     "pretest": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
-    "test": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
+    "test": "cross-env PCD_PATH=%npm_package_config_pcdPath% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
     "eject": "react-scripts eject",
     "prepublish": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
     "publish": "npm publish --tag %npm_package_config_name%%npm_package_config_productFlavour% --access restricted",
