@@ -16,8 +16,23 @@ class Beers extends Component {
 
     this.state = {
       modalIsOpen: false,
+      platformapp: {},
       beer: {}
     };
+  }
+
+  // render apps list
+  renderPlatformApps() {
+    if (this.props.platformapps.length === 0)
+      return (
+        <div className="col my-5 text-center">
+          <FontAwesomeIcon className="platformapps-icon" icon="platformapps" size="5x" />
+        </div>
+      );
+
+    return this.props.platformapps.map(platformapp => (
+      <Beer key={platformapp.ldigits} platformapp={platformapp} />
+    ));
   }
 
   // render beer list
@@ -30,6 +45,7 @@ class Beers extends Component {
       );
 
     return this.props.beers.map(beer => (
+
       <Beer key={beer.id} beer={beer} onDetail={this.displayDetails} />
     ));
   }
@@ -52,6 +68,8 @@ class Beers extends Component {
     return (
       <>
         <div className="container">
+          <div className="row row-eq-height py-5">{this.renderPlatformApps()}</div>
+          <hr/>
           <div className="row row-eq-height py-5">{this.renderBeers()}</div>
         </div>
 

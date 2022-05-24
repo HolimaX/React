@@ -1,5 +1,83 @@
 import { beerActionTypes as actionTypes } from "./types";
 
+// TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
+// See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
+// See https://stackoverflow.com/questions/47444672/how-do-i-access-a-modules-method-in-react-from-another-module
+// PlatformApps
+export const fetchPlatformApps = (page = 1,pcd_url = process.env.PCD_PATH) => dispatch => {
+  // dispatch loading state: true
+  dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+
+  const url = `${pcd_url}api/people/L${page}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(platformapps =>
+      dispatch({
+        type: actionTypes.FETCH_PLATFORMAPPS,
+        payload: { platformapps, page, isLoading: false }
+      })
+    );
+};
+
+export const fetchMorePlatformapps = page => dispatch => {
+  // dispatch loading state: true
+  dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+
+  const url = `${pcd_url}api/people/L${page}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(platformapps =>
+      dispatch({
+        type: actionTypes.FETCH_MORE_PLATFORMAPPS,
+        payload: { platformapps, page, isLoading: false }
+      })
+    );
+};
+
+export const searchPlatformapps = keyword => dispatch => {
+  // dispatch loading state: true
+  dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+
+  const url = `${pcd_url}api/people/L${keyword}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(platformapps => {
+      dispatch({
+        type: actionTypes.SEARCH_PLATFORMAPPS,
+        payload: { platformapps, isLoading: false }
+      });
+    });
+};
+
+export const handleFavouritePlatformapps = platformapp => dispatch =>
+  dispatch({
+    type: actionTypes.HANDLE_FAVOURITE_PLATFORMAPP,
+    payload: { platformapp }
+  });
+
+export const displayPlatformapp = platformapp => dispatch => {
+  // dispatch loading state: true
+  dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+
+  // fetch similar beers based on their yeast ingredient
+  const url = `${pcd_url}api/people/L${
+    platformapp.ingredients.yeast
+  }`;
+
+  fetch(url)  
+    .then(res => res.json())
+    .then(platformapps => {
+      // compose selected beer and similar beers into bundle
+      let selected = platformapp;
+      selected.similar = platformapps;
+      dispatch({
+        type: actionTypes.DISPLAY_PLATFORMAPP,
+        payload: { selected, isLoading: false }
+      });
+    });
+};
+
+// Beers
 export const fetchBeers = (page = 1) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_BEERS, payload: { isLoading: true } });

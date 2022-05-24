@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchBeers, fetchMoreBeers } from "../actions/beerActions";
+import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } from "../actions/beerActions";
 
 import Search from "./search";
 import Beers from "./beers";
 
 class Home extends Component {
   componentWillMount() {
-    // load beers if none are found in state
-    if (this.props.beers && this.props.beers.length === 0)
+    // load apps and beers if none are found in state
+    if (this.props.platformapps && this.props.platformapps.length === 0) 
+      this.props.fetchPlatformApps(this.props.page);
+    if (this.props.beers && this.props.beers.length === 0) 
       this.props.fetchBeers(this.props.page);
   }
 
@@ -34,6 +36,7 @@ class Home extends Component {
     ) {
       // load more beers and append to state
       this.props.fetchMoreBeers(this.props.page);
+      this.props.fetchMorePlatformApps(this.props.page);
     }
   };
 
@@ -44,14 +47,15 @@ class Home extends Component {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1 className="font-weight-bold">The Beer Bank</h1>
+                <h1 className="font-weight-bold">The Beer Bank (a.k.a Cloud Dashboard)</h1>
                 <p>Find your favourite beer here</p>
               </div>
             </div>
             <Search />
           </div>
         </header>
-        <Beers beers={this.props.beers} />
+        
+        <Beers beers={this.props.beers} platformapps={this.props.platformapps}/>
       </>
     );
   }
@@ -61,12 +65,16 @@ class Home extends Component {
 Home.propTypes = {
   fetchBeers: PropTypes.func.isRequired,
   fetchMoreBeers: PropTypes.func.isRequired,
+  fetchPlatformApps: PropTypes.func.isRequired,
+  fetchMorePlatformApps: PropTypes.func.isRequired,
   beers: PropTypes.array.isRequired,
+  platformapps: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  platformapps: state.platformapp.platformapps,
   beers: state.beer.beers,
   page: state.beer.page,
   isLoading: state.beer.isLoading
@@ -74,7 +82,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchBeers, fetchMoreBeers }
+  { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps }
 )(Home);
 
 // Node.js syntax: export home dashboard to allow custom use
