@@ -17,3 +17,6 @@ const store = createStore(
 );
 
 export default store;
+
+// Node.js syntax: export store constant to allow custom use
+//module.exports.createCoreRSSFeedStorePage = store;

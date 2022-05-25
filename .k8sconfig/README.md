@@ -1,3 +1,14 @@
+# General mapping
+
+ - frontend - Dashboard
+ - application - Visualization app and Custom app
+
+NAME               STATUS   ROLES               AGE   VERSION
+ip-172-31-35-167   Ready    application,slave   36m   v1.17.3
+ip-172-31-37-189   Ready    frontend,slave      38m   v1.17.3
+ip-172-31-40-97    Ready    backend,master      40m   v1.17.3
+ip-172-31-47-162   Ready    monitoring,slave    35m   v1.17.3
+
 # Known issues
 
 ## Issue #1
