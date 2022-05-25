@@ -2,6 +2,8 @@ import React from 'react';
 import OktaAuth from '@okta/okta-auth-js';
 import { withAuth } from '@okta/okta-react';
 
+import Reaptcha from 'reaptcha';
+
 export default withAuth(class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -52,26 +54,32 @@ export default withAuth(class LoginForm extends React.Component {
     <span className="error-message">{this.state.error}</span> : 
     null;
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        {errorMessage}
-        <div className="form-element">
-          <label>Username:</label>
-          <input
-            id="username" type="text"
-            value={this.state.username}
-            onChange={this.handleUsernameChange} />
-        </div>
+    const key = process.env.REACT_APP_REAPTCHA
 
-        <div className="form-element">
-          <label>Password:</label>
-          <input
-            id="password" type="password"
-            value={this.state.password}
-            onChange={this.handlePasswordChange} />
-        </div>
-        <input id="submit" type="submit" value="Submit" />
-      </form>
+    return (
+      <section>
+        <Reaptcha sitekey={key} onVerify={this.onVerify} />
+        &nbsp;
+        <form onSubmit={this.handleSubmit}>
+          {errorMessage}
+          <div className="form-element">
+            <label>Username:</label>
+            <input
+              id="username" type="text"
+              value={this.state.username}
+              onChange={this.handleUsernameChange} />
+          </div>
+
+          <div className="form-element">
+            <label>Password:</label>
+            <input
+              id="password" type="password"
+              value={this.state.password}
+              onChange={this.handlePasswordChange} />
+          </div>
+          <input id="submit" type="submit" value="Submit" />
+        </form>
+      </section>
     );
   }
 });

@@ -1,5 +1,7 @@
 # General mapping
 
+[DEV-1]
+
  - frontend - Dashboard
  - application - Visualization app and Custom app
 

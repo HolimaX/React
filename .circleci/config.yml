@@ -7,14 +7,16 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/python:3.7.12-node #circleci/node:latest
-
+      #- image: circleci/node:latest
+      - image: cimg/python:3.7.12-node #jiripuc/circleci-python-node:python3.9-node12-gcloud-cypress
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
+    
+    resource_class: xlarge
 
     steps:
       - checkout
