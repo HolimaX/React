@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } from "../actions/beerActions";
-
 import Search from "./search";
 import Beers from "./beers";
 
@@ -65,17 +64,19 @@ class Home extends Component {
 Home.propTypes = {
   fetchBeers: PropTypes.func.isRequired,
   fetchMoreBeers: PropTypes.func.isRequired,
+  beers: PropTypes.array.isRequired,
   fetchPlatformApps: PropTypes.func.isRequired,
   fetchMorePlatformApps: PropTypes.func.isRequired,
-  beers: PropTypes.array.isRequired,
   platformapps: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  platformapps: state.platformapp.platformapps,
+  // comment out to disable usage of beer app from redux reducer in redurcers/index.js
   beers: state.beer.beers,
+  // comment out to disable usage of platform app from redux reducer in redurcers/index.js
+  platformapps: state.beer.platformapps,
   page: state.beer.page,
   isLoading: state.beer.isLoading
 });

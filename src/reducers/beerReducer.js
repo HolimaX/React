@@ -1,17 +1,19 @@
 import { beerActionTypes as actionTypes } from "../actions/types";
 
 const initialState = {
+  platformapps: [],
   beers: [],
   favourites: [],
   selected: {
     beer: {},
+    platformapp: {},
     similar: []
   },
   page: 1,
   isLoading: false
 };
 
-export default function(state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
     case actionTypes.FETCH_BEERS:
       return {
@@ -54,7 +56,27 @@ export default function(state = initialState, action) {
     case actionTypes.DISPLAY_BEER:
       return { ...state, selected: action.payload.selected, isLoading: false };
 
+    case actionTypes.FETCH_PLATFORMAPPS:
+      return {
+        ...state,
+        platformapps: action.payload.platformapps,
+        page: action.payload.page + 1,
+        isLoading: action.payload.isLoading
+      };
+
+    case actionTypes.FETCHING_PLATFORMAPPS:
+      return { ...state, isLoading: action.payload.isLoading };
+
+    case actionTypes.FETCH_MORE_PLATFORMAPPS:
+      return {
+        ...state,
+        platformapps: [...state.platformapps, ...action.payload.platformapps],
+        page: action.payload.page + 1,
+        isLoading: action.payload.isLoading
+      };
+
     default:
+      console.warn('Default Action Type fired in Beer Reducer');
       return state;
   }
 }
