@@ -4,6 +4,8 @@ import { withAuth } from '@okta/okta-react';
 
 import Reaptcha from 'reaptcha';
 
+import AdSense from 'react-adsense';
+
 export default withAuth(class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -54,10 +56,20 @@ export default withAuth(class LoginForm extends React.Component {
     <span className="error-message">{this.state.error}</span> : 
     null;
 
-    const key = process.env.REACT_APP_REAPTCHA
-
+    //const key = "6LfJNvwfAAAAAHXAguVbaOQrcBVnCADSH1QBS0hm"
+    let key = this.state.sessionReaptchaKey;
+    if (!key) key = process.env.REACT_APP_REAPTCHA; 
+    
     return (
       <section>
+        <AdSense.Google
+          client='ca-pub-2835578352930332'
+          slot='7806394673'
+          style={{ display: 'block' }}
+          format='auto'
+          responsive='true'
+          layoutKey='-gw-1+2a-9x+5c'
+        />
         <Reaptcha sitekey={key} onVerify={this.onVerify} />
         &nbsp;
         <form onSubmit={this.handleSubmit}>

@@ -5,9 +5,10 @@ import { beerActionTypes as actionTypes } from "./types";
 // See https://stackoverflow.com/questions/47444672/how-do-i-access-a-modules-method-in-react-from-another-module
 // See https://stackoverflow.com/questions/61238680/access-to-fetch-at-from-origin-http-localhost3000-has-been-blocked-by-cors
 // PlatformApps
-export const fetchPlatformApps = (page = 1, pcd_url = process.env.PCD_PATH) => dispatch => {
+export const fetchPlatformApps = (page = 1, pcd_url = process.env.REACT_APP_PCD_PATH) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+
   //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
   const url = `${pcd_url}api/people`;
   fetch(url)
@@ -23,6 +24,7 @@ export const fetchPlatformApps = (page = 1, pcd_url = process.env.PCD_PATH) => d
 export const fetchMorePlatformApps = (page, pcd_url) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+
   //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
   const url = `${pcd_url}api/people/${page}`;
   fetch(url)
@@ -38,6 +40,7 @@ export const fetchMorePlatformApps = (page, pcd_url) => dispatch => {
 export const searchPlatformapps = (keyword, pcd_url) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
+  
   //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
   const url = `${pcd_url}api/people/${keyword}`;
   fetch(url)
@@ -61,7 +64,10 @@ export const displayPlatformapp = (platformapp, pcd_url) => dispatch => {
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
   // fetch similar beers based on their yeast ingredient
-  //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
+
+  //if (!pcd_url) pcd_url = process.env.PCD_PATH;
+  
+  const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
   const url = `${pcd_url}api/people/${
     platformapp.voteid
   }`;

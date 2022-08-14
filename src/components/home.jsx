@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } from "../actions/beerActions";
 import Search from "./search";
 import Beers from "./beers";
@@ -42,6 +43,17 @@ class Home extends Component {
   render() {
     return (
       <>
+        <CookieConsent
+          location="bottom"
+          buttonText="I understand and Aggree"
+          cookieName="CD12_CookieAcceptv12022"
+          style={{ background: "#2B373B", opacity: "0.8" }}
+          buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+          expires={150}
+        >
+          This website uses cookies and data to enhance the user experience. By clicking 'I understandand Aggree', you aggree to terms, described in:{" "}
+          <span style={{ fontSize: "10px" }}><a href="https://linardsliepins.files.wordpress.com/2021/03/confidentiality-policy-pdf-v1y2021.pdf#view=fitH">Privacy Policy</a>&nbsp;|&nbsp;<a href="https://linardsliepins.files.wordpress.com/2021/03/confidentiality-policy-pdf-v1y2021.pdf#view=fitH">Cookie Policy / ToC</a></span>
+        </CookieConsent>
         <header className="justify-content-center py-2 bg-warning text-center text-white">
           <div className="container">
             <div className="row">
