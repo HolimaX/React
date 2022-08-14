@@ -51,7 +51,7 @@ class Home extends Component {
           buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
           expires={150}
         >
-          This website uses cookies and data to enhance the user experience. By clicking 'I understandand Aggree', you aggree to terms, described in:{" "}
+          This website uses cookies and data to enhance the user experience. By clicking 'I understand and Aggree', you aggree to terms, described in:{" "}
           <span style={{ fontSize: "10px" }}><a href="https://linardsliepins.files.wordpress.com/2021/03/confidentiality-policy-pdf-v1y2021.pdf#view=fitH">Privacy Policy</a>&nbsp;|&nbsp;<a href="https://linardsliepins.files.wordpress.com/2021/03/confidentiality-policy-pdf-v1y2021.pdf#view=fitH">Cookie Policy / ToC</a></span>
         </CookieConsent>
         <header className="justify-content-center py-2 bg-warning text-center text-white">
