@@ -9,18 +9,27 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [8.x, 10.x, 12.x, 14.x, 16.x]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+        
+    - name: Run QA - yaml-lint
+      uses: ibiqlik/action-yamllint@v3
+
+    - name: Run QA - Markdown Lint
+      uses: actionshub/markdownlint@main
+      with:
+        filesToIgnoreRegex: "node_modules\\/.*"
+
+    - name: npm clean, install, build, and test
       run: |
-        npm install
+        npm ci
         npm run build --if-present
-        npm test
+        npm test -v
       env:
         CI: true
