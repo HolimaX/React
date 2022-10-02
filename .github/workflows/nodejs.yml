@@ -17,14 +17,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
+
     - name: Run QA - yaml-lint
       uses: ibiqlik/action-yamllint@v3
 
     - name: Run QA - Markdown Lint
       uses: actionshub/markdownlint@main
       with:
-        filesToIgnoreRegex: "node_modules\\/.*"
+        filesToIgnoreRegex: "(node_modules\\/.*)(.terraformconfig\\/.*)(.ansibleconfig\\/.*)(.k8sconfig\\/.*)"
 
     - name: npm clean, install, build, and test
       run: |
