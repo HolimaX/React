@@ -32,7 +32,9 @@ jobs:
       - name: npm clean, install, build, and test
         if: always()
         run: |
+          yarn install --production=false
           npm install -v --save-dev cross-env
+          npm install -v cross-env
           npm install -v
           npm run build --if-present
           npm test -v
