@@ -33,7 +33,7 @@ jobs:
         if: always()
         run: |
           npm install -v --save-dev cross-env
-          npm ci -v
+          npm install -v
           npm run build --if-present
           npm test -v
         env:
