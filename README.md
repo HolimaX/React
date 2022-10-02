@@ -5,34 +5,39 @@
 
 This project:
 
- - was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
- - was forked from original source to further be used as template for developments (like https://github.com/HolimaX/libhacontimig)
- - was ajusted to include integration with technologies (like Terraform, Ansible, Kubernetes), mentioned in github topics and can be learned about in README.md files within folders. For more details, see ```https://github.com/HolimaX/React/blob/<branch>/src/README.md``` file as one of such inclusives.
- React-based Application is still kept isolated to ensure overall integrity and transaprency.
+- was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- was forked from original source to further be used as template for developments (like [libhacontimig](https://github.com/HolimaX/libhacontimig))
+- was ajusted to include integration with technologies (like Terraform, Ansible, Kubernetes), mentioned in github topics and can be learned about in README.md files within folders. For more details, see ```https://github.com/HolimaX/React/blob/<branch>/src/README.md``` file as one of such inclusives.
+
+React-based Application is still kept isolated to ensure overall integrity and transaprency.
 
 ## Application Prerequistes
 
 You can establish environment in many ways. For example:
- - In order for this React app to be started, the valid Okta connection is needed.
- Configuration is set up during registration phase from connected Cloud Dashboard tools (like Android Phone app).
- - In order for this React app to be served w/o 'serve' tool, you need to install either Apache or NGNIX (but not both!) within non-control-plane (Master) node.
- Then, production build via ```npm build``` must be made and serving can be executed.
+
+- In order for this React app to be started, the valid Okta connection is needed.
+
+Configuration is set up during registration phase from connected Cloud Dashboard tools (like Android Phone app).
+
+- In order for this React app to be served w/o 'serve' tool, you need to install either Apache or NGNIX (but not both!) within non-control-plane (Master) node.
+
+Then, production build via ```npm build``` must be made and serving can be executed.
 
 ## Available Scripts
 
- - In the project ./.jenkinsci directory, you can use Jenkins(file) to execute complete deployment process to AWS.
+- In the project ./.jenkinsci directory, you can use Jenkins(file) to execute complete deployment process to AWS.
  The step(s) assumes that the AWS AMI and AWS Launch Template is created and available un your AWS account.
 
- - In the project ./. (root) directrory, you can run ```terraform``` commands to individually create AWS resources.
+- In the project ./. (root) directrory, you can run ```terraform``` commands to individually create AWS resources.
  The step(s) assumes the ```terraform``` is installed and available in the PATH. For adjsutments, configuration files are stored in ./.terraformconfig .
 
- - In the project ./. (root) directrory, you can run ```ansible``` commands to individually create AWS resources.
+- In the project ./. (root) directrory, you can run ```ansible``` commands to individually create AWS resources.
  The step(s) assumes the ```ansible``` is installed and available in the PATH. For adjsutments, configuration files are stored in ./.ansibleconfig .
 
- - In the project ./. (root) directrory, you can run ```kubectl``` commands to individually create AWS resources.
+- In the project ./. (root) directrory, you can run ```kubectl``` commands to individually create AWS resources.
  The step(s) assumes the ```kubectl``` is installed and available in the PATH. For adjsutments, configuration files are stored in ./.k8sconfig .
 
- - In the project ./. (root) directory, you can run (assuming ```nodejs```, ```npm``` and ```yarn``` is installed and available in the PATH):
+- In the project ./. (root) directory, you can run (assuming ```nodejs```, ```npm``` and ```yarn``` is installed and available in the PATH):
 
 ### `npm start`
 

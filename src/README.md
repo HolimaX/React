@@ -44,7 +44,7 @@ You might want to update yarn dependecies by doing ```sudo yarn upgrade caniuse-
 
 Add new Pod / Node to Cluster:
 ```kubeadm join <private ip>:6443 --token <token> --discovery-token-ca-cert-hash <hash>```
-    
+
 ### Issues?
 
 If cannot join the cluster, do ```kubeadm token create --print-join-command```
