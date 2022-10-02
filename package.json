@@ -96,6 +96,7 @@
   ],
   "devDependencies": {
     "globby": "^13.0.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "cross-env": "^7.0.3"
   }
 }
