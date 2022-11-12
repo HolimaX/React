@@ -10,7 +10,7 @@
   "name": "@HolimaX/beerbank",
   "proxy": "http://localhost:3001",
   "version": "0.1.6",
-  "description": "Cloud Dashboard DEMO CRUD application open/public (non-restricted) modules using ReactJS",
+  "description": "Cloud Dashboard DEMO CRUD application open/public (non-restricted) modules using ReactJS Package",
   "keywords": [
     "basic",
     "standard",
@@ -45,14 +45,17 @@
     "type": "Development Team at PayPal",
     "url": "https://www.paypal.com/donate/?cmd=_donations&business=BLC2P5B987NS2&item_name=Support+of+developments+that+are+mentioned+in+forked+Repo+README.md+files&currency_code=EUR&source=url"
   },
+  "optionalDependencies": {
+    "@HolimaX/beerbank-api": "^1.1.6"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.13",
     "@okta/okta-react": "^1.2.3",
     "bootstrap": "^4.5.3",
+    "caniuse-lite": "^1.0.30001429",
     "browserslist": "^4.20.3",
-    "caniuse-lite": "^1.0.30001342",
     "chalk": "^2.4.2",
     "cross-env": "^7.0.3",
     "jquery": "^3.5.1",

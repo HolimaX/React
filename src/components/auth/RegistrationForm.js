@@ -97,7 +97,7 @@ export default withAuth(class RegistrationForm extends React.Component{
       mode: 'cors'
     }).then(res => {
       this.setState({
-        sessionReaptchaKey: res.sitekey
+        sessionReaptchaKey: res.siteKey
       });
       console.log(res);
     })
