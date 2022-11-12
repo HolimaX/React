@@ -4,7 +4,7 @@ import BeerDetails from "./beer-details";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { displayBeer } from "../actions/beerActions";
+import { displayBeer, displayPlatformapp } from "../actions/beerActions";
 
 import Modal from "react-bootstrap4-modal";
 
@@ -26,12 +26,12 @@ class Beers extends Component {
     if (this.props.platformapps.length === 0)
       return (
         <div className="col my-5 text-center">
-          <FontAwesomeIcon className="platformapps-icon" icon="platformapps" size="5x" />
+          <FontAwesomeIcon className="platformapps-icon" icon="platformapp" size="5x" />
         </div>
       );
 
     return this.props.platformapps.map(platformapp => (
-      <Beer key={platformapp.ldigits} platformapp={platformapp} />
+      <Beer key={platformapp.voteid} beer={platformapp}/>
     ));
   }
 
@@ -45,7 +45,6 @@ class Beers extends Component {
       );
 
     return this.props.beers.map(beer => (
-
       <Beer key={beer.id} beer={beer} onDetail={this.displayDetails} />
     ));
   }
@@ -90,6 +89,7 @@ class Beers extends Component {
 
 Beers.propTypes = {
   displayBeer: PropTypes.func.isRequired,
+  displayPlatformapp: PropTypes.func.isRequired,
   selected: PropTypes.object.isRequired,
   isLoading: PropTypes.bool
 };
@@ -101,5 +101,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { displayBeer }
+  { displayBeer, displayPlatformapp }
 )(Beers);

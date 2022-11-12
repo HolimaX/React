@@ -3,12 +3,14 @@ import { beerActionTypes as actionTypes } from "./types";
 // TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
 // See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
 // See https://stackoverflow.com/questions/47444672/how-do-i-access-a-modules-method-in-react-from-another-module
+// See https://stackoverflow.com/questions/61238680/access-to-fetch-at-from-origin-http-localhost3000-has-been-blocked-by-cors
 // PlatformApps
-export const fetchPlatformApps = (page = 1,pcd_url = process.env.PCD_PATH) => dispatch => {
+export const fetchPlatformApps = (page = 1, pcd_url = process.env.REACT_APP_PCD_PATH) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
-  const url = `${pcd_url}api/people/L${page}`;
+  //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
+  const url = `${pcd_url}api/people`;
   fetch(url)
     .then(res => res.json())
     .then(platformapps =>
@@ -19,11 +21,12 @@ export const fetchPlatformApps = (page = 1,pcd_url = process.env.PCD_PATH) => di
     );
 };
 
-export const fetchMorePlatformapps = page => dispatch => {
+export const fetchMorePlatformApps = (page, pcd_url) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
-  const url = `${pcd_url}api/people/L${page}`;
+  //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
+  const url = `${pcd_url}api/people/${page}`;
   fetch(url)
     .then(res => res.json())
     .then(platformapps =>
@@ -34,11 +37,12 @@ export const fetchMorePlatformapps = page => dispatch => {
     );
 };
 
-export const searchPlatformapps = keyword => dispatch => {
+export const searchPlatformapps = (keyword, pcd_url) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
-
-  const url = `${pcd_url}api/people/L${keyword}`;
+  
+  //const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
+  const url = `${pcd_url}api/people/${keyword}`;
   fetch(url)
     .then(res => res.json())
     .then(platformapps => {
@@ -55,13 +59,17 @@ export const handleFavouritePlatformapps = platformapp => dispatch =>
     payload: { platformapp }
   });
 
-export const displayPlatformapp = platformapp => dispatch => {
+export const displayPlatformapp = (platformapp, pcd_url) => dispatch => {
   // dispatch loading state: true
   dispatch({ type: actionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
 
   // fetch similar beers based on their yeast ingredient
-  const url = `${pcd_url}api/people/L${
-    platformapp.ingredients.yeast
+
+  //if (!pcd_url) pcd_url = process.env.PCD_PATH;
+  
+  const pcd_url = "https://python-restful-api-250713.ew.r.appspot.com/"
+  const url = `${pcd_url}api/people/${
+    platformapp.voteid
   }`;
 
   fetch(url)  

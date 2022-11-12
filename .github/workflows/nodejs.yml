@@ -1,3 +1,4 @@
+---
 name: Node CI
 
 on: [push]
@@ -9,27 +10,32 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x, 14.x, 16.x]
+        node-version: [12.x, 14.x, 16.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-        
-    - name: Run QA - yaml-lint
-      uses: ibiqlik/action-yamllint@v3
+      - uses: actions/checkout@v2
 
-    - name: Run QA - Markdown Lint
-      uses: actionshub/markdownlint@main
-      with:
-        filesToIgnoreRegex: "node_modules\\/.*"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: npm clean, install, build, and test
-      run: |
-        npm ci
-        npm run build --if-present
-        npm test -v
-      env:
-        CI: true
+      - name: Run QA - yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+
+      - name: Run QA - Markdown Lint
+        if: always()
+        uses: actionshub/markdownlint@main
+        with:
+          filesToIgnoreRegex: "(node_modules\\/.*)(.terraformconfig\\/.*)(.ansibleconfig\\/.*)(.k8sconfig\\/.*)"
+
+      - name: npm clean, install, build, and test
+        if: always()
+        run: |
+          yarn install --production=false
+          npm install -v --save-dev cross-env
+          npm ci -v
+          npm run build --if-present
+          npm test -v
+        env:
+          CI: false
