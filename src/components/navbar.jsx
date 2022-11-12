@@ -17,6 +17,11 @@ class Navbar extends Component {
                 Favourite
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/user">
+                Dashboard
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

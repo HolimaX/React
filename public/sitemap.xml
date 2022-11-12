@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://healthdash.lv/partners</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/store</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/favourites</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/home</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/search</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/user</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/auth/LoginPage</loc>
+  </url>
+
+  <url>
+    <loc>https://healthdash.lv/auth/ProfilePage</loc>
+  </url>
+</urlset>

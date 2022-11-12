@@ -1,0 +1,221 @@
+---
+############################################################################################################################################################
+# Requirements:                                                                                                                                            #
+#   define the following "secrets"/ Env Variables:                                                                                                         #
+#     AWS_DEFAULT_REGION                                                                                                                                   #
+#     AWS_ACCESS_KEY_ID                                                                                                                                    #
+#     AWS_SECRET_ACCESS_KEY                                                                                                                                #
+#   Ref: https://about.gitlab.com/blog/2020/12/15/deploy-aws/#just-in-time-guidance-for-aws-deployments                                                    #
+############################################################################################################################################################
+
+##############################################################
+# global definitions - init #
+##############################################################
+
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+
+stages:
+  - pre-setup
+  - code-quality
+  - validate
+  - document
+  - build
+  - test
+  - deploy
+  - flush
+
+image:
+  name: hashicorp/terraform:1.2.7
+  entrypoint:
+    - env
+
+##############################################################
+# global definitions - end #
+##############################################################
+
+
+##############################################################
+# job templates - init #
+##############################################################
+
+.terraform_init_template: &terraform_init_template
+  before_script:
+    - terraform init -input=false -backend-config=./tfvars/backend.tfvars
+
+.plan_template: &plan_template
+  stage: build
+  <<: *terraform_init_template
+  script:
+    - (terraform workspace select ${CI_ENVIRONMENT_NAME} ||
+      terraform workspace new ${CI_ENVIRONMENT_NAME})
+    - terraform plan -out=$CI_ENVIRONMENT_NAME-plan.tfplan
+      -var-file=./tfvars/base-network-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/base-eks-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-eks-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-ingress-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-external-dns-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-namespaces-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-iam-${CI_ENVIRONMENT_NAME}.tfvars
+      -input=false
+  artifacts:
+    paths:
+      - $CI_ENVIRONMENT_NAME-plan.tfplan
+
+.apply_template: &apply_template
+  stage: deploy
+  when: manual
+  <<: *terraform_init_template
+  script:
+    - (terraform workspace select ${CI_ENVIRONMENT_NAME} ||
+      terraform workspace new ${CI_ENVIRONMENT_NAME})
+    - terraform apply -input=false $CI_ENVIRONMENT_NAME-plan.tfplan
+
+##############################################################
+#                       DANGER ZONE!                         #
+# this job will destroy your infrastructure                  #
+# use it only if you need to remove your Terraform resources #
+##############################################################
+.destroy_template: &destroy_template
+  stage: flush
+  when: manual
+  <<: *terraform_init_template
+  script:
+    - (terraform workspace select ${CI_ENVIRONMENT_NAME} ||
+      terraform workspace new ${CI_ENVIRONMENT_NAME})
+    - terraform destroy
+      -var-file=./tfvars/base-network-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/base-eks-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-eks-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-ingress-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-external-dns-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-namespaces-${CI_ENVIRONMENT_NAME}.tfvars
+      -var-file=./tfvars/config-iam-${CI_ENVIRONMENT_NAME}.tfvars
+      -auto-approve
+
+##############################################################
+# job templates - end #
+##############################################################
+
+
+##############################################################
+# common jobs - start #
+##############################################################
+
+pre_setup_development:
+  stage: pre-setup
+  image:
+    name: amazon/aws-cli:2.0.7
+    entrypoint:
+      - env
+  variables:
+    BUCKET_NAME: lliepins-printful-homework-infra-aws
+  script:
+    - aws s3 ls s3://${BUCKET_NAME} ||
+      (aws s3 mb s3://${BUCKET_NAME} --region ${AWS_DEFAULT_REGION}
+        && aws s3api put-bucket-versioning --bucket ${BUCKET_NAME}
+        --versioning-configuration Status=Enabled)
+
+terraform_lint:
+  stage: code-quality
+  tags:
+    - linux
+  image:
+    name: wata727/tflint:0.15.5
+    entrypoint:
+      - env
+  script:
+    - tflint
+
+terraform_fmt:
+  stage: code-quality
+  tags:
+    - linux
+  script:
+    - terraform fmt -check
+
+yaml_lint:
+  stage: code-quality
+  tags:
+    - linux
+  image:
+    name: cytopia/yamllint:1.20
+    entrypoint:
+      - env
+  script:
+    - yamllint -d relaxed .
+
+markdown_lint:
+  stage: code-quality
+  tags:
+    - linux
+  image: pipelinecomponents/markdownlint:6ff4ccf
+  script:
+    - mdl --style all --warnings .
+
+validate_development:
+  stage: validate
+  <<: *terraform_init_template
+  script:
+    - terraform validate
+
+pages:
+  stage: document
+  image:
+    name: mjdk/diagrams:latest
+    entrypoint:
+      - env
+  script:
+    - python components.py
+    - mkdir -p public
+    - cp eks_cluster.png public/
+    - cp index.html public/
+  artifacts:
+    paths:
+      - public
+
+##############################################################
+# common jobs - end #
+##############################################################
+
+##############################################################
+# gitlab jobs - start #
+##############################################################
+
+sast:
+  stage: test
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+##############################################################
+# gitlab jobs - end #
+##############################################################
+
+##############################################################
+# development environment - start #
+##############################################################
+
+plan_development:
+  environment:
+    name: development
+  <<: *plan_template
+
+apply_development:
+  environment:
+    name: development
+  <<: *apply_template
+
+destroy_development:
+  environment:
+    name: development
+  <<: *destroy_template
+
+##############################################################
+# development environment - end #
+##############################################################

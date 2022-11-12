@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Beers from "./beers";
 
+// FIXME: Duplucated favourites items
+
 class Favourites extends Component {
   render() {
     return (
@@ -17,8 +19,7 @@ class Favourites extends Component {
             </div>
           </div>
         </header>
-
-        <Beers beers={this.props.favourites} />
+        <Beers beers={this.props.favourites} platformapps={this.props.favourites} />
       </>
     );
   }
@@ -37,3 +38,6 @@ export default connect(
   mapStateToProps,
   {}
 )(Favourites);
+
+// Node.js syntax: export favorites dashboard to allow custom use
+//module.exports.createCoreFavouritesDashboardPage = Favourites;
