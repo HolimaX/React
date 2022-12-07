@@ -82,6 +82,12 @@ For compatible Products with designated type (like "Pro"/"Premium"):
 
 - Release 1 supports OAuth 2.0 based authentication, as explained in [OAuth2](https://medium.appbase.io/how-to-implement-authentication-for-your-react-app-cf09eef3bb0b)
 
+### Authentication
+
+For compatible Products with designated type (like "Pro"/"Premium"):
+
+ - Release 1 supports OAuth 2.0 based authentication, as explained in https://medium.appbase.io/how-to-implement-authentication-for-your-react-app-cf09eef3bb0b
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

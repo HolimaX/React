@@ -1,7 +1,10 @@
 # General mapping
 
+<<<<<<< HEAD
 [DEV-1]
 
+=======
+>>>>>>> release/release-3-3
  - frontend - Dashboard
  - application - Visualization app and Custom app
 
