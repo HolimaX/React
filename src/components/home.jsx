@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchBeers, fetchMoreBeers } from "../actions/beerActions";
-
+import CookieConsent, { Cookies } from "react-cookie-consent";
+import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } from "../actions/beerActions";
 import Search from "./search";
 import Beers from "./beers";
 
 class Home extends Component {
   componentWillMount() {
-    // load beers if none are found in state
-    if (this.props.beers && this.props.beers.length === 0)
+    // load apps and beers if none are found in state
+    if (this.props.platformapps && this.props.platformapps.length === 0) 
+      this.props.fetchPlatformApps(this.props.page);
+    if (this.props.beers && this.props.beers.length === 0) 
       this.props.fetchBeers(this.props.page);
   }
 
@@ -34,24 +36,37 @@ class Home extends Component {
     ) {
       // load more beers and append to state
       this.props.fetchMoreBeers(this.props.page);
+      this.props.fetchMorePlatformApps(this.props.page);
     }
   };
 
   render() {
     return (
       <>
+        <CookieConsent
+          location="bottom"
+          buttonText="I understand and Aggree"
+          cookieName="CD12_CookieAcceptv12022"
+          style={{ background: "#2B373B", opacity: "0.8" }}
+          buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+          expires={150}
+        >
+          This website uses cookies and data to enhance the user experience. By clicking 'I understand and Aggree', you aggree to terms, described in:{" "}
+          <span style={{ fontSize: "10px" }}><a href="https://linardsliepins.files.wordpress.com/2021/03/confidentiality-policy-pdf-v1y2021.pdf#view=fitH">Privacy Policy</a>&nbsp;|&nbsp;<a href="https://linardsliepins.files.wordpress.com/2021/03/confidentiality-policy-pdf-v1y2021.pdf#view=fitH">Cookie Policy / ToC</a></span>
+        </CookieConsent>
         <header className="justify-content-center py-2 bg-warning text-center text-white">
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1 className="font-weight-bold">The Beer Bank</h1>
+                <h1 className="font-weight-bold">The Beer Bank (a.k.a Cloud Dashboard)</h1>
                 <p>Find your favourite beer here</p>
               </div>
             </div>
             <Search />
           </div>
         </header>
-        <Beers beers={this.props.beers} />
+        
+        <Beers beers={this.props.beers} platformapps={this.props.platformapps}/>
       </>
     );
   }
@@ -62,19 +77,25 @@ Home.propTypes = {
   fetchBeers: PropTypes.func.isRequired,
   fetchMoreBeers: PropTypes.func.isRequired,
   beers: PropTypes.array.isRequired,
+  fetchPlatformApps: PropTypes.func.isRequired,
+  fetchMorePlatformApps: PropTypes.func.isRequired,
+  platformapps: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
+  // comment out to disable usage of beer app from redux reducer in redurcers/index.js
   beers: state.beer.beers,
+  // comment out to disable usage of platform app from redux reducer in redurcers/index.js
+  platformapps: state.beer.platformapps,
   page: state.beer.page,
   isLoading: state.beer.isLoading
 });
 
 export default connect(
   mapStateToProps,
-  { fetchBeers, fetchMoreBeers }
+  { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps }
 )(Home);
 
 // Node.js syntax: export home dashboard to allow custom use

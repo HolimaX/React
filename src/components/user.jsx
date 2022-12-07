@@ -13,7 +13,7 @@ class Dashboard extends Component {
             <div className="row">
               <div className="col">
                 <h1 className="font-weight-bold">The Cloud Dashboard</h1>
-                <p>Please Log-In to view your available resources!</p>
+                <p>Please <strong>Log-In</strong> to view your available resources!</p>
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@ class Dashboard extends Component {
             <p>Currently these resources are available for general use:</p>
             <ul>
               <li>Data Source Visualizer</li>
-              <li>Health Dashbaord</li>
+              <li>Health Dashboard</li>
             </ul>
           </div>
         </section>

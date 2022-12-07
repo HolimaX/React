@@ -2,13 +2,15 @@
   "config": {
     "productFlavour": "",
     "versionCode": "1",
-    "versionName": "4",
-    "authProviderCID": ""
+    "versionName": "6",
+    "authProviderCID": "",
+    "reaptchaSiteKey": "",
+    "pcdPath": ""
   },
   "name": "@HolimaX/beerbank",
   "proxy": "http://localhost:3001",
-  "version": "0.1.4",
-  "description": "Cloud Dashboard DEMO CRUD application open/public (non-restricted) modules using ReactJS",
+  "version": "0.1.6",
+  "description": "Cloud Dashboard DEMO CRUD application open/public (non-restricted) modules using ReactJS Package",
   "keywords": [
     "basic",
     "standard",
@@ -43,34 +45,44 @@
     "type": "Development Team at PayPal",
     "url": "https://www.paypal.com/donate/?cmd=_donations&business=BLC2P5B987NS2&item_name=Support+of+developments+that+are+mentioned+in+forked+Repo+README.md+files&currency_code=EUR&source=url"
   },
+  "optionalDependencies": {
+    "@HolimaX/beerbank-api": "^1.1.6"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.13",
     "@okta/okta-react": "^1.2.3",
     "bootstrap": "^4.5.3",
+    "caniuse-lite": "^1.0.30001429",
+    "browserslist": "^4.20.3",
     "chalk": "^2.4.2",
     "cross-env": "^7.0.3",
     "jquery": "^3.5.1",
-    "node-sass": "^4.13.1",
+    "node-gyp": "^9.0.0",
+    "node-sass": "^7.0.3",
     "popper.js": "^1.14.6",
     "react": "^16.14.0",
+    "react-adsense": "^0.1.0",
     "react-bootstrap4-modal": "^1.7.5",
+    "react-cookie-consent": "^8.0.1",
     "react-dom": "^16.14.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
+    "reaptcha": "^1.12.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "serve": "^11.1.0",
+    "serve": "^11.3.2",
     "yarn": "^1.22.0"
   },
   "scripts": {
     "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
-    "start": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
-    "build": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
+    "start": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
+    "build": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
     "pretest": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
-    "test": "cross-env AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
+    "test": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
+    "postbuild": "node ./src/generate-sitemap.mjs",
     "eject": "react-scripts eject",
     "prepublish": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
     "publish": "npm publish --tag %npm_package_config_name%%npm_package_config_productFlavour% --access restricted",
@@ -84,5 +96,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "globby": "^13.0.0",
+    "prettier": "^2.5.1"
+  }
 }

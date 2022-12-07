@@ -2,6 +2,10 @@ import React from 'react';
 import OktaAuth from '@okta/okta-auth-js';
 import { withAuth } from '@okta/okta-react';
 
+import Reaptcha from 'reaptcha';
+
+import AdSense from 'react-adsense';
+
 export default withAuth(class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -52,26 +56,42 @@ export default withAuth(class LoginForm extends React.Component {
     <span className="error-message">{this.state.error}</span> : 
     null;
 
+    //const key = "6LfJNvwfAAAAAHXAguVbaOQrcBVnCADSH1QBS0hm"
+    let key = this.state.sessionReaptchaKey;
+    if (!key) key = process.env.REACT_APP_REAPTCHA; 
+    
     return (
-      <form onSubmit={this.handleSubmit}>
-        {errorMessage}
-        <div className="form-element">
-          <label>Username:</label>
-          <input
-            id="username" type="text"
-            value={this.state.username}
-            onChange={this.handleUsernameChange} />
-        </div>
+      <section>
+        <AdSense.Google
+          client='ca-pub-2835578352930332'
+          slot='7806394673'
+          style={{ display: 'block' }}
+          format='auto'
+          responsive='true'
+          layoutKey='-gw-1+2a-9x+5c'
+        />
+        <Reaptcha sitekey={key} onVerify={this.onVerify} />
+        &nbsp;
+        <form onSubmit={this.handleSubmit}>
+          {errorMessage}
+          <div className="form-element">
+            <label>Username:</label>
+            <input
+              id="username" type="text"
+              value={this.state.username}
+              onChange={this.handleUsernameChange} />
+          </div>
 
-        <div className="form-element">
-          <label>Password:</label>
-          <input
-            id="password" type="password"
-            value={this.state.password}
-            onChange={this.handlePasswordChange} />
-        </div>
-        <input id="submit" type="submit" value="Submit" />
-      </form>
+          <div className="form-element">
+            <label>Password:</label>
+            <input
+              id="password" type="password"
+              value={this.state.password}
+              onChange={this.handlePasswordChange} />
+          </div>
+          <input id="submit" type="submit" value="Submit" />
+        </form>
+      </section>
     );
   }
 });
