@@ -83,6 +83,7 @@ For compatible Products with designated type (like "Pro"/"Premium"):
 - Release 1 supports OAuth 2.0 based authentication, as explained in [OAuth2](https://medium.appbase.io/how-to-implement-authentication-for-your-react-app-cf09eef3bb0b)
 
 - Release 3 supports [ES6](https://www.w3schools.com/js/js_2016.asp) Class-based component loading via optionalDependencies and rendering check via ComponentDidMount() React Lifecycle methods with compatible SPAs.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

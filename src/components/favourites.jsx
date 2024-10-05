@@ -13,7 +13,7 @@ class Favourites extends Component {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1 className="font-weight-bold">The Beer Bank</h1>
+                <h1 className="font-weight-bold">Beer Bank | The Cloud Dashboard</h1>
                 <p>These are your favourite beers</p>
               </div>
             </div>

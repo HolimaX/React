@@ -19,7 +19,9 @@
     "app",
     "non-restricted"
   ],
-  "man": "./man/doc.1",
+  "man": [
+    "./man/beerbank.1"
+  ],
   "bugs": {
     "url": "https://github.com/HolimaX/React/issues",
     "email": "hx@inbox.lv"
@@ -39,7 +41,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HolimaX/React.git"
+    "url": "git+https://github.com/HolimaX/React.git"
   },
   "funding": {
     "type": "Development Team at PayPal",
@@ -49,12 +51,14 @@
     "@HolimaX/beerbank-api": "^1.1.6"
   },
   "dependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.13",
     "@okta/okta-react": "^1.2.3",
+    "aws-sdk": "^2.1691.0",
     "bootstrap": "^4.5.3",
-    "caniuse-lite": "^1.0.30001429",
     "browserslist": "^4.20.3",
     "chalk": "^2.4.2",
     "cross-env": "^7.0.3",
@@ -74,12 +78,13 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "serve": "^11.3.2",
-    "yarn": "^1.22.0"
+    "yarn": "^1.22.22"
   },
   "scripts": {
-    "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
+    "prestart": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.' && node ./getGitInfo.js",
     "start": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts start",
-    "build": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
+    "build-win": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
+    "build-nix": "marked-man ./README.MD > ./man/beerbank.1 && cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts build",
     "pretest": "echo 'The environment variables, referenced with %my_env_variable%, are Windows-only compatible. Yet.'",
     "test": "cross-env REACT_APP_PCD_PATH=%npm_package_config_pcdPath% REAPTCHA_SITE_KEY=%npm_package_config_reaptchaSiteKey% AUTHPROVIDERCID=%npm_package_config_authProviderCID% FULLVERSION=%npm_package_config_productFlavour%0.%npm_package_config_versionCode%.%npm_package_config_versionName% react-scripts test",
     "postbuild": "node ./src/generate-sitemap.mjs",
@@ -98,7 +103,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint-config-react-app": "^7.0.0",
     "globby": "^13.0.0",
+    "marked": "^14.1.2",
+    "marked-man": "^2.1.0",
     "prettier": "^2.5.1"
   }
 }

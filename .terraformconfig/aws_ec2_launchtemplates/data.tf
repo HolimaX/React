@@ -8,6 +8,7 @@ EOF
 }
 
 # Source: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/
+# See ./deploy.sh for standalone process
 data "template_file" "kubeadm_join_hw" {
   template = <<EOF
 #!/bin/bash -xe

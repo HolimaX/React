@@ -1,7 +1,29 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "short_name": "React App",
-  "name": "Create React App Sample | (c) Linards Liepins 2019-2022 | Riga Latvia EU",
+  "name": "Create React App Sample | (c) Linards Liepins 2019-2025 | Riga Latvia EU",
+  "protocol_handlers": [
+    {
+      "protocol": "web+cd",
+      "url": "/ecosystem/DSV?user=%s"
+    },
+    {
+      "protocol": "web+pcd",
+      "url": "/ecosystem/PCD?user=%s"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.linardsl.libhacontimig.final",
+      "id": "com.linardsl.libhacontimig.final"
+    },
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.linardsl.libhacontimig.hm.final",
+      "id": "com.linardsl.libhacontimig.hm.final"
+    }
+  ],
   "icons": [
     {
       "src": "favicon.ico",

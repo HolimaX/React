@@ -6,6 +6,8 @@ import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } 
 import Search from "./search";
 import Beers from "./beers";
 
+import gitInfo from './../gitInfo.json';
+
 class Home extends Component {
   componentWillMount() {
     // load apps and beers if none are found in state
@@ -58,7 +60,8 @@ class Home extends Component {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1 className="font-weight-bold">The Beer Bank (a.k.a Cloud Dashboard)</h1>
+                <h1 className="font-weight-bold">Beer Bank | The Cloud Dashboard</h1>
+                <label>{gitInfo.remoteRepoPath} (Supported apps: {gitInfo.branch}/{gitInfo.shortHash})</label>
                 <p>Find your favourite beer here</p>
               </div>
             </div>
