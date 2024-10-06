@@ -36,7 +36,7 @@ jobs:
       - run: 'CI=false && npm cache clean -force && rm package-lock.json' 
 
       #- run: 'CI=false && npm i --save --legacy-peer-deps && npm install marked marked-man && npm audit fix && npm run build-nix'
-      - run: 'CI=false && npm i --save && npm install marked marked-man && npm audit fix && npm run build-nix'
+      - run: 'CI=false && npm i --save && npm install marked marked-man && npm audit fix && npm run eslint ./src && npm run build-nix --verbose'
 
       - save_cache:
           paths:
