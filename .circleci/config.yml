@@ -9,7 +9,7 @@ jobs:
     docker:
       # specify the version you desire here
       #- image: circleci/node:latest
-      - image: cimg/python:3.7.12-node #jiripuc/circleci-python-node:python3.9-node12-gcloud-cypress
+      - image: cimg/python:3.10.14-node #jiripuc/circleci-python-node:python3.9-node12-gcloud-cypress
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -33,7 +33,9 @@ jobs:
 
       #- run: yarn upgrade
 
-      - run: 'CI=false && npm install && npm install marked marked-man && npm audit fix && npm run build-nix'
+      - run: 'CI=false && npm cache clean -force && rm package-lock.json && rm -r node_modules' 
+
+      - run: 'CI=false && npm i --save --legacy-peer-deps && npm install marked marked-man && npm audit fix && npm run build-nix'
 
       - save_cache:
           paths:
