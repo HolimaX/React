@@ -1,7 +1,7 @@
 ---
-# Javascript Node CircleCI 2.0 configuration file
+# Javascript Node CircleCI 2.1 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+# Check https://circleci.com/docs/2.1/language-javascript/ for more details
 #
 version: 2.1
 jobs:
@@ -29,11 +29,11 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: yarn install
+      #- run: yarn install
 
-      - run: yarn upgrade
+      #- run: yarn upgrade
 
-      - run: 'CI=false && npm run build'
+      - run: 'CI=false && npm audit fix && npm run build'
 
       - save_cache:
           paths:
@@ -47,7 +47,7 @@ jobs:
             echo Running test
             set -e
             EXIT_CODE=0
-            yarn test || EXIT_CODE=$?
+            npm test || EXIT_CODE=$?
             echo $EXIT_CODE
 
       - store_artifacts:
