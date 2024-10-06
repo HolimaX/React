@@ -33,7 +33,7 @@ jobs:
 
       #- run: yarn upgrade
 
-      - run: 'CI=false && npm install && npm audit fix && npm run build'
+      - run: 'CI=false && npm install && npm audit fix && npm run build-nix'
 
       - save_cache:
           paths:
