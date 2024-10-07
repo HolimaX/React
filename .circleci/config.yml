@@ -40,7 +40,7 @@ jobs:
       
       - run: npm audit fix || true
       
-      - run: 'CI=false && npm run build-nix --verbose'
+      - run: 'CI=false && npm run prestart &&npm run build-nix --verbose'
 
       - save_cache:
           paths:
