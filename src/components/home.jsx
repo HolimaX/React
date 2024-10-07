@@ -6,7 +6,7 @@ import { fetchBeers, fetchMoreBeers, fetchPlatformApps, fetchMorePlatformApps } 
 import Search from "./search";
 import Beers from "./beers";
 
-import gitInfo from './../gitInfo.json' with {type: 'json'};
+import gitInfo from './../gitInfo.json'
 
 class Home extends Component {
   componentWillMount() {
