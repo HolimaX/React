@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/HolimaX/React.svg?style=svg&circle-token=1ad83382b085ffc81cd9c161999280cfc11453a3)](https://circleci.com/gh/HolimaX/React)
+![CircleCI Status](https://circleci.com/gh/HolimaX/React.svg?style=svg)
 ![Node CI](https://github.com/HolimaX/React/workflows/Node%20CI/badge.svg)
 
 # Introduction

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
 
 // TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
 // See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
@@ -10,7 +10,7 @@ export function componentIdentityDescriptionAH(REACT_APP_COMPONENT_VERSION, REAC
   return "<div>"+VERSION+"</div>"+"<div>"+COMPONENT+"</div><div><p>This functionality is not yet supported!</p></div>"
 }
 
-export default withAuth(class ProfilePage extends React.Component {
+export default withOktaAuth(class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { user: null };
@@ -18,7 +18,7 @@ export default withAuth(class ProfilePage extends React.Component {
   }
 
   async getCurrentUser() {
-    this.props.auth.getUser()
+    this.props.oktaAuth.getUser()
       .then(user => this.setState({user}));
   }
 

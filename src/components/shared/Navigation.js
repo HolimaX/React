@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
 
 // TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
 // See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
@@ -11,19 +11,24 @@ export function componentIdentityDescriptionAH(REACT_APP_COMPONENT_VERSION, REAC
   return "<div>"+VERSION+"</div>"+"<div>"+COMPONENT+"</div><div><p>This functionality is not yet supported!</p></div>"
 }
 
-export default withAuth(class Navigation extends React.Component {
+export default withOktaAuth(class Navigation extends React.Component {
   constructor(props) {
     super(props);
     this.state = { authenticated: null };
     this.checkAuthentication = this.checkAuthentication.bind(this);
-    this.checkAuthentication();
   }
 
   async checkAuthentication() {
-    const authenticated = await this.props.auth.isAuthenticated();
+    // Guard against missing authState (unconfigured environment)
+    const authenticated = this.props.authState ? this.props.authState.isAuthenticated : false;
+    
     if (authenticated !== this.state.authenticated) {
       this.setState({ authenticated });
     }
+  }
+
+  componentDidMount() {
+    this.checkAuthentication();
   }
 
   componentDidUpdate() {
@@ -34,11 +39,11 @@ export default withAuth(class Navigation extends React.Component {
     if (this.state.authenticated === null) return null;
     const authNav = this.state.authenticated ?
       <div className="auth-nav">
-        <li><a href="javascript:void(0)" onClick={() => this.props.auth.logout()}>Logout</a></li>
+        <li><a href="javascript:void(0)" onClick={() => this.props.oktaAuth.signOut()}>Logout</a></li>
         <li><Link to="/profile">Profile</Link></li>
       </div> :
       <div className="auth-nav">
-        <li><a href="javascript:void(0)" onClick={() => this.props.auth.login()}>Login</a></li>
+        <li><a href="javascript:void(0)" onClick={() => this.props.oktaAuth.signInWithRedirect()}>Login</a></li>
         <li><Link to="/register">Register</Link></li>
       </div>;
     return (

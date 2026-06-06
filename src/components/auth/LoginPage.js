@@ -1,28 +1,34 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import LoginForm from './LoginForm';
-import { withAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
 
-export default withAuth(class Login extends Component {
+export default withOktaAuth(class Login extends Component {
   constructor(props) {
     super(props);
     this.state = { authenticated: null };
     this.checkAuthentication = this.checkAuthentication.bind(this);
-    this.checkAuthentication();
   }
 
   async checkAuthentication() {
-    const authenticated = await this.props.auth.isAuthenticated();
+    const authenticated = this.props.authState && this.props.authState.isAuthenticated;
     if (authenticated !== this.state.authenticated) {
       this.setState({ authenticated });
     }
   }
-
+  componentDidMount() {
+    this.checkAuthentication();
+  }
   componentDidUpdate() {
     this.checkAuthentication();
   }
 
   render() {
+    // Redirect or show message if Okta instance is missing
+    if (!this.props.oktaAuth) {
+      return <div className="p-5"><h1>Login Unavailable</h1><p>Authentication service is not configured in this environment.</p></div>;
+    }
+
     if (this.state.authenticated === null) return null;
     return this.state.authenticated ?
       <Redirect to={{ pathname: '/profile' }} /> :

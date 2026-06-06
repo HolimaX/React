@@ -1,31 +1,40 @@
 import React from 'react';
 import OktaAuth from '@okta/okta-auth-js';
-import { withAuth } from '@okta/okta-react';
+import { withOktaAuth } from '@okta/okta-react';
+import ReactGA from 'react-ga4';
 
 import Reaptcha from 'reaptcha';
 
 import AdSense from 'react-adsense';
 
-export default withAuth(class LoginForm extends React.Component {
+export default withOktaAuth(class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       sessionToken: null,
       error: null,
       username: '',
-      password: ''
+      password: '',
+      sessionReaptchaKey: ''
     }
-
-    this.oktaAuth = new OktaAuth({ url: props.baseUrl });
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.onVerify = this.onVerify.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.oktaAuth.signIn({
+    
+    if (process.env.REACT_APP_GA_MEASUREMENT_ID) {
+      ReactGA.event({
+        category: "auth",
+        action: "login_attempt",
+      });
+    }
+
+    this.props.oktaAuth.signIn({
       username: this.state.username,
       password: this.state.password
     })
@@ -34,8 +43,12 @@ export default withAuth(class LoginForm extends React.Component {
       }))
       .catch(err => {
         this.setState({error: err.message});
-        console.log(err.statusCode + ' error', err)
+        console.error('Login error:', err);
       });
+  }
+
+  onVerify(token) {
+    console.log('Login Reaptcha verified');
   }
 
   handleUsernameChange(e) {
@@ -48,7 +61,7 @@ export default withAuth(class LoginForm extends React.Component {
 
   render() {
     if (this.state.sessionToken) {
-      this.props.auth.redirect({ sessionToken: this.state.sessionToken });
+      this.props.oktaAuth.signInWithRedirect({ sessionToken: this.state.sessionToken });
       return null;
     }
 
@@ -59,17 +72,20 @@ export default withAuth(class LoginForm extends React.Component {
     //const key = "6LfJNvwfAAAAAHXAguVbaOQrcBVnCADSH1QBS0hm"
     let key = this.state.sessionReaptchaKey;
     if (!key) key = process.env.REACT_APP_REAPTCHA; 
+    const enableAds = process.env.REACT_APP_ENABLE_ADS === 'true';
     
     return (
       <section>
-        <AdSense.Google
-          client='ca-pub-2835578352930332'
-          slot='7806394673'
-          style={{ display: 'block' }}
-          format='auto'
-          responsive='true'
-          layoutKey='-gw-1+2a-9x+5c'
-        />
+        {enableAds && (
+          <AdSense.Google
+            client='ca-pub-2835578352930332'
+            slot='7806394673'
+            style={{ display: 'block' }}
+            format='auto'
+            responsive='true'
+            layoutKey='-gw-1+2a-9x+5c'
+          />
+        )}
         <Reaptcha sitekey={key} onVerify={this.onVerify} />
         &nbsp;
         <form onSubmit={this.handleSubmit}>
