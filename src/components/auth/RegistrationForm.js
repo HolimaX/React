@@ -1,166 +1,131 @@
-import React from 'react'; 
-import OktaAuth from '@okta/okta-auth-js';
-import { withAuth } from '@okta/okta-react';
-
+import React, { useState, useCallback } from 'react'; 
+import { useOktaAuth } from '@okta/okta-react';
 import Reaptcha from 'reaptcha';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBeer, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 
-import AdSense from 'react-adsense';
+const RegistrationForm = () => {
+  const { oktaAuth } = useOktaAuth();
+  const [fields, setFields] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [error, setError] = useState(null);
+  const [sessionToken, setSessionToken] = useState(null);
 
-import config from '../../app.config';
+  const handleChange = useCallback((e) => {
+    const { id, value } = e.target;
+    setFields(prev => ({ ...prev, [id]: value }));
+  }, []);
 
-export default withAuth(class RegistrationForm extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      sessionToken: null,
-      sessionReaptchaKey: ''
-    };
-    this.oktaAuth = new OktaAuth({ url: config.url });
-    this.checkAuthentication = this.checkAuthentication.bind(this);
-    this.checkAuthentication();
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReaptcha = this.handleReaptcha.bind(this);
-    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-    this.handleLastNameChange = this.handleLastNameChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);    
-  }
-
-  async checkAuthentication() {
-    const sessionToken = await this.props.auth.getIdToken();
-    if (sessionToken) {
-      this.setState({ sessionToken });
-    }
-  }
-
-  componentDidMount() {
-    this.handleReaptcha();
-    //.then(res => this.setState({ sessionReaptchaKey: res.sitekey }))
-    //.catch(err => console.log(err));
-  }
-
-  componentDidUpdate() {
-    this.checkAuthentication();
-  }
-
-  handleFirstNameChange(e) {
-    this.setState({firstName:e.target.value});
-  }
-
-  handleLastNameChange(e) {
-    this.setState({ lastName: e.target.value });
-  }
-
-  handleEmailChange(e) {
-    this.setState({ email: e.target.value });
-  }
-
-  handlePasswordChange(e) {
-    this.setState({ password: e.target.value });
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('/api/users', { 
-      method: 'POST', 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state)
-    }).then(user => {
-      this.oktaAuth.signIn({
-        username: this.state.email,
-        password: this.state.password
-      })
-      .then(res => this.setState({
-        sessionToken: res.sessionToken
-      }));
+    setError(null);
+
+    axios.post('/api/users', fields, {
+      headers: { 'Accept': 'application/json' }
     })
-    .catch(err => console.log);
-  }
-
-  handleReaptcha(e) {
-    //e.preventDefault();
-    fetch('/reaptcha', {
-      method: 'POST', 
-      headers: {
-        'Accept': 'application/text',
-        'Content-Type': 'application/text',
-      },
-      body: 'reaptchav2',
-      mode: 'cors'
-    }).then(res => {
-      this.setState({
-        sessionReaptchaKey: res.siteKey
-      });
-      console.log(res);
+    .then(() => {
+      const signInFn = oktaAuth?.signInWithCredentials || oktaAuth?.signIn;
+      if (signInFn) {
+        return signInFn.call(oktaAuth, {
+          username: fields.email,
+          password: fields.password
+        })
+        .then(res => setSessionToken(res.sessionToken))
+        .catch(err => {
+          console.error("Okta sign-in error", err);
+          setError("Registration successful, but auto-login failed. Please login manually.");
+        });
+      }
     })
-    .catch(err => console.log);
-  }
+    .catch(err => {
+      const message = err.response?.data?.error || err.response?.data?.message || 
+                     "Unable to complete registration. Please check your details and try again.";
+      console.error("Registration error", message);
+      setError(message);
+    });
+  };
 
-  //handleReaptcha = async () => {
-  //  const response = await fetch('/reaptcha');
-  //  const body = await response.text;
+  const key = process.env.REACT_APP_REAPTCHA_SITE_KEY || process.env.REACT_APP_REAPTCHA;
 
-    //if (response.status !== 200) {
-    //  throw Error(body.message) 
-    //}
-  //  console.log(body);
-  //  return body;
-  //};
-
-  render(){
-    if (this.state.sessionToken) {
-      this.props.auth.redirect({ sessionToken: this.state.sessionToken });
-      return null;
+  if (sessionToken) {
+    if (oktaAuth?.signInWithRedirect) {
+      oktaAuth.signInWithRedirect({ sessionToken });
     }
-
-    let key = this.state.sessionReaptchaKey;
-    if (!key) key = process.env.REACT_APP_REAPTCHA;
-
-    return(
-      <section>
-        <AdSense.Google
-          client='ca-pub-2835578352930332'
-          slot='7806394673'
-          style={{ display: 'block' }}
-          format='auto'
-          responsive='true'
-          layoutKey='-gw-1+2a-9x+5c'
-        />
-        <Reaptcha sitekey={key} onVerify={this.onVerify} />
-        &nbsp;
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-element">
-            <label>Email:</label>
-            <input type="email" id="email" value={this.state.email} 
-            onChange={this.handleEmailChange}/>
-          </div>
-          <div className="form-element">
-            <label>First Name:</label>
-            <input type="text" id="firstName" value={this.state.firstName} 
-            onChange={this.handleFirstNameChange} />
-          </div>
-          <div className="form-element">
-            <label>Last Name:</label>
-            <input type="text" id="lastName" value={this.state.lastName} 
-            onChange={this.handleLastNameChange} />
-          </div>
-          <div className="form-element">
-            <label>Password:</label>
-            <input type="password" id="password" value={this.state.password} 
-            onChange={this.handlePasswordChange} />
-          </div>
-          <input type="submit" id="submit" value="Register"/>
-        </form>
-      </section>
-    );
+    return null;
   }
 
-});
+  return (
+    <div className="bg-light py-5 min-vh-100 mt-5">
+      {error && (
+        <div className="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
+          <strong>Notice:</strong> {error}
+          <button type="button" className="btn-close" onClick={() => setError(null)} aria-label="Close"></button>
+        </div>
+      )}
+      <div className="row justify-content-center">
+        <div className="col-md-8 col-lg-5">
+          <div className="card shadow-sm border-0 rounded-3">
+            <div className="card-header bg-white border-bottom-0 pt-4 text-center">
+              <div className="text-warning mb-2 display-4">
+                <FontAwesomeIcon icon={faBeer} />
+              </div>
+              <h3 className="fw-light my-2">Create Account</h3>
+              <p className="text-muted small">Access Personalized Cloud Dashboard (PCD) features!</p>
+            </div>
+
+            <div className="card-body px-4">
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <div className="input-group input-group-alternative">
+                    <span className="input-group-text"><FontAwesomeIcon icon={faEnvelope} className="text-muted" /></span>
+                    <input
+                      className="form-control"
+                      placeholder="Email Address"
+                      type="email"
+                      id="email"
+                      value={fields.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-6 pe-1">
+                    <div className="mb-3">
+                      <input className="form-control" placeholder="First Name" type="text" id="firstName" value={fields.firstName} onChange={handleChange} required />
+                    </div>
+                  </div>
+                  <div className="col-6 ps-1">
+                    <div className="mb-3">
+                      <input className="form-control" placeholder="Last Name" type="text" id="lastName" value={fields.lastName} onChange={handleChange} required />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <div className="input-group input-group-alternative">
+                    <span className="input-group-text"><FontAwesomeIcon icon={faLock} className="text-muted" /></span>
+                    <input className="form-control" placeholder="Password" type="password" id="password" value={fields.password} onChange={handleChange} required />
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-center mb-4">
+                  {key ? <Reaptcha sitekey={key} /> : null}
+                </div>
+
+                <div className="text-center">
+                  <button type="submit" id="submit" className="btn btn-warning w-100 shadow-sm py-2 fw-bold text-uppercase">
+                    Register
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RegistrationForm;

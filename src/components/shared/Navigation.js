@@ -1,55 +1,59 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { withAuth } from '@okta/okta-react';
+import { useOktaAuth } from '@okta/okta-react';
+import ReactGA from 'react-ga4';
 
-// TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
-// See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
-// See https://stackoverflow.com/questions/47444672/how-do-i-access-a-modules-method-in-react-from-another-module
 export function componentIdentityDescriptionAH(REACT_APP_COMPONENT_VERSION, REACT_APP_COMPONENT_NAME) {
-  const VERSION = REACT_APP_COMPONENT_VERSION
-  const COMPONENT = REACT_APP_COMPONENT_NAME
-  return "<div>"+VERSION+"</div>"+"<div>"+COMPONENT+"</div><div><p>This functionality is not yet supported!</p></div>"
+  return `<div>${REACT_APP_COMPONENT_VERSION}</div><div>${REACT_APP_COMPONENT_NAME}</div><div><p>This functionality is not yet supported!</p></div>`;
 }
 
-export default withAuth(class Navigation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { authenticated: null };
-    this.checkAuthentication = this.checkAuthentication.bind(this);
-    this.checkAuthentication();
-  }
+const Navigation = () => {
+  const { oktaAuth, authState } = useOktaAuth();
 
-  async checkAuthentication() {
-    const authenticated = await this.props.auth.isAuthenticated();
-    if (authenticated !== this.state.authenticated) {
-      this.setState({ authenticated });
+  const logout = useCallback(() => {
+    if (oktaAuth?.signOut) {
+      oktaAuth.signOut();
     }
-  }
+  }, [oktaAuth]);
 
-  componentDidUpdate() {
-    this.checkAuthentication();
-  }
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname + window.location.search });
+  }, []);
 
-  render() {
-    if (this.state.authenticated === null) return null;
-    const authNav = this.state.authenticated ?
-      <div className="auth-nav">
-        <li><a href="javascript:void(0)" onClick={() => this.props.auth.logout()}>Logout</a></li>
-        <li><Link to="/profile">Profile</Link></li>
-      </div> :
-      <div className="auth-nav">
-        <li><a href="javascript:void(0)" onClick={() => this.props.auth.login()}>Login</a></li>
-        <li><Link to="/register">Register</Link></li>
-      </div>;
-    return (
-      <nav>
-        <ul>
+  if (!authState) return null;
+
+  const authNav = authState.isAuthenticated ? (
+    <>
+      <li className="nav-item">
+        <Link className="nav-link font-weight-bold" to="/profile">Profile</Link>
+      </li>
+      <li className="nav-item">
+        <button className="btn btn-link nav-link text-warning" onClick={logout}>Logout</button>
+      </li>
+    </>
+  ) : (
+    <>
+      <li className="nav-item">
+        <Link className="nav-link" to="/login">Login</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link text-warning font-weight-bold" to="/register">Register</Link>
+      </li>
+    </>
+  );
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand text-warning font-weight-bold">
+          {authState.isAuthenticated ? <><abbr title="Personalized Cloud Dashboard">PCD</abbr> Home</> : <><abbr title="Cloud Dashboard">CD</abbr> Home</>}
+        </Link>
+        <ul className="navbar-nav ms-auto align-items-center">
           {authNav}
         </ul>
-      </nav>
-    )
-  }
-});
+      </div>
+    </nav>
+  );
+};
 
-// Node.js syntax: export navigation class to allow custom use
-//module.exports.createCoreNavigationPage = withAuth(Navigation);
+export default Navigation;

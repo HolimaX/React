@@ -1,15 +1,36 @@
-[![CircleCI](https://circleci.com/gh/HolimaX/React.svg?style=svg&circle-token=1ad83382b085ffc81cd9c161999280cfc11453a3)](https://circleci.com/gh/HolimaX/React)
-![Node CI](https://github.com/HolimaX/React/workflows/Node%20CI/badge.svg)
+# Cloud Dashboard (CD) Foundation
 
-# Introduction
+[![CircleCI Status](https://circleci.com/gh/HolimaX/React.svg?style=svg)](https://circleci.com/gh/HolimaX/React)
+[![Node CI](https://github.com/HolimaX/React/workflows/Node%20CI/badge.svg)](https://github.com/HolimaX/React)
+[![Feature Maturity](https://img.shields.io/badge/Feature%20Maturity-Overview%20%26%20Matrix-blue.svg)](./docs/FEATURE_MATURITY.md)
+[![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://react.dev/)
+[![React Router](https://img.shields.io/badge/React%20Router-6.26.1-orange.svg)](https://reactrouter.com/)
+[![Redux](https://img.shields.io/badge/Redux-5.0.1-purple.svg)](https://redux.js.org/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-purple.svg)](https://getbootstrap.com/)
+
+## Feature Maturity & Integrator Guide
+
+For a comprehensive status overview and comparison between the public **Cloud Dashboard (CD) Foundation** and the **Personalized Cloud Dashboard (PCD)** tier, please refer to:
+
+👉 **[Feature Maturity Overview & CD/PCD Architectural Matrix](./docs/FEATURE_MATURITY.md)**
+
+### Key Modernization Highlights
+* **React 18 & Functional Architecture**: Full migration to React 18 hooks (`useState`, `useEffect`, `useCallback`, `useRef`) and `createRoot`.
+* **React Router v6**: Modern declarative routing (`<Routes>`, `<Route element={<... />} />`) with route-level analytics.
+* **Redux 5 & Redux-Thunk 3**: Streamlined state store with async circuit breaker retry loops (`isApiHalted`) protecting against external API flakiness.
+* **Debounced Search**: 500ms debounced catalog search component with query sanitization.
+* **Public Repository Sanitization**: Zero hardcoded secrets, proprietary endpoints, or private cloud references. All configuration is externalized via `.env`.
+* **PlatformApps Preservation**: All `PLATFORMAPPS` telemetry and mock APIs native to HolimaX remain 100% intact and untouched.
+
+## Introduction
 
 This project:
 
 - was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-- was forked from original source to further be used as template for developments (like [libhacontimig](https://github.com/HolimaX/libhacontimig))
-- was ajusted to include integration with technologies (like Terraform, Ansible, Kubernetes), mentioned in github topics and can be learned about in README.md files within folders. For more details, see ```https://github.com/HolimaX/React/blob/<branch>/src/README.md``` file as one of such inclusives.
+- serves as the public open-source foundation for Cloud Dashboard integrators and Personalized Cloud Dashboard (PCD) customers.
+- was adjusted to include integration with cloud and container technologies (Terraform, Ansible, Kubernetes), documented within respective configuration directories.
 
-React-based Application is still kept isolated to ensure overall integrity and transaprency.
+React-based Application is kept isolated to ensure overall integrity and transparency.
 
 ## Application Prerequistes
 
@@ -83,6 +104,7 @@ For compatible Products with designated type (like "Pro"/"Premium"):
 - Release 1 supports OAuth 2.0 based authentication, as explained in [OAuth2](https://medium.appbase.io/how-to-implement-authentication-for-your-react-app-cf09eef3bb0b)
 
 - Release 3 supports [ES6](https://www.w3schools.com/js/js_2016.asp) Class-based component loading via optionalDependencies and rendering check via ComponentDidMount() React Lifecycle methods with compatible SPAs.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

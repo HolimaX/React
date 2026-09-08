@@ -1,51 +1,85 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Security } from '@okta/okta-react';
+import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Security, LoginCallback } from "@okta/okta-react";
+import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import "./index.css";
 import config from './app.config';
 import App from "./App";
 
 import { Provider } from "react-redux";
-
 import * as serviceWorker from "./serviceWorker";
 
-// eslint-disable-next-line
-import bootstrap from "bootstrap/dist/css/bootstrap.min.css";
-// eslint-disable-next-line
-import $ from "jquery";
-// eslint-disable-next-line
-import Popper from "popper.js";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { 
+  faStar, 
+  faBeer, 
+  faEnvelope, 
+  faLock, 
+  faExclamationTriangle, 
+  faMobileAlt, 
+  faCloud, 
+  faChartBar, 
+  faUserShield 
+} from "@fortawesome/free-solid-svg-icons";
+
+import ReactGA from 'react-ga4';
 import store from "./store";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faStar, faBeer } from "@fortawesome/free-solid-svg-icons";
+library.add(faStar, faBeer, faEnvelope, faLock, faExclamationTriangle, faMobileAlt, faCloud, faChartBar, faUserShield);
 
-library.add(faStar, faBeer);
-
-function onAuthRequired({ history }) {
-  history.push('/login');
+// Initialize GA4 if measurement ID is provided
+const gaId = process.env.REACT_APP_GA_TRACKING_ID || process.env.REACT_APP_GA_MEASUREMENT_ID;
+if (gaId) {
+  ReactGA.initialize(gaId);
 }
 
-ReactDOM.render(
+const isAuthConfigured = !!(config.issuer && config.client_id && !config.issuer.includes('dummy'));
+
+const oktaAuth = isAuthConfigured
+  ? new OktaAuth({
+      issuer: config.issuer,
+      clientId: config.client_id,
+      redirectUri: config.redirect_uri || (window.location.origin + '/implicit/callback'),
+      pkce: true,
+    })
+  : new OktaAuth({
+      issuer: config.issuer || 'https://dev-example.okta.com/oauth2/default',
+      clientId: config.client_id || 'dummy-client-id',
+      redirectUri: config.redirect_uri || (window.location.origin + '/implicit/callback'),
+      pkce: true,
+    });
+
+const AppWithRouter = () => {
+  const navigate = useNavigate();
+
+  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
+    navigate(toRelativeUrl(originalUri || '/', window.location.origin), { replace: true });
+  };
+
+  return (
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+      <Routes>
+        <Route path="/implicit/callback" element={<LoginCallback />} />
+        <Route path="/*" element={<App />} />
+      </Routes>
+    </Security>
+  );
+};
+
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Security
-        issuer={config.issuer}
-        client_id={config.client_id}
-        redirect_uri={config.redirect_uri}
-        onAuthRequired={onAuthRequired}
-      >
-      <App />
-      </Security>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById("root")
+    <Router>
+      <AppWithRouter />
+    </Router>
+  </Provider>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+

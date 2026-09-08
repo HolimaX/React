@@ -1,31 +1,25 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
-import { withAuth } from '@okta/okta-react';
+import { useOktaAuth } from '@okta/okta-react';
 
-export default withAuth(class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { authenticated: null };
-    this.checkAuthentication = this.checkAuthentication.bind(this);
-    this.checkAuthentication();
+const LoginPage = ({ baseUrl }) => {
+  const { authState, oktaAuth } = useOktaAuth();
+
+  if (!oktaAuth) {
+    return (
+      <div className="p-5 text-center">
+        <h1>Login Unavailable</h1>
+        <p>Authentication service is not configured in this environment.</p>
+      </div>
+    );
   }
 
-  async checkAuthentication() {
-    const authenticated = await this.props.auth.isAuthenticated();
-    if (authenticated !== this.state.authenticated) {
-      this.setState({ authenticated });
-    }
+  if (authState?.isAuthenticated) {
+    return <Navigate to="/profile" replace />;
   }
 
-  componentDidUpdate() {
-    this.checkAuthentication();
-  }
+  return <LoginForm baseUrl={baseUrl} />;
+};
 
-  render() {
-    if (this.state.authenticated === null) return null;
-    return this.state.authenticated ?
-      <Redirect to={{ pathname: '/profile' }} /> :
-      <LoginForm baseUrl={this.props.baseUrl} />;
-  }
-});
+export default LoginPage;

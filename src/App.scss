@@ -10,6 +10,48 @@ body {
     background-color: #f79400 !important;
   }
 
+  .body-hero-card,
+  > p,
+  &.p,
+  .body-p {
+    background: linear-gradient(135deg, rgba(43, 55, 59, 0.95), rgba(247, 148, 0, 0.85));
+    color: #ffffff !important;
+    padding: 2.5rem 1.5rem;
+    width: 100%;
+    max-width: 100% !important;
+    margin: 0 0 1.5rem 0;
+    border-radius: 0 0 16px 16px;
+    border: 1px solid rgba(247, 148, 0, 0.45);
+    border-top: none;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff !important;
+      margin-bottom: 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      padding-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      color: #f5f5f5 !important;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      margin-bottom: 0;
+      cursor: default;
+    }
+  }
+
   .navbar-dark {
     .navbar-nav {
       .nav-link {
@@ -23,6 +65,13 @@ body {
       }
     }
   }
+}
+
+.auth-nav {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .beer-item {

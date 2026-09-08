@@ -10,7 +10,9 @@ const initialState = {
     similar: []
   },
   page: 1,
-  isLoading: false
+  isLoading: false,
+  error: null,
+  searchQuery: ""
 };
 
 export default function reduce(state = initialState, action) {
@@ -19,8 +21,9 @@ export default function reduce(state = initialState, action) {
       return {
         ...state,
         beers: action.payload.beers,
-        page: action.payload.page + 1,
-        isLoading: action.payload.isLoading
+        page: action.payload.error ? state.page : action.payload.page + 1,
+        isLoading: action.payload.isLoading,
+        error: action.payload.error || null
       };
 
     case actionTypes.FETCHING_BEERS:
@@ -29,16 +32,18 @@ export default function reduce(state = initialState, action) {
     case actionTypes.FETCH_MORE_BEERS:
       return {
         ...state,
-        beers: [...state.beers, ...action.payload.beers],
-        page: action.payload.page + 1,
-        isLoading: action.payload.isLoading
+        beers: action.payload.error ? state.beers : [...state.beers, ...action.payload.beers],
+        page: action.payload.error ? state.page : action.payload.page + 1,
+        isLoading: action.payload.isLoading,
+        error: action.payload.error || null
       };
 
     case actionTypes.SEARCH_BEERS:
       return {
         ...state,
         beers: action.payload.beers,
-        isLoading: action.payload.isLoading
+        isLoading: action.payload.isLoading,
+        error: null
       };
 
     case actionTypes.HANDLE_FAVOURITE_BEER:
@@ -59,9 +64,10 @@ export default function reduce(state = initialState, action) {
     case actionTypes.FETCH_PLATFORMAPPS:
       return {
         ...state,
-        platformapps: action.payload.platformapps,
-        page: action.payload.page + 1,
-        isLoading: action.payload.isLoading
+        platformapps: action.payload.platformapps || [],
+        page: action.payload.error ? state.page : action.payload.page + 1,
+        isLoading: action.payload.isLoading,
+        error: action.payload.error || null
       };
 
     case actionTypes.FETCHING_PLATFORMAPPS:
@@ -70,10 +76,40 @@ export default function reduce(state = initialState, action) {
     case actionTypes.FETCH_MORE_PLATFORMAPPS:
       return {
         ...state,
-        platformapps: [...state.platformapps, ...action.payload.platformapps],
-        page: action.payload.page + 1,
-        isLoading: action.payload.isLoading
+        platformapps: action.payload.error
+          ? state.platformapps
+          : [...state.platformapps, ...(action.payload.platformapps || [])],
+        page: action.payload.error ? state.page : action.payload.page + 1,
+        isLoading: action.payload.isLoading,
+        error: action.payload.error || null
       };
+
+    case actionTypes.SEARCH_PLATFORMAPPS:
+      return {
+        ...state,
+        platformapps: action.payload.platformapps || [],
+        isLoading: action.payload.isLoading,
+        error: action.payload.error || null
+      };
+
+    case actionTypes.HANDLE_FAVOURITE_PLATFORMAPP:
+      let favList = [...state.favourites];
+      let favApp = action.payload.platformapp;
+      const favAppIndex = favList.findIndex(
+        item => (item.voteid || item.id) === (favApp.voteid || favApp.id)
+      );
+      if (favAppIndex !== -1) {
+        favList.splice(favAppIndex, 1);
+      } else {
+        favList.push(favApp);
+      }
+      return { ...state, favourites: favList };
+
+    case actionTypes.DISPLAY_PLATFORMAPP:
+      return { ...state, selected: action.payload.selected, isLoading: false };
+
+    case actionTypes.FETCHING_PLATFORMAPPS_ERROR:
+      return { ...state, isLoading: false, error: action.payload.error };
 
     default:
       console.warn('Default Action Type fired in Beer Reducer');

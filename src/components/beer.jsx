@@ -1,72 +1,66 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { handleFavourite } from "../actions/beerActions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class Beer extends Component {
-  // check if beer is in favourites array
-  isFavourite = () => {
-    return this.props.favourites.indexOf(this.props.beer) !== -1;
-  };
+import ReactGA from 'react-ga4';
 
-  // toggle beer favourite status
-  handleFavourite = e => {
+const Beer = ({ beer, favourites, handleFavourite, onDetail }) => {
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname + window.location.search });
+  }, []);
+
+  const isFavourite = favourites.indexOf(beer) !== -1;
+
+  const onFavouriteToggle = e => {
     e.stopPropagation();
-    this.props.handleFavourite(this.props.beer);
+    handleFavourite(beer);
   };
 
-  // handle detail event on beer click
-  handleDetail = () => {
-    this.props.onDetail(this.props.beer);
-  };
-
-  render() {
-    return (
-      <div
-        className="beer-item col-12 col-sm-6 col-md-4 p-3 text-center"
-        key={this.props.beer.id}
-        onClick={this.handleDetail}
-      >
-        <div className="details bg-white p-3">
-          <div className="row">
-            <div className="col-12">
-              <button
-                className={
-                  "btn btn-link btn-fav float-right " +
-                  (this.isFavourite() ? "active" : "")
-                }
-                onClick={this.handleFavourite}
-              >
-                <FontAwesomeIcon icon="star" />
-              </button>
-            </div>
+  return (
+    <div
+      className="beer-item col-12 col-sm-6 col-md-4 p-3 text-center"
+      onClick={() => onDetail && onDetail(beer)}
+    >
+      <div className="details bg-white p-3">
+        <div className="row">
+          <div className="col-12">
+            <button
+              className={
+                "btn btn-link btn-fav float-right " +
+                (isFavourite ? "active" : "")
+              }
+              onClick={onFavouriteToggle}
+            >
+              <FontAwesomeIcon icon="star" />
+            </button>
           </div>
-
-          <div className="row my-1">
-            <div className="col">
-              <img
-                src={this.props.beer.image_url}
-                alt={this.props.beer.name}
-                className="beer-thumbnail"
-              />
-            </div>
-          </div>
-          <h5 className="text-warning font-weight-bold">
-            {this.props.beer.name}
-          </h5>
-          <p className="text-muted">{this.props.beer.tagline}</p>
         </div>
+
+        <div className="row my-1">
+          <div className="col">
+            <img
+              src={beer.image_url}
+              alt={beer.name}
+              className="beer-thumbnail"
+            />
+          </div>
+        </div>
+        <h5 className="text-warning font-weight-bold">{beer.name}</h5>
+        <p className="text-muted">{beer.tagline}</p>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 // redux stuff
 Beer.propTypes = {
   favourites: PropTypes.array.isRequired,
-  handleFavourite: PropTypes.func.isRequired
+  handleFavourite: PropTypes.func.isRequired,
+  beer: PropTypes.object.isRequired,
+  onDetail: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -77,3 +71,4 @@ export default connect(
   mapStateToProps,
   { handleFavourite }
 )(Beer);
+
