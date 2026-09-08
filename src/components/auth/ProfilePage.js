@@ -1,50 +1,93 @@
-import React from 'react';
-import { withOktaAuth } from '@okta/okta-react';
+import React, { useEffect, useState } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 
-// TODO: Add complete support for Standard and Premium NPM module loading to provide Pro features
-// See https://github.com/HolimaX/React/issues/8 ( EDU-1 )
-// See https://stackoverflow.com/questions/47444672/how-do-i-access-a-modules-method-in-react-from-another-module
 export function componentIdentityDescriptionAH(REACT_APP_COMPONENT_VERSION, REACT_APP_COMPONENT_NAME) {
-  const VERSION = REACT_APP_COMPONENT_VERSION
-  const COMPONENT = REACT_APP_COMPONENT_NAME
-  return "<div>"+VERSION+"</div>"+"<div>"+COMPONENT+"</div><div><p>This functionality is not yet supported!</p></div>"
+  return `<div>${REACT_APP_COMPONENT_VERSION}</div><div>${REACT_APP_COMPONENT_NAME}</div><div><p>This functionality is not yet supported!</p></div>`;
 }
 
-export default withOktaAuth(class ProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { user: null };
-    this.getCurrentUser = this.getCurrentUser.bind(this);
-  }
+const ProfilePage = ({ healthCards = [] }) => {
+  const { oktaAuth, authState } = useOktaAuth();
+  const [user, setUser] = useState(null);
 
-  async getCurrentUser() {
-    this.props.oktaAuth.getUser()
-      .then(user => this.setState({user}));
-  }
+  useEffect(() => {
+    if (authState?.isAuthenticated && oktaAuth?.getUser) {
+      oktaAuth.getUser().then(setUser).catch(err => console.error("Error fetching user profile:", err));
+    }
+  }, [authState, oktaAuth]);
 
-  componentDidMount() {
-    this.getCurrentUser();
-  }
+  if (!user) return null;
 
-  render() {
-    // OKTA user object returns: sub, name, locale, email, preferred_username, given_name, family_name, zoneinfo, updated_at, email_verified
-    if (!this.state.user) return null;
-    return (
-      <section className="user-profile">
-        <h1>User Profile</h1>
-        <div style={{'padding':'2%','list-style-type':'none'}}>
-          <label>Name and Locale:</label>&nbsp;
-          <span><strong>{this.state.user.name}</strong></span>&nbsp;
-          <span>({this.state.user.locale})</span>
-          <p>Premium (Pro) Customer: {this.state.user.email_verified}</p>
-          <p><u>Supported / Enabled Tools:</u></p>
-          <li>
-            <ul> &gt; HealthDash - Health dashboard at <a href='https://www.myclouddashboard.healthdash.lv?user={this.state.user.name}'>{this.state.user.name}</a><br/><iframe title="DSV" src="http://pcd-12-dot-api-project-668384552013.ew.r.appspot.com/" style={{'width':'95%'}}/>
-            </ul>
-            <ul> &gt; SystemDash - Platform dashboard (provisioning, visualization) at <a href='https://www.myclouddashboard.healthdash.lv?monitor={this.state.user.name}'>{this.state.user.name}</a></ul>
-          </li>
-        </div>
+  const isPro = user.tier === 'PRO' || user.email_verified;
+
+  return (
+    <div className="profile-wrapper container py-5 mt-5">
+      <section className="pro-appreciation">
+        {isPro && (
+          <div className="alert alert-warning shadow-sm mb-4">
+            <h4 className="fw-bold">Welcome, Valued Customer!</h4>
+            <p className="mb-0">Your account is enabled for Personalized Cloud Dashboard (PCD) integration features.</p>
+          </div>
+        )}
       </section>
-    )
-  }
-});
+
+      <div className="card shadow-sm border-0 rounded-3 mb-4">
+        <div className="card-header bg-white border-bottom-0 pt-4">
+          <h3 className="fw-light mb-1">User Profile</h3>
+          <p className="text-muted small">Personalized account overview and configuration settings</p>
+        </div>
+        <div className="card-body px-4">
+          <ul className="list-group list-group-flush mb-3">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Name:</strong>
+              <span>{user.name || 'N/A'}</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Email / Account:</strong>
+              <span>{user.email || 'N/A'}</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Locale:</strong>
+              <span>{user.locale || 'en_US'}</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Access Tier:</strong>
+              <span className="badge bg-warning text-dark">{user.tier || (isPro ? 'PRO / PREMIUM' : 'STANDARD')}</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Sync Status:</strong>
+              <span className="text-success fw-bold">Active</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="card shadow-sm border-0 rounded-3 mb-4">
+        <div className="card-header bg-white border-bottom-0 pt-4">
+          <h4 className="fw-light mb-1">Your Cloud Dashboard Cards</h4>
+          <p className="text-muted small">Processed telemetry cards and synchronized targets</p>
+        </div>
+        <div className="card-body px-4">
+          {healthCards && healthCards.length > 0 ? (
+            healthCards.map(card => (
+              <div className="border rounded p-3 mb-2 shadow-sm" key={card.id}>
+                <div className="d-flex justify-content-between align-items-center">
+                  <strong>{card.title}</strong>
+                  <span className="badge bg-info text-dark">
+                    Source: {card.meta?.dataSource || 'Sync Target'}
+                  </span>
+                </div>
+                <p className="mb-1 mt-2">{card.summary}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted font-italic mb-0">
+              No custom telemetry cards configured yet. Synchronize your mobile app or external integrations to view cards here.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProfilePage;

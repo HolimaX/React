@@ -3,50 +3,45 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta content="CD Home Page" property="og:title" />
+    <meta content="Cloud Dashboard (CD) Foundation | Beer Bank" property="og:title" />
     <meta content="website" property="og:type" />
     <meta content="%PUBLIC_URL%" property="og:url" />
-    <meta content="%PUBLIC_URL%/favicon-32x32.png?v=0.1.6" property="og:image" />
-    <meta content="ReactJS CD Home Page" property="og:description" />
+    <meta content="%PUBLIC_URL%/favicon.ico" property="og:image" />
+    <meta content="Cloud Dashboard (CD) Foundation Reference Implementation for Integrators and Developers" property="og:description" />
     <meta content="the" property="og:determiner" />
     <meta content="en_GB" property="og:locale" />
     <meta content="fr_FR" property="og:locale:alternate" />
     <meta content="es_ES" property="og:locale:alternate" />
     <meta content="ru_RU" property="og:locale:alternate" />
-    <meta content="React App" property="og:site_name" />
+    <meta content="Cloud Dashboard" property="og:site_name" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta name="theme-color" content="#212529" />
+    <meta name="description" content="Cloud Dashboard (CD) Foundation - A production-ready React 18 / Redux reference dashboard providing core telemetry, authentication, catalog browsing, and ecosystem integration for cloud dashboards." />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Beer Bank</title>
+    <!-- Resource Hints & DNS Prefetches -->
+    <link rel="dns-prefetch" href="https://api.punkapi.com" />
+    <link rel="preconnect" href="https://api.punkapi.com" crossorigin />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Cloud Dashboard (CD) Foundation | Beer Bank</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div class="body-hero-card">
+      <div class="container">
+        <h1>Cloud Dashboard (CD) Foundation</h1>
+        <p>A reference implementation for integrators and personalized cloud dashboard customers.</p>
+      </div>
+    </div>
+    <noscript>
+      <div class="container p-4">
+        <h1>Cloud Dashboard (CD) Foundation</h1>
+        <p>You need to enable JavaScript to run this app.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

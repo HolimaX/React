@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "short_name": "React App",
-  "name": "Create React App Sample | (c) Linards Liepins 2019-2025 | Riga Latvia EU",
+  "short_name": "CD Foundation",
+  "name": "Cloud Dashboard (CD) Foundation | (c) Linards Liepins 2019-2026 | Riga Latvia EU",
   "protocol_handlers": [
     {
       "protocol": "web+cd",

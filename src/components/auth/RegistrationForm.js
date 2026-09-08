@@ -1,256 +1,131 @@
-import React from 'react'; 
-import OktaAuth from '@okta/okta-auth-js';
-import { withOktaAuth } from '@okta/okta-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactGA from 'react-ga4';
-
+import React, { useState, useCallback } from 'react'; 
+import { useOktaAuth } from '@okta/okta-react';
 import Reaptcha from 'reaptcha';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBeer, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 
-import AdSense from 'react-adsense';
+const RegistrationForm = () => {
+  const { oktaAuth } = useOktaAuth();
+  const [fields, setFields] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [error, setError] = useState(null);
+  const [sessionToken, setSessionToken] = useState(null);
 
-import config from '../../app.config';
+  const handleChange = useCallback((e) => {
+    const { id, value } = e.target;
+    setFields(prev => ({ ...prev, [id]: value }));
+  }, []);
 
-export default withOktaAuth(class RegistrationForm extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      sessionToken: null,
-      sessionReaptchaKey: ''
-    };
-    this.checkAuthentication = this.checkAuthentication.bind(this);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReaptcha = this.handleReaptcha.bind(this);
-    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-    this.handleLastNameChange = this.handleLastNameChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.onVerify = this.onVerify.bind(this);
-  }
-
-  async checkAuthentication() {
-    const sessionToken = this.props.authState && this.props.authState.idToken;
-    if (sessionToken) {
-      this.setState({ sessionToken });
-    }
-  }
-
-  componentDidMount() {
-    this.checkAuthentication();
-    this.handleReaptcha();
-    //.then(res => this.setState({ sessionReaptchaKey: res.sitekey }))
-    //.catch(err => console.log(err));
-  }
-
-  componentDidUpdate() {
-    this.checkAuthentication();
-  }
-
-  handleFirstNameChange(e) {
-    this.setState({firstName:e.target.value});
-  }
-
-  handleLastNameChange(e) {
-    this.setState({ lastName: e.target.value });
-  }
-
-  handleEmailChange(e) {
-    this.setState({ email: e.target.value });
-  }
-
-  handlePasswordChange(e) {
-    this.setState({ password: e.target.value });
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (process.env.REACT_APP_GA_MEASUREMENT_ID) {
-      ReactGA.event({
-        category: "auth",
-        action: "registration_attempt",
-      });
-    }
+    setError(null);
 
-    fetch('/api/users', {
-      method: 'POST', 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state)
-    })
-    .then(res => {
-      if (!res.ok) throw new Error('Registration API unreachable');
-      return res.json();
+    axios.post('/api/users', fields, {
+      headers: { 'Accept': 'application/json' }
     })
     .then(() => {
-      return this.props.oktaAuth.signIn({
-        username: this.state.email,
-        password: this.state.password
-      });
-    })
-    .then(res => this.setState({
-      sessionToken: res.sessionToken
-    }))
-    .catch(err => console.error('Registration/Login Error:', err));
-  }
-
-  onVerify(token) {
-    console.log('Reaptcha verified:', token);
-  }
-
-  handleReaptcha(e) {
-    fetch('/reaptcha', {
-      method: 'POST', 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ type: 'reaptchav2' })
-    })
-    .then(res => {
-      if (!res.ok) throw new Error('Backend unreachable');
-      return res.json();
-    })
-    .then(data => {
-      if (data && data.siteKey) {
-        this.setState({ sessionReaptchaKey: data.siteKey });
+      const signInFn = oktaAuth?.signInWithCredentials || oktaAuth?.signIn;
+      if (signInFn) {
+        return signInFn.call(oktaAuth, {
+          username: fields.email,
+          password: fields.password
+        })
+        .then(res => setSessionToken(res.sessionToken))
+        .catch(err => {
+          console.error("Okta sign-in error", err);
+          setError("Registration successful, but auto-login failed. Please login manually.");
+        });
       }
     })
-    .catch(err => console.warn('Reaptcha metadata lookup skipped (Local Dev Mode):', err.message));
+    .catch(err => {
+      const message = err.response?.data?.error || err.response?.data?.message || 
+                     "Unable to complete registration. Please check your details and try again.";
+      console.error("Registration error", message);
+      setError(message);
+    });
+  };
+
+  const key = process.env.REACT_APP_REAPTCHA_SITE_KEY || process.env.REACT_APP_REAPTCHA;
+
+  if (sessionToken) {
+    if (oktaAuth?.signInWithRedirect) {
+      oktaAuth.signInWithRedirect({ sessionToken });
+    }
+    return null;
   }
 
-  //handleReaptcha = async () => {
-  //  const response = await fetch('/reaptcha');
-  //  const body = await response.text;
+  return (
+    <div className="bg-light py-5 min-vh-100 mt-5">
+      {error && (
+        <div className="alert alert-warning alert-dismissible fade show shadow-sm" role="alert">
+          <strong>Notice:</strong> {error}
+          <button type="button" className="btn-close" onClick={() => setError(null)} aria-label="Close"></button>
+        </div>
+      )}
+      <div className="row justify-content-center">
+        <div className="col-md-8 col-lg-5">
+          <div className="card shadow-sm border-0 rounded-3">
+            <div className="card-header bg-white border-bottom-0 pt-4 text-center">
+              <div className="text-warning mb-2 display-4">
+                <FontAwesomeIcon icon={faBeer} />
+              </div>
+              <h3 className="fw-light my-2">Create Account</h3>
+              <p className="text-muted small">Access Personalized Cloud Dashboard (PCD) features!</p>
+            </div>
 
-    //if (response.status !== 200) {
-    //  throw Error(body.message) 
-    //}
-  //  console.log(body);
-  //  return body;
-  //};
-
-  render(){
-    if (this.state.sessionToken) {
-      this.props.oktaAuth.signInWithRedirect({ sessionToken: this.state.sessionToken });
-      return null;
-    }
-
-    let key = this.state.sessionReaptchaKey;
-    if (!key) key = process.env.REACT_APP_REAPTCHA;
-    const enableAds = process.env.REACT_APP_ENABLE_ADS === 'true';
-
-    return(
-      <div className="container mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-5">
-            <div className="card shadow-sm border-0 rounded-lg">
-              <div className="card-header text-center bg-white border-0 pt-4">
-                <div className="display-4 text-warning mb-2">
-                  <FontAwesomeIcon icon="beer" />
+            <div className="card-body px-4">
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <div className="input-group input-group-alternative">
+                    <span className="input-group-text"><FontAwesomeIcon icon={faEnvelope} className="text-muted" /></span>
+                    <input
+                      className="form-control"
+                      placeholder="Email Address"
+                      type="email"
+                      id="email"
+                      value={fields.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
                 </div>
-                <h3 className="font-weight-light my-2">Create Account</h3>
-                <p className="text-muted small">Join the Cloud Dashboard</p>
-              </div>
-              
-              <div className="card-body px-4">
-                {enableAds && (
-                  <AdSense.Google
-                    client='ca-pub-2835578352930332'
-                    slot='7806394673'
-                    style={{ display: 'block', marginBottom: '20px' }}
-                    format='auto'
-                    responsive='true'
-                  />
-                )}
 
-                <form onSubmit={this.handleSubmit}>
-                  <div className="form-group mb-3">
-                    <div className="input-group input-group-alternative">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text"><FontAwesomeIcon icon="envelope" className="text-muted" /></span>
-                      </div>
-                      <input 
-                        className="form-control" 
-                        placeholder="Email Address" 
-                        type="email" 
-                        id="email" 
-                        value={this.state.email} 
-                        onChange={this.handleEmailChange}
-                        required 
-                      />
+                <div className="row">
+                  <div className="col-6 pe-1">
+                    <div className="mb-3">
+                      <input className="form-control" placeholder="First Name" type="text" id="firstName" value={fields.firstName} onChange={handleChange} required />
                     </div>
                   </div>
-
-                  <div className="row">
-                    <div className="col-6 pr-1">
-                      <div className="form-group mb-3">
-                        <input 
-                          className="form-control" 
-                          placeholder="First Name" 
-                          type="text" 
-                          id="firstName" 
-                          value={this.state.firstName} 
-                          onChange={this.handleFirstNameChange} 
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 pl-1">
-                      <div className="form-group mb-3">
-                        <input 
-                          className="form-control" 
-                          placeholder="Last Name" 
-                          type="text" 
-                          id="lastName" 
-                          value={this.state.lastName} 
-                          onChange={this.handleLastNameChange} 
-                        />
-                      </div>
+                  <div className="col-6 ps-1">
+                    <div className="mb-3">
+                      <input className="form-control" placeholder="Last Name" type="text" id="lastName" value={fields.lastName} onChange={handleChange} required />
                     </div>
                   </div>
+                </div>
 
-                  <div className="form-group mb-4">
-                    <div className="input-group input-group-alternative">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text"><FontAwesomeIcon icon="lock" className="text-muted" /></span>
-                      </div>
-                      <input 
-                        className="form-control" 
-                        placeholder="Password" 
-                        type="password" 
-                        id="password" 
-                        value={this.state.password} 
-                        onChange={this.handlePasswordChange}
-                        required 
-                      />
-                    </div>
+                <div className="mb-4">
+                  <div className="input-group input-group-alternative">
+                    <span className="input-group-text"><FontAwesomeIcon icon={faLock} className="text-muted" /></span>
+                    <input className="form-control" placeholder="Password" type="password" id="password" value={fields.password} onChange={handleChange} required />
                   </div>
+                </div>
 
-                  <div className="d-flex justify-content-center mb-4">
-                    <Reaptcha sitekey={key} onVerify={this.onVerify} />
-                  </div>
+                <div className="d-flex justify-content-center mb-4">
+                  {key ? <Reaptcha sitekey={key} /> : null}
+                </div>
 
-                  <div className="text-center">
-                    <button type="submit" id="submit" className="btn btn-warning btn-block shadow-sm py-2 font-weight-bold text-uppercase">
-                      Register
-                    </button>
-                  </div>
-                </form>
-              </div>
-              
-              <div className="card-footer text-center bg-light border-0 py-3">
-                <small className="text-muted">Part of the HolimaX Product Ecosystem | 2026</small>
-              </div>
+                <div className="text-center">
+                  <button type="submit" id="submit" className="btn btn-warning w-100 shadow-sm py-2 fw-bold text-uppercase">
+                    Register
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-});
+    </div>
+  );
+};
+
+export default RegistrationForm;

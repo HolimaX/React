@@ -1,2 +1,8 @@
+# robots.txt for HolimaX CD Foundation
+# Public Cloud Dashboard Tier
 User-agent: *
-Sitemap: http://healthdash.lv/sitemap.xml
+Allow: /
+Disallow: /implicit/callback
+Disallow: /profile
+Crawl-delay: 5
+Sitemap: https://holimax.github.io/React/sitemap.xml

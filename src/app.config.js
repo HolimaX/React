@@ -1,9 +1,12 @@
 // App-specific configuration
-// See README.md for guidance on variable usage.
+// Configured via environment variables for public CD integrators.
 
-export default {
-  url: 'https://dev-276918.okta.com',
-  issuer: 'https://dev-276918.okta.com/oauth2/default',
+const appConfig = {
+  url: process.env.REACT_APP_OKTA_URL || 'https://dev-example.okta.com',
+  issuer: process.env.REACT_APP_OKTA_ISSUER || 'https://dev-example.okta.com/oauth2/default',
   redirect_uri: window.location.origin + '/implicit/callback',
-  client_id: process.env.REACT_APP_AUTHPROVIDERCID
-}
+  client_id: process.env.REACT_APP_AUTHPROVIDERCID || '',
+  recaptcha_site_key: process.env.REACT_APP_REAPTCHA_SITE_KEY || process.env.REACT_APP_REAPTCHA || ''
+};
+
+export default appConfig;
