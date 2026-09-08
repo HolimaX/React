@@ -111,6 +111,7 @@ async function buildEsm() {
     outfile: path.join(esmDir, 'index.js'),
     external: esmExternals,
     jsx: 'transform',
+    loader: { '.js': 'jsx' },
     target: 'es2020',
     platform: 'browser',
     logLevel: 'silent'
