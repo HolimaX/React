@@ -12,6 +12,33 @@
   "name": "@HolimaX/beerbank",
   "proxy": "http://localhost:3001",
   "version": "0.1.26",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./beerbank": {
+      "import": "./beerbank.js",
+      "require": "./beerbank.js",
+      "default": "./beerbank.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "beerbank": "./beerbank.js"
+  },
+  "files": [
+    "dist",
+    "man",
+    "index.js",
+    "beerbank.js",
+    "README.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md"
+  ],
   "description": "Cloud Dashboard core framework. Foundation for the Personalized Cloud Dashboard (PCD) available for Pro/Premium Android users. Provides logic for CRUD operations and Okta-based synchronization.",
   "keywords": [
     "basic",
@@ -99,8 +126,13 @@
     "prestart": "npm run git-info",
     "start": "cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts start",
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts build",
-    "build-win": "npm run git-info && cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts build --verbose",
-    "build-nix": "npm run git-info && marked-man ./README.md > ./man/beerbank.1 && cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts build --verbose",
+    "build:lib": "node ./scripts/build-lib.js",
+    "build:all": "npm run build:lib && npm run build",
+    "generate:man": "marked-man ./README.md > ./man/beerbank.1",
+    "man": "npm run generate:man",
+    "prepack": "npm run generate:man && npm run build:lib",
+    "build-win": "npm run git-info && npm run build:lib && cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts build --verbose",
+    "build-nix": "npm run git-info && npm run generate:man && npm run build:lib && cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts build --verbose",
     "lint": "eslint src/**/*.js",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts test",
     "test:ci": "cross-env NODE_OPTIONS=--max-old-space-size=4096 react-scripts test --watchAll=false --ci",
@@ -133,5 +165,17 @@
     "marked-man": "^2.1.0",
     "prettier": "^2.5.1",
     "redux-mock-store": "^1.5.5"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0 || ^18.0.0",
+    "react-dom": ">=16.8.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   }
 }

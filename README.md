@@ -84,6 +84,22 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run build:lib`
+
+Compiles the reusable NPM package into `dist/` with dual format distributions:
+- `dist/cjs/index.js` (CommonJS format for Node.js environments and legacy bundlers)
+- `dist/esm/index.js` (ES Module format for modern bundlers and native ESM)
+
+All JSX is pre-transpiled to standard `React.createElement` calls, ensuring downstream clients (such as Create React App applications that exclude `node_modules` from Babel transpilation) can import the package without encountering raw JSX syntax errors.
+
+### `npm run build:all`
+
+Sequentially runs `npm run build:lib` and `npm run build` to compile both the reusable NPM package and the standalone web application.
+
+### `npm run generate:man` (or `npm run man`)
+
+Compiles `README.md` into standard UNIX roff/troff manual documentation format at `man/beerbank.1` using `marked-man`.
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
@@ -137,14 +153,80 @@ This section has moved here: [minify](https://facebook.github.io/create-react-ap
 
 ## Integrations
 
-To use Node REPL and see available functionality, you can execute following command: ```node beerbank```
+### External (NPM Package) Integration
+
+`@HolimaX/beerbank` is configured as a dual-distribution NPM package that can be added to any client project's `package.json` at design time to provide base Cloud Dashboard (CD) functionality for Personalized Cloud Dashboard (PCD) enabled sites (such as `HealthDash_GHOrg/CloudDash-Frontend-ReactJS`).
+
+#### Adding to Client `package.json`
+
+Add the package under `dependencies` or `optionalDependencies`:
+
+```json
+{
+  "dependencies": {
+    "@HolimaX/beerbank": "^0.1.26"
+  }
+}
+```
+
+Or for local development:
+
+```json
+{
+  "dependencies": {
+    "@HolimaX/beerbank": "file:../HolimaX_GHOrg/React"
+  }
+}
+```
+
+#### Client Runtime & Design-Time Lifecycle Hook
+
+Clients consume the CD foundation module via dynamic `import()` or static imports:
+
+```javascript
+// Dynamic import with design-time bundling and fallback
+const baseModule = await import('@HolimaX/beerbank').catch(async () => {
+  return await import(/* webpackIgnore: true */ '@HolimaX/beerbank').catch(() => null);
+});
+
+if (baseModule && typeof baseModule.myFunction === 'function') {
+  const cdStatus = baseModule.myFunction();
+  console.info("CD Foundation status:", cdStatus);
+}
+```
+
+#### Exported Module Inventory
+
+The package exports the following core primitives:
+- `myFunction(options)`: Base lifecycle initializer returning status, version, and capability flags.
+- `componentIdentityDescriptionAH(version, name)`: Component descriptor helper.
+- `beerActions`: Redux action creators (`fetchBeers`, `fetchBeersWithRetry`, `searchBeers`, `handleFavourite`, `fetchPlatformApps`, `fetchPlatformAppsWithRetry`, `searchPlatformapps`, `displayPlatformapp`).
+- `beerActionTypes`: Complete enumeration of action type constants.
+- `beerReducer`, `rootReducer`, `store`: Configured Redux state stores and reducers.
+- `Home`, `Dashboard`, `Favourites`, `Navbar`, `Search`, `Beer`, `Beers`, `BeerDetails`: Pre-built presentation components.
+- `appConfig`: Sanitized identity provider and telemetry configuration.
+
+### CLI & Node REPL Support
+
+To inspect the package interactively in a Node shell or REPL:
+
+```bash
+node beerbank
+```
+
+Or programmatically in Node.js / CommonJS scripts:
+
+```javascript
+const beerbank = require('@HolimaX/beerbank');
+console.log(beerbank.myFunction());
+```
 
 ### Internal (REST API based) integrations
 
 You can use internal REST API based logic for incoming calls handling for Infrastructure integrated applications.
-The logic consits of Auto-Synchronization, Auto-Notification and Auto-Configuration management for Pro ("Premium") modules.
+The logic consists of Auto-Synchronization, Auto-Notification and Auto-Configuration management for Pro ("Premium") modules.
 
-Also, The supported method for advanced integration is via C-style header SO libraries.
+Also, the supported method for advanced integration is via C-style header SO libraries.
 See [Integration via GoLang](https://medium.com/learning-the-go-programming-language/calling-go-functions-from-other-languages-4c7d8bcc69bf) for details.
 
 **Note: Only CircleCI is building the header files.**

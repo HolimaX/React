@@ -4,7 +4,7 @@
 const appConfig = {
   url: process.env.REACT_APP_OKTA_URL || 'https://dev-example.okta.com',
   issuer: process.env.REACT_APP_OKTA_ISSUER || 'https://dev-example.okta.com/oauth2/default',
-  redirect_uri: window.location.origin + '/implicit/callback',
+  redirect_uri: (typeof window !== 'undefined' && window.location) ? window.location.origin + '/implicit/callback' : 'http://localhost:3000/implicit/callback',
   client_id: process.env.REACT_APP_AUTHPROVIDERCID || '',
   recaptcha_site_key: process.env.REACT_APP_REAPTCHA_SITE_KEY || process.env.REACT_APP_REAPTCHA || ''
 };
