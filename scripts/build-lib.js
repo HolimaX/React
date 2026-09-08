@@ -68,39 +68,21 @@ const cjsConfig = {
   externals
 };
 
-const esmConfig = {
-  mode: 'production',
-  entry: path.resolve(rootDir, 'src/index.lib.js'),
-  output: {
-    path: esmDir,
-    filename: 'index.js',
-    module: true,
-    library: {
-      type: 'module'
-    }
-  },
-  experiments: {
-    outputModule: true
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        loader: require.resolve('babel-loader'),
-        options: {
-          presets: [
-            [require.resolve('@babel/preset-env'), { modules: false }],
-            require.resolve('@babel/preset-react')
-          ]
-        }
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.json']
-  },
-  externals
-};
+// ESM externals as glob strings for esbuild
+const esmExternals = [
+  'react',
+  'react-dom',
+  'react-router-dom',
+  'react-redux',
+  'redux',
+  'redux-thunk',
+  '@okta/*',
+  '@fortawesome/*',
+  'axios',
+  'react-bootstrap',
+  'react-cookie-consent',
+  'react-ga4'
+];
 
 function runWebpack(config, name) {
   return new Promise((resolve, reject) => {
@@ -119,13 +101,31 @@ function runWebpack(config, name) {
   });
 }
 
+async function buildEsm() {
+  const { build } = require('esbuild');
+  const start = Date.now();
+  await build({
+    entryPoints: [path.resolve(rootDir, 'src/index.lib.js')],
+    bundle: true,
+    format: 'esm',
+    outfile: path.join(esmDir, 'index.js'),
+    external: esmExternals,
+    jsx: 'transform',
+    target: 'es2020',
+    platform: 'browser',
+    logLevel: 'silent'
+  });
+  const duration = Date.now() - start;
+  console.log(`[build-lib] ES Module (dist/esm) bundle completed in ${duration}ms.`);
+}
+
 async function build() {
   try {
     console.log('[build-lib] Starting library build for @HolimaX/beerbank...');
     await runWebpack(cjsConfig, 'CommonJS (dist/cjs)');
     fs.writeFileSync(path.join(cjsDir, 'package.json'), JSON.stringify({ type: 'commonjs' }, null, 2));
 
-    await runWebpack(esmConfig, 'ES Module (dist/esm)');
+    await buildEsm();
     fs.writeFileSync(path.join(esmDir, 'package.json'), JSON.stringify({ type: 'module' }, null, 2));
 
     console.log('[build-lib] Successfully built dual CJS/ESM distribution in dist/.');
