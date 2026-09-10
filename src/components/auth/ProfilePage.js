@@ -17,7 +17,8 @@ const ProfilePage = ({ healthCards = [] }) => {
 
   if (!user) return null;
 
-  const isPro = user.tier === 'PRO' || user.email_verified;
+  // Strict check: only users with explicit PRO or PREMIUM tier assigned via Android app onboarding are entitled
+  const isPro = user?.tier === 'PRO' || user?.tier === 'PREMIUM';
 
   return (
     <div className="profile-wrapper container py-5 mt-5">

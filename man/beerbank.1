@@ -1,0 +1,357 @@
+.TH "" "1" "September 2026" "0.1.26"
+.SH "NAME"
+\fB\fRCloud Dashboard (CD) Foundation
+.P
+.UR https://circleci.com/gh/HolimaX/React
+.I ![CircleCI Status](https://circleci.com/gh/HolimaX/React.svg?style=svg)
+.UE
+
+.br
+.UR https://github.com/HolimaX/React
+.I ![Node CI](https://github.com/HolimaX/React/workflows/Node%20CI/badge.svg)
+.UE
+
+.br
+.UR ./docs/FEATURE_MATURITY.md
+.I ![Feature Maturity](https://img.shields.io/badge/Feature%20Maturity-Overview%20%26%20Matrix-blue.svg)
+.UE
+
+.br
+.UR https://react.dev/
+.I ![React](https://img.shields.io/badge/React-18.3.1-blue.svg)
+.UE
+
+.br
+.UR https://reactrouter.com/
+.I ![React Router](https://img.shields.io/badge/React%20Router-6.26.1-orange.svg)
+.UE
+
+.br
+.UR https://redux.js.org/
+.I ![Redux](https://img.shields.io/badge/Redux-5.0.1-purple.svg)
+.UE
+
+.br
+.UR https://getbootstrap.com/
+.I ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-purple.svg)
+.UE
+.SH Feature Maturity & Integrator Guide
+.P
+For a comprehensive status overview and comparison between the public \fBCloud Dashboard (CD) Foundation\fR and the \fBPersonalized Cloud Dashboard (PCD)\fR tier, please refer to:
+.P
+👉 \fB
+.UR ./docs/FEATURE_MATURITY.md
+.I Feature Maturity Overview & CD/PCD Architectural Matrix
+.UE
+\fR
+.SS Key Modernization Highlights
+
+.RS 1
+.IP \(bu 2
+\fBReact 18 & Functional Architecture\fR: Full migration to React 18 hooks (\fBuseState\fP, \fBuseEffect\fP, \fBuseCallback\fP, \fBuseRef\fP) and \fBcreateRoot\fP\|\.
+.IP \(bu 2
+\fBReact Router v6\fR: Modern declarative routing (\fB<Routes>\fP, \fB<Route element={<\.\.\. />} />\fP) with route\-level analytics\.
+.IP \(bu 2
+\fBRedux 5 & Redux\-Thunk 3\fR: Streamlined state store with async circuit breaker retry loops (\fBisApiHalted\fP) protecting against external API flakiness\.
+.IP \(bu 2
+\fBDebounced Search\fR: 500ms debounced catalog search component with query sanitization\.
+.IP \(bu 2
+\fBPublic Repository Sanitization\fR: Zero hardcoded secrets, proprietary endpoints, or private cloud references\. All configuration is externalized via \fB\|\.env\fP\|\.
+.IP \(bu 2
+\fBPlatformApps Preservation\fR: All \fBPLATFORMAPPS\fP telemetry and mock APIs native to HolimaX remain 100% intact and untouched\.
+
+.RE
+.SH Introduction
+.P
+This project:
+
+.RS 1
+.IP \(bu 2
+was bootstrapped with 
+.UR https://github.com/facebook/create-react-app
+.I Create React App
+.UE .
+.IP \(bu 2
+serves as the public open\-source foundation for Cloud Dashboard integrators and Personalized Cloud Dashboard (PCD) customers\.
+.IP \(bu 2
+was adjusted to include integration with cloud and container technologies (Terraform, Ansible, Kubernetes), documented within respective configuration directories\.
+
+.RE
+.P
+React\-based Application is kept isolated to ensure overall integrity and transparency\.
+.SH Application Prerequistes
+.P
+You can establish environment in many ways\. For example:
+
+.RS 1
+.IP \(bu 2
+In order for this React app to be started, the valid Okta connection is needed\.
+
+.RE
+.P
+Configuration is set up during registration phase from connected Cloud Dashboard tools (like Android Phone app)\.
+
+.RS 1
+.IP \(bu 2
+In order for this React app to be served w/o 'serve' tool, you need to install either Apache or NGNIX (but not both!) within non\-control\-plane (Master) node\.
+
+.RE
+.P
+Then, production build via \fBnpm build\fP must be made and serving can be executed\.
+.SH Available Scripts
+
+.RS 1
+.IP \(bu 2
+In the project \./\.jenkinsci directory, you can use Jenkins(file) to execute complete deployment process to AWS\.
+.br
+The step(s) assumes that the AWS AMI and AWS Launch Template is created and available un your AWS account\.
+.IP \(bu 2
+In the project \./\. (root) directrory, you can run \fBterraform\fP commands to individually create AWS resources\.
+.br
+The step(s) assumes the \fBterraform\fP is installed and available in the PATH\. For adjsutments, configuration files are stored in \./\.terraformconfig \.
+.IP \(bu 2
+In the project \./\. (root) directrory, you can run \fBansible\fP commands to individually create AWS resources\.
+.br
+The step(s) assumes the \fBansible\fP is installed and available in the PATH\. For adjsutments, configuration files are stored in \./\.ansibleconfig \.
+.IP \(bu 2
+In the project \./\. (root) directrory, you can run \fBkubectl\fP commands to individually create AWS resources\.
+.br
+The step(s) assumes the \fBkubectl\fP is installed and available in the PATH\. For adjsutments, configuration files are stored in \./\.k8sconfig \.
+.IP \(bu 2
+In the project \./\. (root) directory, you can run (assuming \fBnodejs\fP, \fBnpm\fP and \fByarn\fP is installed and available in the PATH):
+
+.RE
+.SS \fBnpm start\fP
+.P
+Runs the app in the development mode\.<br>
+.br
+Open http://localhost:3010 to view it in the browser\.
+.br
+Ensure PORT 3001 is accessible to support additional features\.
+.P
+The page will reload if you make edits\.<br>
+.br
+You will also see any lint errors in the console\.
+.SS \fBnpm test\fP
+.P
+Launches the test runner in the interactive watch mode\.<br>
+.br
+See the section about 
+.UR https://facebook.github.io/create-react-app/docs/running-tests
+.I running tests
+.UE
+for more information\.
+.SS \fBnpm run build\fP
+.P
+Builds the app for production to the \fBbuild\fP folder\.<br>
+.br
+It correctly bundles React in production mode and optimizes the build for the best performance\.
+.P
+The build is minified and the filenames include the hashes\.<br>
+.br
+Your app is ready to be deployed!
+.P
+See the section about 
+.UR https://facebook.github.io/create-react-app/docs/deployment
+.I deployment
+.UE
+for more information\.
+.SS \fBnpm run build:lib\fP
+.P
+Compiles the reusable NPM package into \fBdist/\fP with dual format distributions:
+
+.RS 1
+.IP \(bu 2
+\fBdist/cjs/index\.js\fP (CommonJS format for Node\.js environments and legacy bundlers)
+.IP \(bu 2
+\fBdist/esm/index\.js\fP (ES Module format for modern bundlers and native ESM)
+
+.RE
+.P
+All JSX is pre\-transpiled to standard \fBReact\.createElement\fP calls, ensuring downstream clients (such as Create React App applications that exclude \fBnode_modules\fP from Babel transpilation) can import the package without encountering raw JSX syntax errors\.
+.SS \fBnpm run build:all\fP
+.P
+Sequentially runs \fBnpm run build:lib\fP and \fBnpm run build\fP to compile both the reusable NPM package and the standalone web application\.
+.SS \fBnpm run generate:man\fP (or \fBnpm run man\fP)
+.P
+Compiles \fBREADME\.md\fP into standard UNIX roff/troff manual documentation format at \fBman/beerbank\.1\fP using \fBmarked\-man\fP\|\.
+.SS \fBnpm run eject\fP
+.P
+\fBNote: this is a one\-way operation\. Once you \fBeject\fP, you can’t go back!\fR
+.P
+If you aren’t satisfied with the build tool and configuration choices, you can \fBeject\fP at any time\.
+.br
+This command will remove the single build dependency from your project\.
+.P
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them\.
+.br
+All of the commands except \fBeject\fP will still work, but they will point to the copied scripts so you can tweak them\. At this point you’re on your own\.
+.P
+You don’t have to ever use \fBeject\fP\|\. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature\.
+.br
+However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it\.
+.SS Authentication
+.P
+For compatible Products with designated type (like "Pro"/"Premium"):
+
+.RS 1
+.IP \(bu 2
+Release 1 supports OAuth 2\.0 based authentication, as explained in 
+.UR https://medium.appbase.io/how-to-implement-authentication-for-your-react-app-cf09eef3bb0b
+.I OAuth2
+.UE
+.IP \(bu 2
+Release 3 supports 
+.UR https://www.w3schools.com/js/js_2016.asp
+.I ES6
+.UE
+Class\-based component loading via optionalDependencies and rendering check via ComponentDidMount() React Lifecycle methods with compatible SPAs\.
+
+.RE
+.SH Learn More
+.P
+You can learn more in the 
+.UR https://facebook.github.io/create-react-app/docs/getting-started
+.I Create React App documentation
+.UE .
+.P
+To learn React, check out the 
+.UR https://reactjs.org/
+.I React documentation
+.UE .
+.SS Code Splitting
+.P
+This section has moved here: 
+.UR https://facebook.github.io/create-react-app/docs/code-splitting
+.I splitting
+.UE
+.SS Analyzing the Bundle Size
+.P
+This section has moved here: 
+.UR https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+.I size
+.UE
+.SS Making a Progressive Web App
+.P
+This section has moved here: 
+.UR https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+.I PWA
+.UE
+.SS Advanced Configuration
+.P
+This section has moved here: 
+.UR https://facebook.github.io/create-react-app/docs/advanced-configuration
+.I advanced
+.UE
+.SS Deployment
+.P
+This section has moved here: 
+.UR https://facebook.github.io/create-react-app/docs/deployment
+.I deployment
+.UE
+.SS \fBnpm run build\fP fails to minify
+.P
+This section has moved here: 
+.UR https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+.I minify
+.UE
+.SH Integrations
+.SS External (NPM Package) Integration
+.P
+\fB@HolimaX/beerbank\fP is configured as a dual\-distribution NPM package that can be added to any client project's \fBpackage\.json\fP at design time to provide base Cloud Dashboard (CD) functionality for Personalized Cloud Dashboard (PCD) enabled sites (such as \fBHealthDash_GHOrg/CloudDash\-Frontend\-ReactJS\fP)\.
+.SS Adding to Client \fBpackage\.json\fP
+.P
+Add the package under \fBdependencies\fP or \fBoptionalDependencies\fP:
+.RS 2
+.nf
+{
+  "dependencies": {
+    "@HolimaX/beerbank": "^0\.1\.26"
+  }
+}
+.fi
+.RE
+.P
+Or for local development:
+.RS 2
+.nf
+{
+  "dependencies": {
+    "@HolimaX/beerbank": "file:\.\./HolimaX_GHOrg/React"
+  }
+}
+.fi
+.RE
+.SS Client Runtime & Design\-Time Lifecycle Hook
+.P
+Clients consume the CD foundation module via dynamic \fBimport()\fP or static imports:
+.RS 2
+.nf
+// Dynamic import with design\-time bundling and fallback
+const baseModule = await import('@HolimaX/beerbank')\.catch(async () => {
+  return await import(/* webpackIgnore: true */ '@HolimaX/beerbank')\.catch(() => null);
+});
+
+if (baseModule && typeof baseModule\.myFunction === 'function') {
+  const cdStatus = baseModule\.myFunction();
+  console\.info("CD Foundation status:", cdStatus);
+}
+.fi
+.RE
+.SS Exported Module Inventory
+.P
+The package exports the following core primitives:
+
+.RS 1
+.IP \(bu 2
+\fBmyFunction(options)\fP: Base lifecycle initializer returning status, version, and capability flags\.
+.IP \(bu 2
+\fBcomponentIdentityDescriptionAH(version, name)\fP: Component descriptor helper\.
+.IP \(bu 2
+\fBbeerActions\fP: Redux action creators (\fBfetchBeers\fP, \fBfetchBeersWithRetry\fP, \fBsearchBeers\fP, \fBhandleFavourite\fP, \fBfetchPlatformApps\fP, \fBfetchPlatformAppsWithRetry\fP, \fBsearchPlatformapps\fP, \fBdisplayPlatformapp\fP)\.
+.IP \(bu 2
+\fBbeerActionTypes\fP: Complete enumeration of action type constants\.
+.IP \(bu 2
+\fBbeerReducer\fP, \fBrootReducer\fP, \fBstore\fP: Configured Redux state stores and reducers\.
+.IP \(bu 2
+\fBHome\fP, \fBDashboard\fP, \fBFavourites\fP, \fBNavbar\fP, \fBSearch\fP, \fBBeer\fP, \fBBeers\fP, \fBBeerDetails\fP: Pre\-built presentation components\.
+.IP \(bu 2
+\fBappConfig\fP: Sanitized identity provider and telemetry configuration\.
+
+.RE
+.SS CLI & Node REPL Support
+.P
+To inspect the package interactively in a Node shell or REPL:
+.RS 2
+.nf
+node beerbank
+.fi
+.RE
+.P
+Or programmatically in Node\.js / CommonJS scripts:
+.RS 2
+.nf
+const beerbank = require('@HolimaX/beerbank');
+console\.log(beerbank\.myFunction());
+.fi
+.RE
+.SS Internal (REST API based) integrations
+.P
+You can use internal REST API based logic for incoming calls handling for Infrastructure integrated applications\.
+.br
+The logic consists of Auto\-Synchronization, Auto\-Notification and Auto\-Configuration management for Pro ("Premium") modules\.
+.P
+Also, the supported method for advanced integration is via C\-style header SO libraries\.
+.br
+See 
+.UR https://medium.com/learning-the-go-programming-language/calling-go-functions-from-other-languages-4c7d8bcc69bf
+.I Integration via GoLang
+.UE
+for details\.
+.P
+\fBNote: Only CircleCI is building the header files\.\fR
+.P
+As of now, the infrastructure automation (kubernetes pod) configuration is adjusted in case there is incoming function call from integrated applications\.
+.br
+This implementation is not aimed to \fB&#39;push&#39;\fP changes, but \fB&#39;pull&#39;\fP instead\.
+
