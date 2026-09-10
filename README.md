@@ -96,6 +96,32 @@ All JSX is pre-transpiled to standard `React.createElement` calls, ensuring down
 
 Sequentially runs `npm run build:lib` and `npm run build` to compile both the reusable NPM package and the standalone web application.
 
+### Publishing to GitHub Packages
+
+The `@HolimaX/beerbank` package is published to the GitHub Packages registry configured in `package.json`. Before publishing, create a GitHub Personal Access Token with the `write:packages` permission. For private repositories, the token may also require `repo` permission.
+
+GitHub Packages does not support npm's web login flow. Authenticate with legacy npm login:
+
+```bash
+npm login --auth-type=legacy \
+  --scope=@HolimaX \
+  --registry=https://npm.pkg.github.com
+```
+
+or
+
+```bash
+npm config set //npm.pkg.github.com/:_authToken "$GITHUB_TOKEN"
+```
+
+When using ```npm login (...)```, Enter your GitHub username, the Personal Access Token as the password, and your GitHub email when prompted. Then publish from the repository root:
+
+```bash
+npm run publish
+```
+
+The publish script runs the package preparation steps, creates the package tarball, and publishes the current version with the `latest` tag. Each version must be unique; update the `version` field in `package.json` before publishing a version that has already been released.
+
 ### `npm run generate:man` (or `npm run man`)
 
 Compiles `README.md` into standard UNIX roff/troff manual documentation format at `man/beerbank.1` using `marked-man`.
