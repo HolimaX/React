@@ -29,6 +29,10 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run:
+          name: Authenticate with GitHub Package Registry
+          command: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
+
       - run: yarn install
 
       - run: yarn upgrade
