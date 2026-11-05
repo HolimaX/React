@@ -46,7 +46,7 @@
     "url": "https://www.paypal.com/donate/?cmd=_donations&business=BLC2P5B987NS2&item_name=Support+of+developments+that+are+mentioned+in+forked+Repo+README.md+files&currency_code=EUR&source=url"
   },
   "optionalDependencies": {
-    "@HolimaX/beerbank-api": "^1.1.6"
+    "@HolimaX/beerbank-api": "0.1.26"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
