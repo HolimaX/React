@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
 import ReactGA from 'react-ga4';
 
@@ -25,25 +25,25 @@ const Navigation = () => {
   const authNav = authState.isAuthenticated ? (
     <>
       <li className="nav-item">
-        <Link className="nav-link font-weight-bold" to="/profile">Profile</Link>
+        <NavLink className={({ isActive }) => `nav-link font-weight-bold${isActive ? ' active' : ''}`} to="/profile">Profile</NavLink>
       </li>
       <li className="nav-item">
-        <button className="btn btn-link nav-link text-warning" onClick={logout}>Logout</button>
+        <button type="button" className="btn btn-link nav-link text-warning" onClick={logout}>Logout</button>
       </li>
     </>
   ) : (
     <>
       <li className="nav-item">
-        <Link className="nav-link" to="/login">Login</Link>
+        <NavLink className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} to="/login">Login</NavLink>
       </li>
       <li className="nav-item">
-        <Link className="nav-link text-warning font-weight-bold" to="/register">Register</Link>
+        <NavLink className={({ isActive }) => `nav-link text-warning font-weight-bold${isActive ? ' active' : ''}`} to="/register">Register</NavLink>
       </li>
     </>
   );
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm" aria-label="Dashboard navigation">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand text-warning font-weight-bold">
           {authState.isAuthenticated ? <><abbr title="Personalized Cloud Dashboard">PCD</abbr> Home</> : <><abbr title="Cloud Dashboard">CD</abbr> Home</>}

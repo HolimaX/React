@@ -1,9 +1,43 @@
+html {
+  scroll-padding-top: 70px;
+  scroll-padding-bottom: 95px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 10px;
+  background: #000000;
+  color: #ffffff;
+  padding: 10px 18px;
+  min-height: 44px;
+  min-width: 44px;
+  font-weight: 700;
+  text-decoration: underline;
+  z-index: 10000;
+  border-radius: 0 0 6px 6px;
+  transition: top 0.2s ease-in-out;
+
+  &:focus,
+  &:focus-visible {
+    top: 0;
+    outline: 3px solid #ffc107 !important;
+    outline-offset: 2px !important;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid #004085 !important;
+  outline-offset: 2px !important;
+}
+
 body {
   margin-top: 55px !important;
   background: #ececec !important;
+  color: #212529;
 
   .text-warning {
-    color: #f79400 !important;
+    color: #b35c00 !important;
   }
 
   .bg-warning {
@@ -55,15 +89,38 @@ body {
   .navbar-dark {
     .navbar-nav {
       .nav-link {
-        color: rgba(255, 255, 255, 0.75) !important;
+        color: rgba(255, 255, 255, 0.95) !important;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 14px !important;
+        border-radius: 20px;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
 
         &:hover,
         &:focus,
+        &:focus-visible,
         &.active {
-          color: rgba(255, 255, 255, 0.95) !important;
+          background-color: rgba(33, 37, 41, 0.85) !important;
+          color: #ffffff !important;
         }
       }
     }
+  }
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 55px);
+  width: 100%;
+
+  .app-main-content {
+    flex: 1 0 auto;
+    padding-bottom: 2rem;
   }
 }
 
@@ -79,24 +136,32 @@ body {
     min-height: 330px;
     transition: all 0.2s ease-in-out !important;
     box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.25);
+    position: relative;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       cursor: pointer;
       transform: scale(1.05);
       box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
     }
 
     .btn-fav.btn {
-      color: #cccccc;
+      color: #595959;
+      min-width: 44px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.3s;
       position: absolute;
-      right: 0;
-      top: -5px;
+      right: 4px;
+      top: 4px;
       z-index: 999;
 
       &:hover,
+      &:focus-visible,
       &.active {
-        color: #f79400;
+        color: #b35c00;
       }
     }
   }
@@ -108,7 +173,7 @@ body {
 }
 
 .beer-detail {
-  color: #737373 !important;
+  color: #212529 !important;
   font-size: 1.1rem;
 
   img {
@@ -117,7 +182,7 @@ body {
   }
 
   .beer-tagline {
-    color: #c0c0c0;
+    color: #495057;
   }
 
   .divider {
@@ -129,7 +194,7 @@ body {
 }
 
 .similar-beer {
-  border: 1px solid #cccccc;
+  border: 1px solid #767676;
   min-height: 245px;
 
   img {
@@ -140,5 +205,48 @@ body {
 
 .beer-icon {
   font-size: 400px;
-  color: #e5e5e5;
+  color: #767676;
+}
+
+/* WCAG 2.2 Criterion 2.3.3 (AAA): Respect user reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .beer-item .details:hover,
+  .beer-item .details:focus-within {
+    transform: none !important;
+  }
+}
+
+/* Progressive Web App (PWA) Window Controls Overlay (WCO) Display Mode */
+@media (display-mode: window-controls-overlay) {
+  body {
+    margin-top: calc(55px + env(titlebar-area-height, 0px)) !important;
+  }
+
+  .navbar.fixed-top {
+    top: env(titlebar-area-y, 0px);
+    min-height: env(titlebar-area-height, 55px);
+    padding-left: calc(env(titlebar-area-x, 0px) + 0.75rem);
+    padding-right: calc(100% - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100%) + 0.75rem);
+    -webkit-app-region: drag;
+    app-region: drag;
+
+    a,
+    button,
+    input,
+    select,
+    .nav-link,
+    .navbar-brand {
+      -webkit-app-region: no-drag;
+      app-region: no-drag;
+    }
+  }
 }

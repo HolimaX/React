@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Navbar from './navbar';
 
@@ -20,18 +20,25 @@ jest.mock('react-ga4', () => ({
 describe('Navbar Component', () => {
   beforeEach(() => {
     mockIsAuthenticated = false;
+    window.history.pushState({}, 'Home', '/');
     jest.clearAllMocks();
   });
 
-  it('renders brand and navigation links when unauthenticated', () => {
+  it('renders brand, accessible navigation landmark, and aria-current link when unauthenticated', () => {
     render(
       <BrowserRouter>
         <Navbar />
       </BrowserRouter>
     );
 
+    const nav = screen.getByRole('navigation', { name: /main navigation/i });
+    expect(nav).toBeInTheDocument();
     expect(screen.getByText('Beer Bank')).toBeInTheDocument();
-    expect(screen.getByText('Home')).toBeInTheDocument();
+
+    const homeLink = screen.getByText('Home');
+    expect(homeLink).toBeInTheDocument();
+    expect(homeLink).toHaveAttribute('aria-current', 'page');
+
     expect(screen.getByText('Favourite')).toBeInTheDocument();
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
     expect(screen.getByText('Login')).toBeInTheDocument();
@@ -39,7 +46,7 @@ describe('Navbar Component', () => {
     expect(screen.queryByText('Profile')).not.toBeInTheDocument();
   });
 
-  it('renders profile and logout when authenticated', () => {
+  it('renders profile and logout button with explicit type="button" when authenticated', () => {
     mockIsAuthenticated = true;
     render(
       <BrowserRouter>
@@ -49,7 +56,14 @@ describe('Navbar Component', () => {
 
     expect(screen.getByText('Beer Bank')).toBeInTheDocument();
     expect(screen.getByText('Profile')).toBeInTheDocument();
-    expect(screen.getByText('Logout')).toBeInTheDocument();
+
+    const logoutBtn = screen.getByText('Logout');
+    expect(logoutBtn).toBeInTheDocument();
+    expect(logoutBtn).toHaveAttribute('type', 'button');
+    fireEvent.click(logoutBtn);
+    expect(mockSignOut).toHaveBeenCalledTimes(1);
+
     expect(screen.queryByText('Login')).not.toBeInTheDocument();
   });
 });
+

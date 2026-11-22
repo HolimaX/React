@@ -28,20 +28,63 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Cloud Dashboard (CD) Foundation | Beer Bank</title>
+    <style>
+      /* Accessibility & WCAG 2.2 AA/AAA Enhancements */
+      .skip-link {
+        position: absolute;
+        top: -60px;
+        left: 10px;
+        background: #000000;
+        color: #ffffff;
+        padding: 10px 18px;
+        min-height: 44px;
+        min-width: 44px;
+        font-weight: 700;
+        text-decoration: underline;
+        z-index: 10000;
+        border-radius: 0 0 6px 6px;
+        transition: top 0.2s ease-in-out;
+      }
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        top: 0;
+        outline: 3px solid #ffc107;
+        outline-offset: 2px;
+      }
+      :focus-visible {
+        outline: 3px solid #0a58ca !important;
+        outline-offset: 2px !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .skip-link {
+          transition: none;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="body-hero-card">
+    <!-- WCAG 2.2 Criterion 2.4.1: Bypass Blocks (Skip to main content) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header role="banner" class="body-hero-card">
       <div class="container">
-        <h1>Cloud Dashboard (CD) Foundation</h1>
-        <p>A reference implementation for integrators and personalized cloud dashboard customers.</p>
+        <h1 id="hero-card-title">Cloud Dashboard (<abbr title="Cloud Dashboard">CD</abbr>) Foundation</h1>
+        <p id="hero-card-desc">A reference implementation for integrators and personalized cloud dashboard customers.</p>
       </div>
-    </div>
+    </header>
     <noscript>
-      <div class="container p-4">
-        <h1>Cloud Dashboard (CD) Foundation</h1>
-        <p>You need to enable JavaScript to run this app.</p>
+      <div class="container p-4" role="alert">
+        <h2>JavaScript Required</h2>
+        <p>You need to enable JavaScript to run the interactive Cloud Dashboard (<abbr title="Cloud Dashboard">CD</abbr>) Foundation application.</p>
       </div>
     </noscript>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Accessible pre-rendered landmark before React hydration -->
+      <main id="main-content" role="main" aria-label="Cloud Dashboard Application Content" style="min-height: 60vh;">
+        <div class="container text-center py-5">
+          <p class="text-muted">Loading Cloud Dashboard (CD) Foundation...</p>
+        </div>
+      </main>
+    </div>
   </body>
 </html>

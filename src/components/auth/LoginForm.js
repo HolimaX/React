@@ -61,10 +61,10 @@ const LoginForm = () => {
           <div className="card shadow-sm border-0 rounded-3">
             <div className="card-header bg-white border-bottom-0 pt-4 text-center">
               <div className="text-warning mb-2 display-4">
-                <FontAwesomeIcon icon={faBeer} />
+                <FontAwesomeIcon icon={faBeer} aria-hidden="true" />
               </div>
               <h3 className="fw-light my-2">Account Login</h3>
-              <p className="text-muted small">Access Personalized Cloud Dashboard (PCD) features!</p>
+              <p className="text-muted small">Access Personalized Cloud Dashboard (<abbr title="Personalized Cloud Dashboard">PCD</abbr>) features!</p>
             </div>
 
             <div className="card-body px-4">
@@ -72,12 +72,14 @@ const LoginForm = () => {
                 <div className="mb-3">
                   <label htmlFor="username" className="form-label small text-muted">Username:</label>
                   <div className="input-group input-group-alternative">
-                    <span className="input-group-text"><FontAwesomeIcon icon={faEnvelope} className="text-muted" /></span>
+                    <span className="input-group-text" aria-hidden="true"><FontAwesomeIcon icon={faEnvelope} className="text-muted" aria-hidden="true" /></span>
                     <input
                       className="form-control"
                       placeholder="Username or Email"
                       type="text"
                       id="username"
+                      name="username"
+                      autoComplete="username"
                       value={username}
                       onChange={handleUsernameChange}
                       required
@@ -88,12 +90,14 @@ const LoginForm = () => {
                 <div className="mb-4">
                   <label htmlFor="password" className="form-label small text-muted">Password:</label>
                   <div className="input-group input-group-alternative">
-                    <span className="input-group-text"><FontAwesomeIcon icon={faLock} className="text-muted" /></span>
+                    <span className="input-group-text" aria-hidden="true"><FontAwesomeIcon icon={faLock} className="text-muted" aria-hidden="true" /></span>
                     <input
                       className="form-control"
                       placeholder="Password"
                       type="password"
                       id="password"
+                      name="password"
+                      autoComplete="current-password"
                       value={password}
                       onChange={handlePasswordChange}
                       required

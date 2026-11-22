@@ -65,7 +65,7 @@ const Beers = ({
       return (
         <div className="col-12">
           <Alert variant="danger" className="shadow-sm border-0 my-4 text-center">
-            <FontAwesomeIcon icon="exclamation-triangle" className="me-2 text-danger" size="2x" />
+            <FontAwesomeIcon icon="exclamation-triangle" className="me-2 text-danger" size="2x" aria-hidden="true" />
             <h4 className="alert-heading font-weight-bold mt-2">Temporary Service Disruption</h4>
             <p className="lead">Despite multiple consecutive attempts, metrics could not be retrieved at this time.</p>
             <hr />
@@ -81,9 +81,9 @@ const Beers = ({
       return (
         <div className="col-12">
           <Alert variant="warning" className="shadow-sm border-0">
-            <FontAwesomeIcon icon="exclamation-triangle" className="me-2" />
+            <FontAwesomeIcon icon="exclamation-triangle" className="me-2" aria-hidden="true" />
             <strong>Service Connectivity Issue:</strong> {error}.{" "}
-            {isLoading && <Spinner animation="border" size="sm" variant="dark" className="ms-2" />}
+            {isLoading && <Spinner animation="border" size="sm" variant="dark" className="ms-2" aria-hidden="true" />}
             <br />
             <small className="text-dark">Retry attempt {retryCount}/5 will occur automatically...</small>
           </Alert>
@@ -93,8 +93,8 @@ const Beers = ({
 
     if (isLoading) {
       return (
-        <div className="col-12 text-center my-5">
-          <Spinner animation="border" variant="warning" className="mb-2" />
+        <div className="col-12 text-center my-5" role="status" aria-live="polite">
+          <Spinner animation="border" variant="warning" className="mb-2" aria-hidden="true" />
           <p className="text-muted">Retrieving catalog data...</p>
         </div>
       );
@@ -102,8 +102,8 @@ const Beers = ({
 
     if (beers.length === 0) {
       return (
-        <div className="col-12 my-5 text-center fade-in">
-          <FontAwesomeIcon className="beer-icon" icon="beer" size="5x" />
+        <div className="col-12 my-5 text-center fade-in" role="status" aria-live="polite">
+          <FontAwesomeIcon className="beer-icon" icon="beer" size="5x" aria-hidden="true" />
           <h4 className="mt-4 text-muted font-weight-light">
             {searchQuery
               ? `No records found for "${searchQuery}"`
@@ -125,7 +125,12 @@ const Beers = ({
         <div className="row row-eq-height py-5">{renderBeersList()}</div>
       </div>
 
-      <Modal show={modalIsOpen} onHide={closeModal} size="lg">
+      <Modal
+        show={modalIsOpen}
+        onHide={closeModal}
+        size="lg"
+        aria-label={selected?.name ? `${selected.name} details` : "Catalog item details"}
+      >
         {modalIsOpen && !isLoading && (
           <BeerDetails beer={selected} onClose={closeModal} />
         )}

@@ -33,17 +33,17 @@ const Dashboard = () => {
           </div>
         </div>
       </header>
-      <section className="py-5 bg-light">
+      <section className="py-5 bg-light" aria-label="Product Ecosystem Overview">
         <div className="container">
           <Alert variant="warning" className="shadow-sm border-0 mb-5 fw-light">
-            <FontAwesomeIcon icon="exclamation-triangle" className="me-2" />
+            <FontAwesomeIcon icon="exclamation-triangle" className="me-2" aria-hidden="true" />
             <strong>Ecosystem Notice:</strong> If you have access to the <strong>Personalized Cloud Dashboard (<abbr title="Personalized Cloud Dashboard">PCD</abbr>)</strong>, but are currently utilizing the standard <strong>Cloud Dashboard (<abbr title="Cloud Dashboard">CD</abbr>)</strong> interface, certain premium data synchronization features and advanced analytical modules will remain unused.
           </Alert>
 
           <div className="row">
             <div className="col-md-6 col-lg-4 mb-4">
               <div className="card h-100 shadow-sm border-0 rounded-lg text-center p-4">
-                <div className="text-warning mb-3 display-4"><FontAwesomeIcon icon="mobile-alt" /></div>
+                <div className="text-warning mb-3 display-4"><FontAwesomeIcon icon="mobile-alt" aria-hidden="true" /></div>
                 <h5 className="font-weight-bold">Mobile Application</h5>
                 <p className="small text-muted">Flagship mobile client for real-time telemetry tracking and synchronization.</p>
                 <div className="mt-auto">
@@ -54,7 +54,7 @@ const Dashboard = () => {
 
             <div className="col-md-6 col-lg-4 mb-4">
               <div className="card h-100 shadow-sm border-0 rounded-lg text-center p-4">
-                <div className="text-warning mb-3 display-4"><FontAwesomeIcon icon="cloud" /></div>
+                <div className="text-warning mb-3 display-4"><FontAwesomeIcon icon="cloud" aria-hidden="true" /></div>
                 <h5 className="font-weight-bold">Cloud Dashboard (<abbr title="Personalized Cloud Dashboard">PCD</abbr>)</h5>
                 <p className="small text-muted">Personalized data synchronization and management portal for authenticated users.</p>
                 <div className="mt-auto">
@@ -65,7 +65,7 @@ const Dashboard = () => {
 
             <div className="col-md-6 col-lg-4 mb-4">
               <div className="card h-100 shadow-sm border-0 rounded-lg text-center p-4">
-                <div className="text-warning mb-3 display-4"><FontAwesomeIcon icon="chart-bar" /></div>
+                <div className="text-warning mb-3 display-4"><FontAwesomeIcon icon="chart-bar" aria-hidden="true" /></div>
                 <h5 className="font-weight-bold">Visualizer (<abbr title="Data Source Visualizer">DSV</abbr>)</h5>
                 <p className="small text-muted">Advanced visualization engine for cross-platform health and activity metrics.</p>
                 <div className="mt-auto">

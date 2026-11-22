@@ -34,3 +34,5 @@ yarn-error.log*
 .terraformconfig/variables.tf
 node_modules
 src/gitInfo.json
+.npmrc
+docs/FEATURE_MATURITY.md

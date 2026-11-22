@@ -108,19 +108,27 @@ describe('Cloud Dashboard (CD) Foundation Ecosystem Validation', () => {
     expect(screen.getByRole('heading', { name: /Visualizer.*DSV/i })).toBeInTheDocument();
   });
 
-  test('renders Login page when navigating to /login', () => {
+  test('renders Login page when navigating to /login with accessible labels and autocomplete', () => {
     renderApp('/login');
 
-    expect(screen.getByLabelText(/Username:/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Password:/i)).toBeInTheDocument();
+    const usernameInput = screen.getByLabelText(/Username:/i);
+    const passwordInput = screen.getByLabelText(/Password:/i);
+    expect(usernameInput).toBeInTheDocument();
+    expect(usernameInput).toHaveAttribute('autocomplete', 'username');
+    expect(passwordInput).toBeInTheDocument();
+    expect(passwordInput).toHaveAttribute('autocomplete', 'current-password');
     expect(screen.getByRole('button', { name: /^login$/i })).toBeInTheDocument();
   });
 
-  test('renders Register page when navigating to /register', () => {
+  test('renders Register page when navigating to /register with accessible labels and autocomplete', () => {
     renderApp('/register');
 
     expect(screen.getByPlaceholderText(/First Name/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Email Address/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Email Address:/i)).toHaveAttribute('autocomplete', 'email');
+    expect(screen.getByLabelText(/First Name:/i)).toHaveAttribute('autocomplete', 'given-name');
+    expect(screen.getByLabelText(/Last Name:/i)).toHaveAttribute('autocomplete', 'family-name');
+    expect(screen.getByLabelText(/Password:/i)).toHaveAttribute('autocomplete', 'new-password');
     expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
   });
 
@@ -138,5 +146,18 @@ describe('Cloud Dashboard (CD) Foundation Ecosystem Validation', () => {
     expect(screen.getByText(/This website uses cookies and data to enhance the user experience/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /accept cookies/i })).toBeInTheDocument();
   });
+
+  test('provides WCAG 2.2 AA/AAA skip-to-main-content link and main landmark', () => {
+    renderApp('/');
+
+    const skipLink = screen.getByRole('link', { name: /skip to main content/i });
+    expect(skipLink).toBeInTheDocument();
+    expect(skipLink).toHaveAttribute('href', '#main-content');
+
+    const mainLandmark = screen.getByRole('main');
+    expect(mainLandmark).toBeInTheDocument();
+    expect(mainLandmark).toHaveAttribute('id', 'main-content');
+  });
 });
+
 
