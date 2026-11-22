@@ -2,7 +2,7 @@
   "config": {
     "productFlavour": "",
     "versionCode": "1",
-    "versionName": "26",
+    "versionName": "42",
     "authProviderCID": "",
     "reaptchaSiteKey": "",
     "pcdPath": "",
@@ -11,7 +11,7 @@
   },
   "name": "@HolimaX/beerbank",
   "proxy": "http://localhost:3001",
-  "version": "0.1.26",
+  "version": "0.1.42",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
