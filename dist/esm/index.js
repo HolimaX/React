@@ -7,12 +7,15 @@ var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
   get: (a2, b) => (typeof require !== "undefined" ? require : a2)[b]
 }) : x)(function(x) {
-  if (typeof require !== "undefined")
-    return require.apply(this, arguments);
+  if (typeof require !== "undefined") return require.apply(this, arguments);
   throw Error('Dynamic require of "' + x + '" is not supported');
 });
 var __commonJS = (cb, mod) => function __require2() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  try {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  } catch (e2) {
+    throw mod = 0, e2;
+  }
 };
 var __export = (target, all) => {
   for (var name in all)
@@ -43,24 +46,24 @@ var require_react_is_development = __commonJS({
       (function() {
         "use strict";
         var hasSymbol = typeof Symbol === "function" && Symbol.for;
-        var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for("react.element") : 60103;
-        var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for("react.portal") : 60106;
-        var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for("react.fragment") : 60107;
-        var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for("react.strict_mode") : 60108;
-        var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for("react.profiler") : 60114;
-        var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for("react.provider") : 60109;
-        var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for("react.context") : 60110;
-        var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for("react.async_mode") : 60111;
-        var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for("react.concurrent_mode") : 60111;
-        var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for("react.forward_ref") : 60112;
-        var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for("react.suspense") : 60113;
-        var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for("react.suspense_list") : 60120;
-        var REACT_MEMO_TYPE = hasSymbol ? Symbol.for("react.memo") : 60115;
-        var REACT_LAZY_TYPE = hasSymbol ? Symbol.for("react.lazy") : 60116;
-        var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for("react.block") : 60121;
-        var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for("react.fundamental") : 60117;
-        var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for("react.responder") : 60118;
-        var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for("react.scope") : 60119;
+        var REACT_ELEMENT_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.element") : 60103;
+        var REACT_PORTAL_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.portal") : 60106;
+        var REACT_FRAGMENT_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.fragment") : 60107;
+        var REACT_STRICT_MODE_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.strict_mode") : 60108;
+        var REACT_PROFILER_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.profiler") : 60114;
+        var REACT_PROVIDER_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.provider") : 60109;
+        var REACT_CONTEXT_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.context") : 60110;
+        var REACT_ASYNC_MODE_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.async_mode") : 60111;
+        var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.concurrent_mode") : 60111;
+        var REACT_FORWARD_REF_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.forward_ref") : 60112;
+        var REACT_SUSPENSE_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.suspense") : 60113;
+        var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.suspense_list") : 60120;
+        var REACT_MEMO_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.memo") : 60115;
+        var REACT_LAZY_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.lazy") : 60116;
+        var REACT_BLOCK_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.block") : 60121;
+        var REACT_FUNDAMENTAL_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.fundamental") : 60117;
+        var REACT_RESPONDER_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.responder") : 60118;
+        var REACT_SCOPE_TYPE = hasSymbol ? /* @__PURE__ */ Symbol.for("react.scope") : 60119;
         function isValidElementType(type) {
           return typeof type === "string" || typeof type === "function" || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
           type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === "object" && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
@@ -819,25 +822,22 @@ var require_google = __commonJS({
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    var _createClass = /* @__PURE__ */ function() {
+    var _createClass = /* @__PURE__ */ (function() {
       function defineProperties(target, props) {
         for (var i2 = 0; i2 < props.length; i2++) {
           var descriptor = props[i2];
           descriptor.enumerable = descriptor.enumerable || false;
           descriptor.configurable = true;
-          if ("value" in descriptor)
-            descriptor.writable = true;
+          if ("value" in descriptor) descriptor.writable = true;
           Object.defineProperty(target, descriptor.key, descriptor);
         }
       }
       return function(Constructor, protoProps, staticProps) {
-        if (protoProps)
-          defineProperties(Constructor.prototype, protoProps);
-        if (staticProps)
-          defineProperties(Constructor, staticProps);
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
         return Constructor;
       };
-    }();
+    })();
     var _react = __require("react");
     var _react2 = _interopRequireDefault(_react);
     var _propTypes = require_prop_types();
@@ -861,10 +861,9 @@ var require_google = __commonJS({
         throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
       }
       subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });
-      if (superClass)
-        Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
     }
-    var Google = function(_React$Component) {
+    var Google = (function(_React$Component) {
       _inherits(Google2, _React$Component);
       function Google2() {
         _classCallCheck(this, Google2);
@@ -873,8 +872,7 @@ var require_google = __commonJS({
       _createClass(Google2, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-          if (window)
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          if (window) (window.adsbygoogle = window.adsbygoogle || []).push({});
         }
       }, {
         key: "render",
@@ -892,7 +890,7 @@ var require_google = __commonJS({
         }
       }]);
       return Google2;
-    }(_react2.default.Component);
+    })(_react2.default.Component);
     exports.default = Google;
     Google.propTypes = {
       className: _propTypes2.default.string,
@@ -923,25 +921,22 @@ var require_baidu = __commonJS({
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    var _createClass = /* @__PURE__ */ function() {
+    var _createClass = /* @__PURE__ */ (function() {
       function defineProperties(target, props) {
         for (var i2 = 0; i2 < props.length; i2++) {
           var descriptor = props[i2];
           descriptor.enumerable = descriptor.enumerable || false;
           descriptor.configurable = true;
-          if ("value" in descriptor)
-            descriptor.writable = true;
+          if ("value" in descriptor) descriptor.writable = true;
           Object.defineProperty(target, descriptor.key, descriptor);
         }
       }
       return function(Constructor, protoProps, staticProps) {
-        if (protoProps)
-          defineProperties(Constructor.prototype, protoProps);
-        if (staticProps)
-          defineProperties(Constructor, staticProps);
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
         return Constructor;
       };
-    }();
+    })();
     var _react = __require("react");
     var _react2 = _interopRequireDefault(_react);
     function _interopRequireDefault(obj) {
@@ -963,10 +958,9 @@ var require_baidu = __commonJS({
         throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
       }
       subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });
-      if (superClass)
-        Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
     }
-    var Baidu = function(_React$Component) {
+    var Baidu = (function(_React$Component) {
       _inherits(Baidu2, _React$Component);
       function Baidu2() {
         _classCallCheck(this, Baidu2);
@@ -983,7 +977,7 @@ var require_baidu = __commonJS({
         }
       }]);
       return Baidu2;
-    }(_react2.default.Component);
+    })(_react2.default.Component);
     exports.default = Baidu;
   }
 });
@@ -1195,8 +1189,7 @@ var require_debug = __commonJS({
     }
     function createDebug(namespace) {
       function debug() {
-        if (!debug.enabled)
-          return;
+        if (!debug.enabled) return;
         var self = debug;
         var curr = +/* @__PURE__ */ new Date();
         var ms = curr - (prevTime || curr);
@@ -1214,8 +1207,7 @@ var require_debug = __commonJS({
         }
         var index = 0;
         args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
-          if (match === "%%")
-            return match;
+          if (match === "%%") return match;
           index++;
           var formatter = exports.formatters[format];
           if ("function" === typeof formatter) {
@@ -1246,8 +1238,7 @@ var require_debug = __commonJS({
       var split = (typeof namespaces === "string" ? namespaces : "").split(/[\s,]+/);
       var len = split.length;
       for (var i2 = 0; i2 < len; i2++) {
-        if (!split[i2])
-          continue;
+        if (!split[i2]) continue;
         namespaces = split[i2].replace(/\*/g, ".*?");
         if (namespaces[0] === "-") {
           exports.skips.push(new RegExp("^" + namespaces.substr(1) + "$"));
@@ -1274,8 +1265,7 @@ var require_debug = __commonJS({
       return false;
     }
     function coerce(val) {
-      if (val instanceof Error)
-        return val.stack || val.message;
+      if (val instanceof Error) return val.stack || val.message;
       return val;
     }
   }
@@ -1319,15 +1309,13 @@ var require_browser = __commonJS({
     function formatArgs(args) {
       var useColors2 = this.useColors;
       args[0] = (useColors2 ? "%c" : "") + this.namespace + (useColors2 ? " %c" : " ") + args[0] + (useColors2 ? "%c " : " ") + "+" + exports.humanize(this.diff);
-      if (!useColors2)
-        return;
+      if (!useColors2) return;
       var c2 = "color: " + this.color;
       args.splice(1, 0, c2, "color: inherit");
       var index = 0;
       var lastC = 0;
       args[0].replace(/%[a-zA-Z%]/g, function(match) {
-        if ("%%" === match)
-          return;
+        if ("%%" === match) return;
         index++;
         if ("%c" === match) {
           lastC = index;
@@ -1382,8 +1370,7 @@ var require_jsonp = __commonJS({
         fn = opts;
         opts = {};
       }
-      if (!opts)
-        opts = {};
+      if (!opts) opts = {};
       var prefix = opts.prefix || "__jp";
       var id = opts.name || prefix + count++;
       var param = opts.param || "callback";
@@ -1395,16 +1382,13 @@ var require_jsonp = __commonJS({
       if (timeout) {
         timer = setTimeout(function() {
           cleanup();
-          if (fn)
-            fn(new Error("Timeout"));
+          if (fn) fn(new Error("Timeout"));
         }, timeout);
       }
       function cleanup() {
-        if (script.parentNode)
-          script.parentNode.removeChild(script);
+        if (script.parentNode) script.parentNode.removeChild(script);
         window[id] = noop;
-        if (timer)
-          clearTimeout(timer);
+        if (timer) clearTimeout(timer);
       }
       function cancel() {
         if (window[id]) {
@@ -1414,8 +1398,7 @@ var require_jsonp = __commonJS({
       window[id] = function(data) {
         debug("jsonp got", data);
         cleanup();
-        if (fn)
-          fn(null, data);
+        if (fn) fn(null, data);
       };
       url += (~url.indexOf("?") ? "&" : "?") + param + "=" + enc(id);
       url = url.replace("?&", "?");
@@ -1487,8 +1470,7 @@ var fetchPlatformAppsWithRetry = async (url, maxAttempts = MAX_RETRIES) => {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       const res = await fetch(url);
-      if (!res.ok)
-        throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (error) {
       lastError = error;
@@ -1504,11 +1486,9 @@ var fetchPlatformAppsWithRetry = async (url, maxAttempts = MAX_RETRIES) => {
   throw lastError;
 };
 var fetchPlatformApps = (page = 1, pcd_url = process.env.REACT_APP_PCD_PATH) => async (dispatch, getState) => {
-  if (page === 1)
-    isPlatformAppsHalted = false;
+  if (page === 1) isPlatformAppsHalted = false;
   const state = getState && getState().beer || {};
-  if (state.isLoading || isPlatformAppsHalted)
-    return;
+  if (state.isLoading || isPlatformAppsHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
   try {
     const baseUrl = getPcdBaseUrl(pcd_url);
@@ -1528,8 +1508,7 @@ var fetchPlatformApps = (page = 1, pcd_url = process.env.REACT_APP_PCD_PATH) => 
 };
 var fetchMorePlatformApps = (page, pcd_url = process.env.REACT_APP_PCD_PATH) => async (dispatch, getState) => {
   const state = getState && getState().beer || {};
-  if (state.isLoading || isPlatformAppsHalted)
-    return;
+  if (state.isLoading || isPlatformAppsHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
   try {
     const baseUrl = getPcdBaseUrl(pcd_url);
@@ -1549,8 +1528,7 @@ var fetchMorePlatformApps = (page, pcd_url = process.env.REACT_APP_PCD_PATH) => 
 };
 var searchPlatformapps = (keyword, pcd_url = process.env.REACT_APP_PCD_PATH) => async (dispatch, getState) => {
   isPlatformAppsHalted = false;
-  if (getState && getState().beer?.isLoading || isPlatformAppsHalted)
-    return;
+  if (getState && getState().beer?.isLoading || isPlatformAppsHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
   try {
     const baseUrl = getPcdBaseUrl(pcd_url);
@@ -1573,8 +1551,7 @@ var handleFavouritePlatformapps = (platformapp) => (dispatch) => dispatch({
   payload: { platformapp }
 });
 var displayPlatformapp = (platformapp, pcd_url = process.env.REACT_APP_PCD_PATH) => async (dispatch, getState) => {
-  if (getState && getState().beer?.isLoading || isPlatformAppsHalted)
-    return;
+  if (getState && getState().beer?.isLoading || isPlatformAppsHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_PLATFORMAPPS, payload: { isLoading: true } });
   try {
     const baseUrl = getPcdBaseUrl(pcd_url);
@@ -1640,8 +1617,7 @@ var fetchWithRetry = async (url, maxAttempts = MAX_RETRIES) => {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       const res = await fetch(url);
-      if (!res.ok)
-        throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (error) {
       lastError = error;
@@ -1657,11 +1633,9 @@ var fetchWithRetry = async (url, maxAttempts = MAX_RETRIES) => {
   throw lastError;
 };
 var fetchBeers = (page = 1) => async (dispatch, getState) => {
-  if (page === 1)
-    isApiHalted = false;
+  if (page === 1) isApiHalted = false;
   const state = getState && getState().beer || {};
-  if (state.isLoading || state.error || isApiHalted)
-    return;
+  if (state.isLoading || state.error || isApiHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_BEERS, payload: { isLoading: true } });
   try {
     const url = `https://api.punkapi.com/v2/beers?page=${page}`;
@@ -1680,8 +1654,7 @@ var fetchBeers = (page = 1) => async (dispatch, getState) => {
 };
 var fetchMoreBeers = (page) => async (dispatch, getState) => {
   const state = getState && getState().beer || {};
-  if (state.isLoading || state.error || isApiHalted)
-    return;
+  if (state.isLoading || state.error || isApiHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_BEERS, payload: { isLoading: true } });
   try {
     const url = `https://api.punkapi.com/v2/beers?page=${page}`;
@@ -1700,8 +1673,7 @@ var fetchMoreBeers = (page) => async (dispatch, getState) => {
 };
 var searchBeers = (keyword) => async (dispatch, getState) => {
   isApiHalted = false;
-  if (getState && getState().beer?.isLoading || isApiHalted)
-    return;
+  if (getState && getState().beer?.isLoading || isApiHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_BEERS, payload: { isLoading: true } });
   try {
     const url = `https://api.punkapi.com/v2/beers?beer_name=${encodeURIComponent(keyword)}`;
@@ -1720,8 +1692,7 @@ var handleFavourite = (beer) => (dispatch) => dispatch({
   payload: { beer }
 });
 var displayBeer = (beer) => async (dispatch, getState) => {
-  if (getState && getState().beer?.isLoading || isApiHalted)
-    return;
+  if (getState && getState().beer?.isLoading || isApiHalted) return;
   dispatch({ type: beerActionTypes.FETCHING_BEERS, payload: { isLoading: true } });
   try {
     const yeast = encodeURIComponent(beer.ingredients.yeast);
@@ -1788,8 +1759,7 @@ function reduce(state = initialState, action) {
       let favBeer = action.payload.beer;
       if (favourites.indexOf(favBeer) !== -1) {
         favourites = favourites.filter((item) => item !== favBeer);
-      } else
-        favourites.push(favBeer);
+      } else favourites.push(favBeer);
       return { ...state, favourites };
     case beerActionTypes.DISPLAY_BEER:
       return { ...state, selected: action.payload.selected, isLoading: false };
@@ -2897,8 +2867,7 @@ var VKShareButton = forwardRef(
 );
 VKShareButton.displayName = "VKShareButton";
 function getVKShareCount(shareUrl, callback) {
-  if (!window.VK)
-    window.VK = {};
+  if (!window.VK) window.VK = {};
   window.VK.Share = {
     count: (index2, count) => {
       var _a, _b;
@@ -3012,8 +2981,7 @@ var Search = ({ searchBeers: searchBeers2, fetchBeers: fetchBeers2, searchPlatfo
   const onSearch = (e2) => {
     const value = e2.target.value;
     setKeyword(value);
-    if (timeout.current)
-      clearTimeout(timeout.current);
+    if (timeout.current) clearTimeout(timeout.current);
     timeout.current = setTimeout(() => handleSearch(value), 500);
   };
   const handleSearch = (keyword2) => {
@@ -3030,16 +2998,27 @@ var Search = ({ searchBeers: searchBeers2, fetchBeers: fetchBeers2, searchPlatfo
       }
     }
   };
-  return /* @__PURE__ */ React.createElement("div", { className: "row justify-content-center" }, /* @__PURE__ */ React.createElement("form", { className: "col-md-6 col-sm-12", onSubmit: (e2) => e2.preventDefault() }, /* @__PURE__ */ React.createElement("div", { className: "form-group" }, /* @__PURE__ */ React.createElement(
-    "input",
+  return /* @__PURE__ */ React.createElement("div", { className: "row justify-content-center" }, /* @__PURE__ */ React.createElement(
+    "form",
     {
-      type: "text",
-      className: "form-control",
-      placeholder: "Search for beer name",
-      value: keyword,
-      onChange: onSearch
-    }
-  ))));
+      className: "col-md-6 col-sm-12",
+      role: "search",
+      "aria-label": "Catalog search",
+      onSubmit: (e2) => e2.preventDefault()
+    },
+    /* @__PURE__ */ React.createElement("div", { className: "form-group" }, /* @__PURE__ */ React.createElement("label", { htmlFor: "beer-search-input", className: "visually-hidden" }, "Search for beer name"), /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        id: "beer-search-input",
+        type: "search",
+        className: "form-control",
+        placeholder: "Search for beer name",
+        "aria-label": "Search for beer name",
+        value: keyword,
+        onChange: onSearch
+      }
+    ))
+  ));
 };
 Search.propTypes = {
   searchBeers: import_prop_types.default.func.isRequired,
@@ -3070,24 +3049,43 @@ var Beer = ({ beer, favourites, handleFavourite: handleFavourite2, onDetail }) =
     e2.stopPropagation();
     handleFavourite2(beer);
   };
+  const handleCardKeyDown = (e2) => {
+    if (e2.target !== e2.currentTarget) return;
+    if (e2.key === "Enter" || e2.key === " ") {
+      e2.preventDefault();
+      if (onDetail) {
+        onDetail(beer);
+      }
+    }
+  };
+  const favLabel = isFavourite ? `Remove ${beer.name} from favourites` : `Add ${beer.name} to favourites`;
   return /* @__PURE__ */ React2.createElement(
     "div",
     {
       className: "beer-item col-12 col-sm-6 col-md-4 p-3 text-center",
-      onClick: () => onDetail && onDetail(beer)
+      onClick: () => onDetail && onDetail(beer),
+      onKeyDown: handleCardKeyDown,
+      tabIndex: 0,
+      role: "button",
+      "aria-label": `View details for ${beer.name}`
     },
     /* @__PURE__ */ React2.createElement("div", { className: "details bg-white p-3" }, /* @__PURE__ */ React2.createElement("div", { className: "row" }, /* @__PURE__ */ React2.createElement("div", { className: "col-12" }, /* @__PURE__ */ React2.createElement(
       "button",
       {
+        type: "button",
         className: "btn btn-link btn-fav float-right " + (isFavourite ? "active" : ""),
-        onClick: onFavouriteToggle
+        onClick: onFavouriteToggle,
+        onKeyDown: (e2) => e2.stopPropagation(),
+        "aria-label": favLabel,
+        "aria-pressed": isFavourite,
+        title: favLabel
       },
-      /* @__PURE__ */ React2.createElement(FontAwesomeIcon, { icon: "star" })
+      /* @__PURE__ */ React2.createElement(FontAwesomeIcon, { icon: "star", "aria-hidden": "true" })
     ))), /* @__PURE__ */ React2.createElement("div", { className: "row my-1" }, /* @__PURE__ */ React2.createElement("div", { className: "col" }, /* @__PURE__ */ React2.createElement(
       "img",
       {
         src: beer.image_url,
-        alt: beer.name,
+        alt: beer.name || "Catalog item thumbnail",
         className: "beer-thumbnail"
       }
     ))), /* @__PURE__ */ React2.createElement("h5", { className: "text-warning font-weight-bold" }, beer.name), /* @__PURE__ */ React2.createElement("p", { className: "text-muted" }, beer.tagline))
@@ -3123,14 +3121,23 @@ var BeerDetails = ({ beer = {}, onClose }) => {
       }
     ), /* @__PURE__ */ React3.createElement("h6", { className: "font-weight-bold text-muted my-3" }, similarBeer.name))));
   };
-  return /* @__PURE__ */ React3.createElement("div", { className: "modal-body py-3" }, /* @__PURE__ */ React3.createElement("button", { type: "button", className: "btn-close float-end", onClick: onClose, "aria-label": "Close" }), /* @__PURE__ */ React3.createElement("div", { className: "row p-2 beer-detail" }, /* @__PURE__ */ React3.createElement("div", { className: "col-lg-3 mb-2 p-2" }, /* @__PURE__ */ React3.createElement(
+  return /* @__PURE__ */ React3.createElement("div", { className: "modal-body py-3" }, /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      type: "button",
+      className: "btn-close float-end",
+      onClick: onClose,
+      "aria-label": "Close beer details",
+      title: "Close beer details"
+    }
+  ), /* @__PURE__ */ React3.createElement("div", { className: "row p-2 beer-detail" }, /* @__PURE__ */ React3.createElement("div", { className: "col-lg-3 mb-2 p-2" }, /* @__PURE__ */ React3.createElement(
     "img",
     {
       src: beer.image_url,
-      alt: beer.name,
+      alt: beer.name || "Beer illustration",
       className: "img-fluid d-block mx-auto"
     }
-  )), /* @__PURE__ */ React3.createElement("div", { className: "col-lg-9 p-2" }, /* @__PURE__ */ React3.createElement("h3", { className: "text-warning font-weight-bold" }, beer.name), /* @__PURE__ */ React3.createElement("h5", { className: "beer-tagline" }, beer.tagline), /* @__PURE__ */ React3.createElement("div", { className: "divider my-2" }), /* @__PURE__ */ React3.createElement("ul", { className: "list-inline" }, /* @__PURE__ */ React3.createElement("li", { className: "list-inline-item" }, /* @__PURE__ */ React3.createElement("strong", null, "IBU:"), " ", beer.ibu), /* @__PURE__ */ React3.createElement("li", { className: "list-inline-item" }, /* @__PURE__ */ React3.createElement("strong", null, "ABV:"), " ", beer.abv + "%"), /* @__PURE__ */ React3.createElement("li", { className: "list-inline-item" }, /* @__PURE__ */ React3.createElement("strong", null, "EBC:"), " ", beer.ebc)), /* @__PURE__ */ React3.createElement("p", { className: "my-3" }, beer.description), /* @__PURE__ */ React3.createElement("h5", { className: "text-muted" }, "Best served with:"), /* @__PURE__ */ React3.createElement("ul", null, beer.food_pairing && renderFoodPairing()))), /* @__PURE__ */ React3.createElement("div", { className: "row align-items-center p-2" }, /* @__PURE__ */ React3.createElement("div", { className: "col" }, /* @__PURE__ */ React3.createElement("h4", { className: "my-2 text-warning" }, "You might also like:"), /* @__PURE__ */ React3.createElement("div", { className: "row" }, beer.similar && renderSimilarBeers()))));
+  )), /* @__PURE__ */ React3.createElement("div", { className: "col-lg-9 p-2" }, /* @__PURE__ */ React3.createElement("h3", { className: "text-warning font-weight-bold" }, beer.name), /* @__PURE__ */ React3.createElement("h5", { className: "beer-tagline" }, beer.tagline), /* @__PURE__ */ React3.createElement("div", { className: "divider my-2", "aria-hidden": "true" }), /* @__PURE__ */ React3.createElement("ul", { className: "list-inline" }, /* @__PURE__ */ React3.createElement("li", { className: "list-inline-item" }, /* @__PURE__ */ React3.createElement("strong", null, /* @__PURE__ */ React3.createElement("abbr", { title: "International Bitterness Units" }, "IBU"), ":"), " ", beer.ibu), /* @__PURE__ */ React3.createElement("li", { className: "list-inline-item" }, /* @__PURE__ */ React3.createElement("strong", null, /* @__PURE__ */ React3.createElement("abbr", { title: "Alcohol by Volume" }, "ABV"), ":"), " ", beer.abv + "%"), /* @__PURE__ */ React3.createElement("li", { className: "list-inline-item" }, /* @__PURE__ */ React3.createElement("strong", null, /* @__PURE__ */ React3.createElement("abbr", { title: "European Brewery Convention" }, "EBC"), ":"), " ", beer.ebc)), /* @__PURE__ */ React3.createElement("p", { className: "my-3" }, beer.description), /* @__PURE__ */ React3.createElement("h5", { className: "text-muted" }, "Best served with:"), /* @__PURE__ */ React3.createElement("ul", null, beer.food_pairing && renderFoodPairing()))), /* @__PURE__ */ React3.createElement("div", { className: "row align-items-center p-2" }, /* @__PURE__ */ React3.createElement("div", { className: "col" }, /* @__PURE__ */ React3.createElement("h4", { className: "my-2 text-warning" }, "You might also like:"), /* @__PURE__ */ React3.createElement("div", { className: "row" }, beer.similar && renderSimilarBeers()))));
 };
 var beer_details_default = BeerDetails;
 
@@ -3168,8 +3175,7 @@ var Beers = ({
     setModalIsOpen(false);
   };
   const renderPlatformApps = () => {
-    if (!platformapps || platformapps.length === 0)
-      return null;
+    if (!platformapps || platformapps.length === 0) return null;
     return /* @__PURE__ */ React4.createElement("div", { className: "row row-eq-height py-3" }, /* @__PURE__ */ React4.createElement("div", { className: "col-12 mb-2" }, /* @__PURE__ */ React4.createElement("h4", { className: "text-secondary font-weight-bold" }, "Platform Applications")), platformapps.map((platformapp) => /* @__PURE__ */ React4.createElement(
       beer_default,
       {
@@ -3181,20 +3187,29 @@ var Beers = ({
   };
   const renderBeersList = () => {
     if (isGivingUp) {
-      return /* @__PURE__ */ React4.createElement("div", { className: "col-12" }, /* @__PURE__ */ React4.createElement(Alert, { variant: "danger", className: "shadow-sm border-0 my-4 text-center" }, /* @__PURE__ */ React4.createElement(FontAwesomeIcon2, { icon: "exclamation-triangle", className: "me-2 text-danger", size: "2x" }), /* @__PURE__ */ React4.createElement("h4", { className: "alert-heading font-weight-bold mt-2" }, "Temporary Service Disruption"), /* @__PURE__ */ React4.createElement("p", { className: "lead" }, "Despite multiple consecutive attempts, metrics could not be retrieved at this time."), /* @__PURE__ */ React4.createElement("hr", null), /* @__PURE__ */ React4.createElement("p", { className: "mb-0 small text-muted" }, "The external API service is currently unresponsive. Please try refreshing this page in a few minutes.")));
+      return /* @__PURE__ */ React4.createElement("div", { className: "col-12" }, /* @__PURE__ */ React4.createElement(Alert, { variant: "danger", className: "shadow-sm border-0 my-4 text-center" }, /* @__PURE__ */ React4.createElement(FontAwesomeIcon2, { icon: "exclamation-triangle", className: "me-2 text-danger", size: "2x", "aria-hidden": "true" }), /* @__PURE__ */ React4.createElement("h4", { className: "alert-heading font-weight-bold mt-2" }, "Temporary Service Disruption"), /* @__PURE__ */ React4.createElement("p", { className: "lead" }, "Despite multiple consecutive attempts, metrics could not be retrieved at this time."), /* @__PURE__ */ React4.createElement("hr", null), /* @__PURE__ */ React4.createElement("p", { className: "mb-0 small text-muted" }, "The external API service is currently unresponsive. Please try refreshing this page in a few minutes.")));
     }
     if (error) {
-      return /* @__PURE__ */ React4.createElement("div", { className: "col-12" }, /* @__PURE__ */ React4.createElement(Alert, { variant: "warning", className: "shadow-sm border-0" }, /* @__PURE__ */ React4.createElement(FontAwesomeIcon2, { icon: "exclamation-triangle", className: "me-2" }), /* @__PURE__ */ React4.createElement("strong", null, "Service Connectivity Issue:"), " ", error, ".", " ", isLoading && /* @__PURE__ */ React4.createElement(Spinner, { animation: "border", size: "sm", variant: "dark", className: "ms-2" }), /* @__PURE__ */ React4.createElement("br", null), /* @__PURE__ */ React4.createElement("small", { className: "text-dark" }, "Retry attempt ", retryCount, "/5 will occur automatically...")));
+      return /* @__PURE__ */ React4.createElement("div", { className: "col-12" }, /* @__PURE__ */ React4.createElement(Alert, { variant: "warning", className: "shadow-sm border-0" }, /* @__PURE__ */ React4.createElement(FontAwesomeIcon2, { icon: "exclamation-triangle", className: "me-2", "aria-hidden": "true" }), /* @__PURE__ */ React4.createElement("strong", null, "Service Connectivity Issue:"), " ", error, ".", " ", isLoading && /* @__PURE__ */ React4.createElement(Spinner, { animation: "border", size: "sm", variant: "dark", className: "ms-2", "aria-hidden": "true" }), /* @__PURE__ */ React4.createElement("br", null), /* @__PURE__ */ React4.createElement("small", { className: "text-dark" }, "Retry attempt ", retryCount, "/5 will occur automatically...")));
     }
     if (isLoading) {
-      return /* @__PURE__ */ React4.createElement("div", { className: "col-12 text-center my-5" }, /* @__PURE__ */ React4.createElement(Spinner, { animation: "border", variant: "warning", className: "mb-2" }), /* @__PURE__ */ React4.createElement("p", { className: "text-muted" }, "Retrieving catalog data..."));
+      return /* @__PURE__ */ React4.createElement("div", { className: "col-12 text-center my-5", role: "status", "aria-live": "polite" }, /* @__PURE__ */ React4.createElement(Spinner, { animation: "border", variant: "warning", className: "mb-2", "aria-hidden": "true" }), /* @__PURE__ */ React4.createElement("p", { className: "text-muted" }, "Retrieving catalog data..."));
     }
     if (beers.length === 0) {
-      return /* @__PURE__ */ React4.createElement("div", { className: "col-12 my-5 text-center fade-in" }, /* @__PURE__ */ React4.createElement(FontAwesomeIcon2, { className: "beer-icon", icon: "beer", size: "5x" }), /* @__PURE__ */ React4.createElement("h4", { className: "mt-4 text-muted font-weight-light" }, searchQuery ? `No records found for "${searchQuery}"` : "No items available in the current view."));
+      return /* @__PURE__ */ React4.createElement("div", { className: "col-12 my-5 text-center fade-in", role: "status", "aria-live": "polite" }, /* @__PURE__ */ React4.createElement(FontAwesomeIcon2, { className: "beer-icon", icon: "beer", size: "5x", "aria-hidden": "true" }), /* @__PURE__ */ React4.createElement("h4", { className: "mt-4 text-muted font-weight-light" }, searchQuery ? `No records found for "${searchQuery}"` : "No items available in the current view."));
     }
     return beers.map((beer) => /* @__PURE__ */ React4.createElement(beer_default, { key: beer.id, beer, onDetail: displayDetails }));
   };
-  return /* @__PURE__ */ React4.createElement(React4.Fragment, null, /* @__PURE__ */ React4.createElement("div", { className: "container" }, renderPlatformApps(), /* @__PURE__ */ React4.createElement("div", { className: "row row-eq-height py-5" }, renderBeersList())), /* @__PURE__ */ React4.createElement(Modal, { show: modalIsOpen, onHide: closeModal, size: "lg" }, modalIsOpen && !isLoading && /* @__PURE__ */ React4.createElement(beer_details_default, { beer: selected, onClose: closeModal })));
+  return /* @__PURE__ */ React4.createElement(React4.Fragment, null, /* @__PURE__ */ React4.createElement("div", { className: "container" }, renderPlatformApps(), /* @__PURE__ */ React4.createElement("div", { className: "row row-eq-height py-5" }, renderBeersList())), /* @__PURE__ */ React4.createElement(
+    Modal,
+    {
+      show: modalIsOpen,
+      onHide: closeModal,
+      size: "lg",
+      "aria-label": selected?.name ? `${selected.name} details` : "Catalog item details"
+    },
+    modalIsOpen && !isLoading && /* @__PURE__ */ React4.createElement(beer_details_default, { beer: selected, onClose: closeModal })
+  ));
 };
 Beers.propTypes = {
   displayBeer: import_prop_types3.default.func.isRequired,
@@ -3271,8 +3286,7 @@ var Home = ({
     }
   }, [error, attempts, isLoading, fetchBeers2, page]);
   const onScroll = useCallback2(() => {
-    if (isLoading)
-      return;
+    if (isLoading) return;
     if (window.innerHeight + document.documentElement.scrollTop > document.documentElement.offsetHeight - 100) {
       fetchMoreBeers2(page);
       if (fetchMorePlatformApps2) {
@@ -3285,7 +3299,7 @@ var Home = ({
     return () => window.removeEventListener("scroll", onScroll, false);
   }, [onScroll]);
   const enableAds = process.env.REACT_APP_ENABLE_ADS === "true";
-  return /* @__PURE__ */ React5.createElement(React5.Fragment, null, /* @__PURE__ */ React5.createElement("header", { className: "justify-content-center py-2 bg-warning text-center text-white" }, /* @__PURE__ */ React5.createElement("div", { className: "container" }, /* @__PURE__ */ React5.createElement("div", { className: "row" }, /* @__PURE__ */ React5.createElement("div", { className: "col" }, /* @__PURE__ */ React5.createElement("h1", { className: "font-weight-bold" }, "Beer Bank | ", authState?.isAuthenticated ? "The Personalized Cloud Dashboard" : "The Cloud Dashboard", " ", process.env.REACT_APP_VERSION || ""), gitInfo_default && /* @__PURE__ */ React5.createElement("label", { className: "d-block small text-dark opacity-75" }, gitInfo_default.remoteRepoPath, " (Supported apps: ", gitInfo_default.branch, "/", gitInfo_default.shortHash, ")"), /* @__PURE__ */ React5.createElement("p", null, "Find your favourite beer here (or open your personalized dashboard to access your available services)"))), /* @__PURE__ */ React5.createElement(search_default, null), /* @__PURE__ */ React5.createElement("div", { className: "d-flex justify-content-center gap-2 mt-3" }, /* @__PURE__ */ React5.createElement(TwitterShareButton, { url: window.location.href }, /* @__PURE__ */ React5.createElement(TwitterIcon, { size: 32, round: true })), /* @__PURE__ */ React5.createElement(FacebookShareButton, { url: window.location.href }, /* @__PURE__ */ React5.createElement(FacebookIcon, { size: 32, round: true })), /* @__PURE__ */ React5.createElement(TelegramShareButton, { url: window.location.href }, /* @__PURE__ */ React5.createElement(TelegramIcon, { size: 32, round: true })), /* @__PURE__ */ React5.createElement(LinkedinShareButton, { url: window.location.href }, /* @__PURE__ */ React5.createElement(LinkedinIcon, { size: 32, round: true }))))), /* @__PURE__ */ React5.createElement(
+  return /* @__PURE__ */ React5.createElement(React5.Fragment, null, /* @__PURE__ */ React5.createElement("header", { className: "justify-content-center py-2 bg-warning text-center text-white" }, /* @__PURE__ */ React5.createElement("div", { className: "container" }, /* @__PURE__ */ React5.createElement("div", { className: "row" }, /* @__PURE__ */ React5.createElement("div", { className: "col" }, /* @__PURE__ */ React5.createElement("h1", { className: "font-weight-bold" }, "Beer Bank | ", authState?.isAuthenticated ? "The Personalized Cloud Dashboard" : "The Cloud Dashboard", " ", process.env.REACT_APP_VERSION || ""), gitInfo_default && /* @__PURE__ */ React5.createElement("p", { className: "d-block small text-dark mb-1" }, gitInfo_default.remoteRepoPath, " (Supported apps: ", gitInfo_default.branch, "/", gitInfo_default.shortHash, ")"), /* @__PURE__ */ React5.createElement("p", null, "Find your favourite beer here (or open your personalized dashboard to access your available services)"))), /* @__PURE__ */ React5.createElement(search_default, null), /* @__PURE__ */ React5.createElement("div", { className: "d-flex justify-content-center gap-2 mt-3", role: "group", "aria-label": "Share this page" }, /* @__PURE__ */ React5.createElement(TwitterShareButton, { url: window.location.href, "aria-label": "Share on Twitter" }, /* @__PURE__ */ React5.createElement(TwitterIcon, { size: 32, round: true })), /* @__PURE__ */ React5.createElement(FacebookShareButton, { url: window.location.href, "aria-label": "Share on Facebook" }, /* @__PURE__ */ React5.createElement(FacebookIcon, { size: 32, round: true })), /* @__PURE__ */ React5.createElement(TelegramShareButton, { url: window.location.href, "aria-label": "Share on Telegram" }, /* @__PURE__ */ React5.createElement(TelegramIcon, { size: 32, round: true })), /* @__PURE__ */ React5.createElement(LinkedinShareButton, { url: window.location.href, "aria-label": "Share on LinkedIn" }, /* @__PURE__ */ React5.createElement(LinkedinIcon, { size: 32, round: true }))))), /* @__PURE__ */ React5.createElement(
     beers_default,
     {
       beers,
@@ -3338,7 +3352,7 @@ import { Link as Link2, useLocation } from "react-router-dom";
 
 // src/components/shared/Navigation.js
 import React6, { useCallback as useCallback3, useEffect as useEffect4 } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useOktaAuth as useOktaAuth2 } from "@okta/okta-react";
 import ReactGA2 from "react-ga4";
 var Navigation = () => {
@@ -3351,10 +3365,9 @@ var Navigation = () => {
   useEffect4(() => {
     ReactGA2.send({ hitType: "pageview", page: window.location.pathname + window.location.search });
   }, []);
-  if (!authState)
-    return null;
-  const authNav = authState.isAuthenticated ? /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement(Link, { className: "nav-link font-weight-bold", to: "/profile" }, "Profile")), /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement("button", { className: "btn btn-link nav-link text-warning", onClick: logout }, "Logout"))) : /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement(Link, { className: "nav-link", to: "/login" }, "Login")), /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement(Link, { className: "nav-link text-warning font-weight-bold", to: "/register" }, "Register")));
-  return /* @__PURE__ */ React6.createElement("nav", { className: "navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm" }, /* @__PURE__ */ React6.createElement("div", { className: "container-fluid" }, /* @__PURE__ */ React6.createElement(Link, { to: "/", className: "navbar-brand text-warning font-weight-bold" }, authState.isAuthenticated ? /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), " Home") : /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("abbr", { title: "Cloud Dashboard" }, "CD"), " Home")), /* @__PURE__ */ React6.createElement("ul", { className: "navbar-nav ms-auto align-items-center" }, authNav)));
+  if (!authState) return null;
+  const authNav = authState.isAuthenticated ? /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement(NavLink, { className: ({ isActive }) => `nav-link font-weight-bold${isActive ? " active" : ""}`, to: "/profile" }, "Profile")), /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement("button", { type: "button", className: "btn btn-link nav-link text-warning", onClick: logout }, "Logout"))) : /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement(NavLink, { className: ({ isActive }) => `nav-link${isActive ? " active" : ""}`, to: "/login" }, "Login")), /* @__PURE__ */ React6.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React6.createElement(NavLink, { className: ({ isActive }) => `nav-link text-warning font-weight-bold${isActive ? " active" : ""}`, to: "/register" }, "Register")));
+  return /* @__PURE__ */ React6.createElement("nav", { className: "navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm", "aria-label": "Dashboard navigation" }, /* @__PURE__ */ React6.createElement("div", { className: "container-fluid" }, /* @__PURE__ */ React6.createElement(Link, { to: "/", className: "navbar-brand text-warning font-weight-bold" }, authState.isAuthenticated ? /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), " Home") : /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement("abbr", { title: "Cloud Dashboard" }, "CD"), " Home")), /* @__PURE__ */ React6.createElement("ul", { className: "navbar-nav ms-auto align-items-center" }, authNav)));
 };
 var Navigation_default = Navigation;
 
@@ -3369,7 +3382,7 @@ var Dashboard = () => {
   useEffect5(() => {
     ReactGA3.send({ hitType: "pageview", page: location.pathname + location.search });
   }, [location]);
-  return /* @__PURE__ */ React7.createElement(React7.Fragment, null, /* @__PURE__ */ React7.createElement(Navigation_default, null), /* @__PURE__ */ React7.createElement("header", { className: "justify-content-center py-2 bg-warning text-center text-white shadow-sm mt-5" }, /* @__PURE__ */ React7.createElement("div", { className: "container" }, /* @__PURE__ */ React7.createElement("div", { className: "row" }, /* @__PURE__ */ React7.createElement("div", { className: "col" }, /* @__PURE__ */ React7.createElement("h1", { className: "font-weight-bold" }, "HolimaX Product Ecosystem | ", authState?.isAuthenticated ? /* @__PURE__ */ React7.createElement(React7.Fragment, null, "Personalized Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ")") : /* @__PURE__ */ React7.createElement(React7.Fragment, null, "The Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Cloud Dashboard" }, "CD"), ")")), /* @__PURE__ */ React7.createElement("p", null, "Version ", process.env.REACT_APP_VERSION || "0.1.20", " - Please", " ", /* @__PURE__ */ React7.createElement(Link2, { to: "/login", className: "text-white text-decoration-underline fw-bold" }, "Login"), " ", "to view your personalized resources!"))))), /* @__PURE__ */ React7.createElement("section", { className: "py-5 bg-light" }, /* @__PURE__ */ React7.createElement("div", { className: "container" }, /* @__PURE__ */ React7.createElement(Alert2, { variant: "warning", className: "shadow-sm border-0 mb-5 fw-light" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "exclamation-triangle", className: "me-2" }), /* @__PURE__ */ React7.createElement("strong", null, "Ecosystem Notice:"), " If you have access to the ", /* @__PURE__ */ React7.createElement("strong", null, "Personalized Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ")"), ", but are currently utilizing the standard ", /* @__PURE__ */ React7.createElement("strong", null, "Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Cloud Dashboard" }, "CD"), ")"), " interface, certain premium data synchronization features and advanced analytical modules will remain unused."), /* @__PURE__ */ React7.createElement("div", { className: "row" }, /* @__PURE__ */ React7.createElement("div", { className: "col-md-6 col-lg-4 mb-4" }, /* @__PURE__ */ React7.createElement("div", { className: "card h-100 shadow-sm border-0 rounded-lg text-center p-4" }, /* @__PURE__ */ React7.createElement("div", { className: "text-warning mb-3 display-4" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "mobile-alt" })), /* @__PURE__ */ React7.createElement("h5", { className: "font-weight-bold" }, "Mobile Application"), /* @__PURE__ */ React7.createElement("p", { className: "small text-muted" }, "Flagship mobile client for real-time telemetry tracking and synchronization."), /* @__PURE__ */ React7.createElement("div", { className: "mt-auto" }, /* @__PURE__ */ React7.createElement("span", { className: "badge bg-secondary" }, "Android Companion")))), /* @__PURE__ */ React7.createElement("div", { className: "col-md-6 col-lg-4 mb-4" }, /* @__PURE__ */ React7.createElement("div", { className: "card h-100 shadow-sm border-0 rounded-lg text-center p-4" }, /* @__PURE__ */ React7.createElement("div", { className: "text-warning mb-3 display-4" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "cloud" })), /* @__PURE__ */ React7.createElement("h5", { className: "font-weight-bold" }, "Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ")"), /* @__PURE__ */ React7.createElement("p", { className: "small text-muted" }, "Personalized data synchronization and management portal for authenticated users."), /* @__PURE__ */ React7.createElement("div", { className: "mt-auto" }, /* @__PURE__ */ React7.createElement("span", { className: "badge bg-primary" }, "Cloud Core")))), /* @__PURE__ */ React7.createElement("div", { className: "col-md-6 col-lg-4 mb-4" }, /* @__PURE__ */ React7.createElement("div", { className: "card h-100 shadow-sm border-0 rounded-lg text-center p-4" }, /* @__PURE__ */ React7.createElement("div", { className: "text-warning mb-3 display-4" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "chart-bar" })), /* @__PURE__ */ React7.createElement("h5", { className: "font-weight-bold" }, "Visualizer (", /* @__PURE__ */ React7.createElement("abbr", { title: "Data Source Visualizer" }, "DSV"), ")"), /* @__PURE__ */ React7.createElement("p", { className: "small text-muted" }, "Advanced visualization engine for cross-platform health and activity metrics."), /* @__PURE__ */ React7.createElement("div", { className: "mt-auto" }, /* @__PURE__ */ React7.createElement("span", { className: "badge bg-success" }, "Telemetry Visualizer"))))))));
+  return /* @__PURE__ */ React7.createElement(React7.Fragment, null, /* @__PURE__ */ React7.createElement(Navigation_default, null), /* @__PURE__ */ React7.createElement("header", { className: "justify-content-center py-2 bg-warning text-center text-white shadow-sm mt-5" }, /* @__PURE__ */ React7.createElement("div", { className: "container" }, /* @__PURE__ */ React7.createElement("div", { className: "row" }, /* @__PURE__ */ React7.createElement("div", { className: "col" }, /* @__PURE__ */ React7.createElement("h1", { className: "font-weight-bold" }, "HolimaX Product Ecosystem | ", authState?.isAuthenticated ? /* @__PURE__ */ React7.createElement(React7.Fragment, null, "Personalized Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ")") : /* @__PURE__ */ React7.createElement(React7.Fragment, null, "The Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Cloud Dashboard" }, "CD"), ")")), /* @__PURE__ */ React7.createElement("p", null, "Version ", process.env.REACT_APP_VERSION || "0.1.20", " - Please", " ", /* @__PURE__ */ React7.createElement(Link2, { to: "/login", className: "text-white text-decoration-underline fw-bold" }, "Login"), " ", "to view your personalized resources!"))))), /* @__PURE__ */ React7.createElement("section", { className: "py-5 bg-light", "aria-label": "Product Ecosystem Overview" }, /* @__PURE__ */ React7.createElement("div", { className: "container" }, /* @__PURE__ */ React7.createElement(Alert2, { variant: "warning", className: "shadow-sm border-0 mb-5 fw-light" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "exclamation-triangle", className: "me-2", "aria-hidden": "true" }), /* @__PURE__ */ React7.createElement("strong", null, "Ecosystem Notice:"), " If you have access to the ", /* @__PURE__ */ React7.createElement("strong", null, "Personalized Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ")"), ", but are currently utilizing the standard ", /* @__PURE__ */ React7.createElement("strong", null, "Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Cloud Dashboard" }, "CD"), ")"), " interface, certain premium data synchronization features and advanced analytical modules will remain unused."), /* @__PURE__ */ React7.createElement("div", { className: "row" }, /* @__PURE__ */ React7.createElement("div", { className: "col-md-6 col-lg-4 mb-4" }, /* @__PURE__ */ React7.createElement("div", { className: "card h-100 shadow-sm border-0 rounded-lg text-center p-4" }, /* @__PURE__ */ React7.createElement("div", { className: "text-warning mb-3 display-4" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "mobile-alt", "aria-hidden": "true" })), /* @__PURE__ */ React7.createElement("h5", { className: "font-weight-bold" }, "Mobile Application"), /* @__PURE__ */ React7.createElement("p", { className: "small text-muted" }, "Flagship mobile client for real-time telemetry tracking and synchronization."), /* @__PURE__ */ React7.createElement("div", { className: "mt-auto" }, /* @__PURE__ */ React7.createElement("span", { className: "badge bg-secondary" }, "Android Companion")))), /* @__PURE__ */ React7.createElement("div", { className: "col-md-6 col-lg-4 mb-4" }, /* @__PURE__ */ React7.createElement("div", { className: "card h-100 shadow-sm border-0 rounded-lg text-center p-4" }, /* @__PURE__ */ React7.createElement("div", { className: "text-warning mb-3 display-4" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "cloud", "aria-hidden": "true" })), /* @__PURE__ */ React7.createElement("h5", { className: "font-weight-bold" }, "Cloud Dashboard (", /* @__PURE__ */ React7.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ")"), /* @__PURE__ */ React7.createElement("p", { className: "small text-muted" }, "Personalized data synchronization and management portal for authenticated users."), /* @__PURE__ */ React7.createElement("div", { className: "mt-auto" }, /* @__PURE__ */ React7.createElement("span", { className: "badge bg-primary" }, "Cloud Core")))), /* @__PURE__ */ React7.createElement("div", { className: "col-md-6 col-lg-4 mb-4" }, /* @__PURE__ */ React7.createElement("div", { className: "card h-100 shadow-sm border-0 rounded-lg text-center p-4" }, /* @__PURE__ */ React7.createElement("div", { className: "text-warning mb-3 display-4" }, /* @__PURE__ */ React7.createElement(FontAwesomeIcon3, { icon: "chart-bar", "aria-hidden": "true" })), /* @__PURE__ */ React7.createElement("h5", { className: "font-weight-bold" }, "Visualizer (", /* @__PURE__ */ React7.createElement("abbr", { title: "Data Source Visualizer" }, "DSV"), ")"), /* @__PURE__ */ React7.createElement("p", { className: "small text-muted" }, "Advanced visualization engine for cross-platform health and activity metrics."), /* @__PURE__ */ React7.createElement("div", { className: "mt-auto" }, /* @__PURE__ */ React7.createElement("span", { className: "badge bg-success" }, "Telemetry Visualizer"))))))));
 };
 var user_default = Dashboard;
 
@@ -3399,7 +3412,7 @@ var favourites_default = connect5(
 
 // src/components/navbar.jsx
 import React9, { useEffect as useEffect7, useCallback as useCallback4 } from "react";
-import { Link as Link3, useLocation as useLocation2 } from "react-router-dom";
+import { Link as Link3, NavLink as NavLink2, useLocation as useLocation2 } from "react-router-dom";
 import { useOktaAuth as useOktaAuth5 } from "@okta/okta-react";
 import ReactGA5 from "react-ga4";
 var Navbar = () => {
@@ -3413,7 +3426,7 @@ var Navbar = () => {
   useEffect7(() => {
     ReactGA5.send({ hitType: "pageview", page: location.pathname + location.search });
   }, [location]);
-  return /* @__PURE__ */ React9.createElement("nav", { className: "navbar navbar-expand fixed-top navbar-dark bg-warning shadow-sm" }, /* @__PURE__ */ React9.createElement("div", { className: "container-fluid" }, /* @__PURE__ */ React9.createElement(Link3, { to: "/", className: "navbar-brand font-weight-bold text-white" }, "Beer Bank"), /* @__PURE__ */ React9.createElement("div", { className: "collapse navbar-collapse", id: "navbarsExample02" }, /* @__PURE__ */ React9.createElement("ul", { className: "navbar-nav ms-auto align-items-center" }, /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(Link3, { className: "nav-link text-white", to: "/" }, "Home")), /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(Link3, { className: "nav-link text-white", to: "/favourite" }, "Favourite")), /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(Link3, { className: "nav-link text-white", to: "/user" }, "Dashboard")), authState?.isAuthenticated ? /* @__PURE__ */ React9.createElement(React9.Fragment, null, /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(Link3, { className: "nav-link text-white", to: "/profile" }, "Profile")), /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement("button", { className: "btn btn-link nav-link text-white", onClick: logout }, "Logout"))) : /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(Link3, { className: "nav-link text-white", to: "/login" }, "Login"))))));
+  return /* @__PURE__ */ React9.createElement("nav", { className: "navbar navbar-expand fixed-top navbar-dark bg-warning shadow-sm", "aria-label": "Main navigation" }, /* @__PURE__ */ React9.createElement("div", { className: "container-fluid" }, /* @__PURE__ */ React9.createElement(Link3, { to: "/", className: "navbar-brand font-weight-bold text-white" }, "Beer Bank"), /* @__PURE__ */ React9.createElement("div", { className: "collapse navbar-collapse", id: "navbarsExample02" }, /* @__PURE__ */ React9.createElement("ul", { className: "navbar-nav ms-auto align-items-center" }, /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(NavLink2, { end: true, className: ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`, to: "/" }, "Home")), /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(NavLink2, { className: ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`, to: "/favourite" }, "Favourite")), /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(NavLink2, { className: ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`, to: "/user" }, "Dashboard")), authState?.isAuthenticated ? /* @__PURE__ */ React9.createElement(React9.Fragment, null, /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(NavLink2, { className: ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`, to: "/profile" }, "Profile")), /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement("button", { type: "button", className: "btn btn-link nav-link text-white", onClick: logout }, "Logout"))) : /* @__PURE__ */ React9.createElement("li", { className: "nav-item" }, /* @__PURE__ */ React9.createElement(NavLink2, { className: ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`, to: "/login" }, "Login"))))));
 };
 var navbar_default = Navbar;
 
@@ -3458,24 +3471,28 @@ var LoginForm = () => {
     }
     return null;
   }
-  return /* @__PURE__ */ React10.createElement("div", { className: "bg-light py-5 min-vh-100 mt-5" }, error && /* @__PURE__ */ React10.createElement("div", { className: "alert alert-warning alert-dismissible fade show shadow-sm", role: "alert" }, /* @__PURE__ */ React10.createElement("strong", null, "Notice:"), " ", error, /* @__PURE__ */ React10.createElement("button", { type: "button", className: "btn-close", onClick: () => setError(null), "aria-label": "Close" })), /* @__PURE__ */ React10.createElement("div", { className: "row justify-content-center" }, /* @__PURE__ */ React10.createElement("div", { className: "col-md-8 col-lg-5" }, /* @__PURE__ */ React10.createElement("div", { className: "card shadow-sm border-0 rounded-3" }, /* @__PURE__ */ React10.createElement("div", { className: "card-header bg-white border-bottom-0 pt-4 text-center" }, /* @__PURE__ */ React10.createElement("div", { className: "text-warning mb-2 display-4" }, /* @__PURE__ */ React10.createElement(FontAwesomeIcon4, { icon: faBeer })), /* @__PURE__ */ React10.createElement("h3", { className: "fw-light my-2" }, "Account Login"), /* @__PURE__ */ React10.createElement("p", { className: "text-muted small" }, "Access Personalized Cloud Dashboard (PCD) features!")), /* @__PURE__ */ React10.createElement("div", { className: "card-body px-4" }, /* @__PURE__ */ React10.createElement("form", { onSubmit: handleSubmit }, /* @__PURE__ */ React10.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React10.createElement("label", { htmlFor: "username", className: "form-label small text-muted" }, "Username:"), /* @__PURE__ */ React10.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React10.createElement("span", { className: "input-group-text" }, /* @__PURE__ */ React10.createElement(FontAwesomeIcon4, { icon: faEnvelope, className: "text-muted" })), /* @__PURE__ */ React10.createElement(
+  return /* @__PURE__ */ React10.createElement("div", { className: "bg-light py-5 min-vh-100 mt-5" }, error && /* @__PURE__ */ React10.createElement("div", { className: "alert alert-warning alert-dismissible fade show shadow-sm", role: "alert" }, /* @__PURE__ */ React10.createElement("strong", null, "Notice:"), " ", error, /* @__PURE__ */ React10.createElement("button", { type: "button", className: "btn-close", onClick: () => setError(null), "aria-label": "Close" })), /* @__PURE__ */ React10.createElement("div", { className: "row justify-content-center" }, /* @__PURE__ */ React10.createElement("div", { className: "col-md-8 col-lg-5" }, /* @__PURE__ */ React10.createElement("div", { className: "card shadow-sm border-0 rounded-3" }, /* @__PURE__ */ React10.createElement("div", { className: "card-header bg-white border-bottom-0 pt-4 text-center" }, /* @__PURE__ */ React10.createElement("div", { className: "text-warning mb-2 display-4" }, /* @__PURE__ */ React10.createElement(FontAwesomeIcon4, { icon: faBeer, "aria-hidden": "true" })), /* @__PURE__ */ React10.createElement("h3", { className: "fw-light my-2" }, "Account Login"), /* @__PURE__ */ React10.createElement("p", { className: "text-muted small" }, "Access Personalized Cloud Dashboard (", /* @__PURE__ */ React10.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ") features!")), /* @__PURE__ */ React10.createElement("div", { className: "card-body px-4" }, /* @__PURE__ */ React10.createElement("form", { onSubmit: handleSubmit }, /* @__PURE__ */ React10.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React10.createElement("label", { htmlFor: "username", className: "form-label small text-muted" }, "Username:"), /* @__PURE__ */ React10.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React10.createElement("span", { className: "input-group-text", "aria-hidden": "true" }, /* @__PURE__ */ React10.createElement(FontAwesomeIcon4, { icon: faEnvelope, className: "text-muted", "aria-hidden": "true" })), /* @__PURE__ */ React10.createElement(
     "input",
     {
       className: "form-control",
       placeholder: "Username or Email",
       type: "text",
       id: "username",
+      name: "username",
+      autoComplete: "username",
       value: username,
       onChange: handleUsernameChange,
       required: true
     }
-  ))), /* @__PURE__ */ React10.createElement("div", { className: "mb-4" }, /* @__PURE__ */ React10.createElement("label", { htmlFor: "password", className: "form-label small text-muted" }, "Password:"), /* @__PURE__ */ React10.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React10.createElement("span", { className: "input-group-text" }, /* @__PURE__ */ React10.createElement(FontAwesomeIcon4, { icon: faLock, className: "text-muted" })), /* @__PURE__ */ React10.createElement(
+  ))), /* @__PURE__ */ React10.createElement("div", { className: "mb-4" }, /* @__PURE__ */ React10.createElement("label", { htmlFor: "password", className: "form-label small text-muted" }, "Password:"), /* @__PURE__ */ React10.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React10.createElement("span", { className: "input-group-text", "aria-hidden": "true" }, /* @__PURE__ */ React10.createElement(FontAwesomeIcon4, { icon: faLock, className: "text-muted", "aria-hidden": "true" })), /* @__PURE__ */ React10.createElement(
     "input",
     {
       className: "form-control",
       placeholder: "Password",
       type: "password",
       id: "password",
+      name: "password",
+      autoComplete: "current-password",
       value: password,
       onChange: handlePasswordChange,
       required: true
@@ -3511,8 +3528,7 @@ var ProfilePage = ({ healthCards = [] }) => {
       oktaAuth.getUser().then(setUser).catch((err) => console.error("Error fetching user profile:", err));
     }
   }, [authState, oktaAuth]);
-  if (!user)
-    return null;
+  if (!user) return null;
   const isPro = user?.tier === "PRO" || user?.tier === "PREMIUM";
   return /* @__PURE__ */ React12.createElement("div", { className: "profile-wrapper container py-5 mt-5" }, /* @__PURE__ */ React12.createElement("section", { className: "pro-appreciation" }, isPro && /* @__PURE__ */ React12.createElement("div", { className: "alert alert-warning shadow-sm mb-4" }, /* @__PURE__ */ React12.createElement("h4", { className: "fw-bold" }, "Welcome, Valued Customer!"), /* @__PURE__ */ React12.createElement("p", { className: "mb-0" }, "Your account is enabled for Personalized Cloud Dashboard (PCD) integration features."))), /* @__PURE__ */ React12.createElement("div", { className: "card shadow-sm border-0 rounded-3 mb-4" }, /* @__PURE__ */ React12.createElement("div", { className: "card-header bg-white border-bottom-0 pt-4" }, /* @__PURE__ */ React12.createElement("h3", { className: "fw-light mb-1" }, "User Profile"), /* @__PURE__ */ React12.createElement("p", { className: "text-muted small" }, "Personalized account overview and configuration settings")), /* @__PURE__ */ React12.createElement("div", { className: "card-body px-4" }, /* @__PURE__ */ React12.createElement("ul", { className: "list-group list-group-flush mb-3" }, /* @__PURE__ */ React12.createElement("li", { className: "list-group-item d-flex justify-content-between align-items-center" }, /* @__PURE__ */ React12.createElement("strong", null, "Name:"), /* @__PURE__ */ React12.createElement("span", null, user.name || "N/A")), /* @__PURE__ */ React12.createElement("li", { className: "list-group-item d-flex justify-content-between align-items-center" }, /* @__PURE__ */ React12.createElement("strong", null, "Email / Account:"), /* @__PURE__ */ React12.createElement("span", null, user.email || "N/A")), /* @__PURE__ */ React12.createElement("li", { className: "list-group-item d-flex justify-content-between align-items-center" }, /* @__PURE__ */ React12.createElement("strong", null, "Locale:"), /* @__PURE__ */ React12.createElement("span", null, user.locale || "en_US")), /* @__PURE__ */ React12.createElement("li", { className: "list-group-item d-flex justify-content-between align-items-center" }, /* @__PURE__ */ React12.createElement("strong", null, "Access Tier:"), /* @__PURE__ */ React12.createElement("span", { className: "badge bg-warning text-dark" }, user.tier || (isPro ? "PRO / PREMIUM" : "STANDARD"))), /* @__PURE__ */ React12.createElement("li", { className: "list-group-item d-flex justify-content-between align-items-center" }, /* @__PURE__ */ React12.createElement("strong", null, "Sync Status:"), /* @__PURE__ */ React12.createElement("span", { className: "text-success fw-bold" }, "Active"))))), /* @__PURE__ */ React12.createElement("div", { className: "card shadow-sm border-0 rounded-3 mb-4" }, /* @__PURE__ */ React12.createElement("div", { className: "card-header bg-white border-bottom-0 pt-4" }, /* @__PURE__ */ React12.createElement("h4", { className: "fw-light mb-1" }, "Your Cloud Dashboard Cards"), /* @__PURE__ */ React12.createElement("p", { className: "text-muted small" }, "Processed telemetry cards and synchronized targets")), /* @__PURE__ */ React12.createElement("div", { className: "card-body px-4" }, healthCards && healthCards.length > 0 ? healthCards.map((card) => /* @__PURE__ */ React12.createElement("div", { className: "border rounded p-3 mb-2 shadow-sm", key: card.id }, /* @__PURE__ */ React12.createElement("div", { className: "d-flex justify-content-between align-items-center" }, /* @__PURE__ */ React12.createElement("strong", null, card.title), /* @__PURE__ */ React12.createElement("span", { className: "badge bg-info text-dark" }, "Source: ", card.meta?.dataSource || "Sync Target")), /* @__PURE__ */ React12.createElement("p", { className: "mb-1 mt-2" }, card.summary))) : /* @__PURE__ */ React12.createElement("p", { className: "text-muted font-italic mb-0" }, "No custom telemetry cards configured yet. Synchronize your mobile app or external integrations to view cards here."))));
 };
@@ -3540,11 +3556,10 @@ var i = function(e2) {
 };
 var o = /(http|https):\/\/(www)?.+\/recaptcha/;
 var a = ["sitekey", "theme", "size", "badge", "tabindex", "hl", "isolated"];
-var c = /* @__PURE__ */ function(t2) {
+var c = /* @__PURE__ */ (function(t2) {
   var c2, s;
   function p() {
-    for (var r2, a2 = arguments.length, c3 = new Array(a2), s2 = 0; s2 < a2; s2++)
-      c3[s2] = arguments[s2];
+    for (var r2, a2 = arguments.length, c3 = new Array(a2), s2 = 0; s2 < a2; s2++) c3[s2] = arguments[s2];
     return (r2 = t2.call.apply(t2, [this].concat(c3)) || this).container = void 0, r2.timer = void 0, r2.state = { instanceKey: Date.now(), ready: false, rendered: false, invisible: "invisible" === r2.props.size }, r2._isAvailable = function() {
       var e2;
       return Boolean(null == (e2 = window.grecaptcha) ? void 0 : e2.ready);
@@ -3581,10 +3596,8 @@ var c = /* @__PURE__ */ function(t2) {
       r2._stopTimer();
     }, r2.renderExplicitly = function() {
       return new Promise(function(e2, t3) {
-        if (r2.state.rendered)
-          return t3(new Error("This recaptcha instance has been already rendered."));
-        if (!r2.state.ready || !r2.container)
-          return t3(new Error("Recaptcha is not ready for rendering yet."));
+        if (r2.state.rendered) return t3(new Error("This recaptcha instance has been already rendered."));
+        if (!r2.state.ready || !r2.container) return t3(new Error("Recaptcha is not ready for rendering yet."));
         var n2 = r2._renderRecaptcha(r2.container, { sitekey: r2.props.sitekey, theme: r2.props.theme, size: r2.props.size, badge: r2.state.invisible ? r2.props.badge : void 0, tabindex: r2.props.tabindex, callback: r2._onVerify, "expired-callback": r2._onExpire, "error-callback": r2._onError, isolated: r2.state.invisible ? r2.props.isolated : void 0, hl: r2.state.invisible ? void 0 : r2.props.hl });
         r2.setState({ instanceId: n2, rendered: true }, function() {
           r2.props.onRender && r2.props.onRender(), e2();
@@ -3592,8 +3605,7 @@ var c = /* @__PURE__ */ function(t2) {
       });
     }, r2.reset = function() {
       return new Promise(function(e2, t3) {
-        if (r2.state.rendered)
-          return r2._resetRecaptcha(), e2();
+        if (r2.state.rendered) return r2._resetRecaptcha(), e2();
         t3(new Error("This recaptcha instance did not render yet."));
       });
     }, r2.execute = function() {
@@ -3602,8 +3614,7 @@ var c = /* @__PURE__ */ function(t2) {
       });
     }, r2.getResponse = function() {
       return new Promise(function(e2, t3) {
-        if (r2.state.rendered)
-          return e2(r2._getResponseRecaptcha());
+        if (r2.state.rendered) return e2(r2._getResponseRecaptcha());
         t3(new Error("This recaptcha instance did not render yet."));
       });
     }, r2.render = function() {
@@ -3624,7 +3635,7 @@ var c = /* @__PURE__ */ function(t2) {
       t3.props.explicit || t3.renderExplicitly();
     });
   }, p;
-}(t);
+})(t);
 c.defaultProps = { id: "", className: "g-recaptcha", theme: "light", size: "normal", badge: "bottomright", tabindex: 0, explicit: false, inject: true, isolated: false, hl: "" };
 
 // src/components/auth/RegistrationForm.js
@@ -3669,18 +3680,59 @@ var RegistrationForm = () => {
     }
     return null;
   }
-  return /* @__PURE__ */ React13.createElement("div", { className: "bg-light py-5 min-vh-100 mt-5" }, error && /* @__PURE__ */ React13.createElement("div", { className: "alert alert-warning alert-dismissible fade show shadow-sm", role: "alert" }, /* @__PURE__ */ React13.createElement("strong", null, "Notice:"), " ", error, /* @__PURE__ */ React13.createElement("button", { type: "button", className: "btn-close", onClick: () => setError(null), "aria-label": "Close" })), /* @__PURE__ */ React13.createElement("div", { className: "row justify-content-center" }, /* @__PURE__ */ React13.createElement("div", { className: "col-md-8 col-lg-5" }, /* @__PURE__ */ React13.createElement("div", { className: "card shadow-sm border-0 rounded-3" }, /* @__PURE__ */ React13.createElement("div", { className: "card-header bg-white border-bottom-0 pt-4 text-center" }, /* @__PURE__ */ React13.createElement("div", { className: "text-warning mb-2 display-4" }, /* @__PURE__ */ React13.createElement(FontAwesomeIcon5, { icon: faBeer2 })), /* @__PURE__ */ React13.createElement("h3", { className: "fw-light my-2" }, "Create Account"), /* @__PURE__ */ React13.createElement("p", { className: "text-muted small" }, "Access Personalized Cloud Dashboard (PCD) features!")), /* @__PURE__ */ React13.createElement("div", { className: "card-body px-4" }, /* @__PURE__ */ React13.createElement("form", { onSubmit: handleSubmit }, /* @__PURE__ */ React13.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React13.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React13.createElement("span", { className: "input-group-text" }, /* @__PURE__ */ React13.createElement(FontAwesomeIcon5, { icon: faEnvelope2, className: "text-muted" })), /* @__PURE__ */ React13.createElement(
+  return /* @__PURE__ */ React13.createElement("div", { className: "bg-light py-5 min-vh-100 mt-5" }, error && /* @__PURE__ */ React13.createElement("div", { className: "alert alert-warning alert-dismissible fade show shadow-sm", role: "alert" }, /* @__PURE__ */ React13.createElement("strong", null, "Notice:"), " ", error, /* @__PURE__ */ React13.createElement("button", { type: "button", className: "btn-close", onClick: () => setError(null), "aria-label": "Close" })), /* @__PURE__ */ React13.createElement("div", { className: "row justify-content-center" }, /* @__PURE__ */ React13.createElement("div", { className: "col-md-8 col-lg-5" }, /* @__PURE__ */ React13.createElement("div", { className: "card shadow-sm border-0 rounded-3" }, /* @__PURE__ */ React13.createElement("div", { className: "card-header bg-white border-bottom-0 pt-4 text-center" }, /* @__PURE__ */ React13.createElement("div", { className: "text-warning mb-2 display-4" }, /* @__PURE__ */ React13.createElement(FontAwesomeIcon5, { icon: faBeer2, "aria-hidden": "true" })), /* @__PURE__ */ React13.createElement("h3", { className: "fw-light my-2" }, "Create Account"), /* @__PURE__ */ React13.createElement("p", { className: "text-muted small" }, "Access Personalized Cloud Dashboard (", /* @__PURE__ */ React13.createElement("abbr", { title: "Personalized Cloud Dashboard" }, "PCD"), ") features!")), /* @__PURE__ */ React13.createElement("div", { className: "card-body px-4" }, /* @__PURE__ */ React13.createElement("form", { onSubmit: handleSubmit }, /* @__PURE__ */ React13.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React13.createElement("label", { htmlFor: "email", className: "form-label small text-muted" }, "Email Address:"), /* @__PURE__ */ React13.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React13.createElement("span", { className: "input-group-text", "aria-hidden": "true" }, /* @__PURE__ */ React13.createElement(FontAwesomeIcon5, { icon: faEnvelope2, className: "text-muted", "aria-hidden": "true" })), /* @__PURE__ */ React13.createElement(
     "input",
     {
       className: "form-control",
       placeholder: "Email Address",
       type: "email",
       id: "email",
+      name: "email",
+      autoComplete: "email",
       value: fields.email,
       onChange: handleChange,
       required: true
     }
-  ))), /* @__PURE__ */ React13.createElement("div", { className: "row" }, /* @__PURE__ */ React13.createElement("div", { className: "col-6 pe-1" }, /* @__PURE__ */ React13.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React13.createElement("input", { className: "form-control", placeholder: "First Name", type: "text", id: "firstName", value: fields.firstName, onChange: handleChange, required: true }))), /* @__PURE__ */ React13.createElement("div", { className: "col-6 ps-1" }, /* @__PURE__ */ React13.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React13.createElement("input", { className: "form-control", placeholder: "Last Name", type: "text", id: "lastName", value: fields.lastName, onChange: handleChange, required: true })))), /* @__PURE__ */ React13.createElement("div", { className: "mb-4" }, /* @__PURE__ */ React13.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React13.createElement("span", { className: "input-group-text" }, /* @__PURE__ */ React13.createElement(FontAwesomeIcon5, { icon: faLock2, className: "text-muted" })), /* @__PURE__ */ React13.createElement("input", { className: "form-control", placeholder: "Password", type: "password", id: "password", value: fields.password, onChange: handleChange, required: true }))), /* @__PURE__ */ React13.createElement("div", { className: "d-flex justify-content-center mb-4" }, key ? /* @__PURE__ */ React13.createElement(c, { sitekey: key }) : null), /* @__PURE__ */ React13.createElement("div", { className: "text-center" }, /* @__PURE__ */ React13.createElement("button", { type: "submit", id: "submit", className: "btn btn-warning w-100 shadow-sm py-2 fw-bold text-uppercase" }, "Register"))))))));
+  ))), /* @__PURE__ */ React13.createElement("div", { className: "row" }, /* @__PURE__ */ React13.createElement("div", { className: "col-6 pe-1" }, /* @__PURE__ */ React13.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React13.createElement("label", { htmlFor: "firstName", className: "form-label small text-muted" }, "First Name:"), /* @__PURE__ */ React13.createElement(
+    "input",
+    {
+      className: "form-control",
+      placeholder: "First Name",
+      type: "text",
+      id: "firstName",
+      name: "firstName",
+      autoComplete: "given-name",
+      value: fields.firstName,
+      onChange: handleChange,
+      required: true
+    }
+  ))), /* @__PURE__ */ React13.createElement("div", { className: "col-6 ps-1" }, /* @__PURE__ */ React13.createElement("div", { className: "mb-3" }, /* @__PURE__ */ React13.createElement("label", { htmlFor: "lastName", className: "form-label small text-muted" }, "Last Name:"), /* @__PURE__ */ React13.createElement(
+    "input",
+    {
+      className: "form-control",
+      placeholder: "Last Name",
+      type: "text",
+      id: "lastName",
+      name: "lastName",
+      autoComplete: "family-name",
+      value: fields.lastName,
+      onChange: handleChange,
+      required: true
+    }
+  )))), /* @__PURE__ */ React13.createElement("div", { className: "mb-4" }, /* @__PURE__ */ React13.createElement("label", { htmlFor: "password", className: "form-label small text-muted" }, "Password:"), /* @__PURE__ */ React13.createElement("div", { className: "input-group input-group-alternative" }, /* @__PURE__ */ React13.createElement("span", { className: "input-group-text", "aria-hidden": "true" }, /* @__PURE__ */ React13.createElement(FontAwesomeIcon5, { icon: faLock2, className: "text-muted", "aria-hidden": "true" })), /* @__PURE__ */ React13.createElement(
+    "input",
+    {
+      className: "form-control",
+      placeholder: "Password",
+      type: "password",
+      id: "password",
+      name: "password",
+      autoComplete: "new-password",
+      value: fields.password,
+      onChange: handleChange,
+      required: true
+    }
+  ))), /* @__PURE__ */ React13.createElement("div", { className: "d-flex justify-content-center mb-4" }, key ? /* @__PURE__ */ React13.createElement(c, { sitekey: key }) : null), /* @__PURE__ */ React13.createElement("div", { className: "text-center" }, /* @__PURE__ */ React13.createElement("button", { type: "submit", id: "submit", className: "btn btn-warning w-100 shadow-sm py-2 fw-bold text-uppercase" }, "Register"))))))));
 };
 var RegistrationForm_default = RegistrationForm;
 
@@ -3739,7 +3791,8 @@ function myFunction(options = {}) {
       "platformapps-telemetry",
       "circuit-breaker-retry",
       "okta-oidc-auth",
-      "favourites-sync"
+      "favourites-sync",
+      "wcag-2.2-aa-aaa-compliance"
     ],
     initialized: true,
     ...safeOptions

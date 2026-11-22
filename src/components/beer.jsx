@@ -19,22 +19,45 @@ const Beer = ({ beer, favourites, handleFavourite, onDetail }) => {
     handleFavourite(beer);
   };
 
+  const handleCardKeyDown = e => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (onDetail) {
+        onDetail(beer);
+      }
+    }
+  };
+
+  const favLabel = isFavourite
+    ? `Remove ${beer.name} from favourites`
+    : `Add ${beer.name} to favourites`;
+
   return (
     <div
       className="beer-item col-12 col-sm-6 col-md-4 p-3 text-center"
       onClick={() => onDetail && onDetail(beer)}
+      onKeyDown={handleCardKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`View details for ${beer.name}`}
     >
       <div className="details bg-white p-3">
         <div className="row">
           <div className="col-12">
             <button
+              type="button"
               className={
                 "btn btn-link btn-fav float-right " +
                 (isFavourite ? "active" : "")
               }
               onClick={onFavouriteToggle}
+              onKeyDown={e => e.stopPropagation()}
+              aria-label={favLabel}
+              aria-pressed={isFavourite}
+              title={favLabel}
             >
-              <FontAwesomeIcon icon="star" />
+              <FontAwesomeIcon icon="star" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -43,7 +66,7 @@ const Beer = ({ beer, favourites, handleFavourite, onDetail }) => {
           <div className="col">
             <img
               src={beer.image_url}
-              alt={beer.name}
+              alt={beer.name || "Catalog item thumbnail"}
               className="beer-thumbnail"
             />
           </div>

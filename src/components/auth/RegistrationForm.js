@@ -67,22 +67,25 @@ const RegistrationForm = () => {
           <div className="card shadow-sm border-0 rounded-3">
             <div className="card-header bg-white border-bottom-0 pt-4 text-center">
               <div className="text-warning mb-2 display-4">
-                <FontAwesomeIcon icon={faBeer} />
+                <FontAwesomeIcon icon={faBeer} aria-hidden="true" />
               </div>
               <h3 className="fw-light my-2">Create Account</h3>
-              <p className="text-muted small">Access Personalized Cloud Dashboard (PCD) features!</p>
+              <p className="text-muted small">Access Personalized Cloud Dashboard (<abbr title="Personalized Cloud Dashboard">PCD</abbr>) features!</p>
             </div>
 
             <div className="card-body px-4">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
+                  <label htmlFor="email" className="form-label small text-muted">Email Address:</label>
                   <div className="input-group input-group-alternative">
-                    <span className="input-group-text"><FontAwesomeIcon icon={faEnvelope} className="text-muted" /></span>
+                    <span className="input-group-text" aria-hidden="true"><FontAwesomeIcon icon={faEnvelope} className="text-muted" aria-hidden="true" /></span>
                     <input
                       className="form-control"
                       placeholder="Email Address"
                       type="email"
                       id="email"
+                      name="email"
+                      autoComplete="email"
                       value={fields.email}
                       onChange={handleChange}
                       required
@@ -93,20 +96,53 @@ const RegistrationForm = () => {
                 <div className="row">
                   <div className="col-6 pe-1">
                     <div className="mb-3">
-                      <input className="form-control" placeholder="First Name" type="text" id="firstName" value={fields.firstName} onChange={handleChange} required />
+                      <label htmlFor="firstName" className="form-label small text-muted">First Name:</label>
+                      <input
+                        className="form-control"
+                        placeholder="First Name"
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        autoComplete="given-name"
+                        value={fields.firstName}
+                        onChange={handleChange}
+                        required
+                      />
                     </div>
                   </div>
                   <div className="col-6 ps-1">
                     <div className="mb-3">
-                      <input className="form-control" placeholder="Last Name" type="text" id="lastName" value={fields.lastName} onChange={handleChange} required />
+                      <label htmlFor="lastName" className="form-label small text-muted">Last Name:</label>
+                      <input
+                        className="form-control"
+                        placeholder="Last Name"
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        autoComplete="family-name"
+                        value={fields.lastName}
+                        onChange={handleChange}
+                        required
+                      />
                     </div>
                   </div>
                 </div>
 
                 <div className="mb-4">
+                  <label htmlFor="password" className="form-label small text-muted">Password:</label>
                   <div className="input-group input-group-alternative">
-                    <span className="input-group-text"><FontAwesomeIcon icon={faLock} className="text-muted" /></span>
-                    <input className="form-control" placeholder="Password" type="password" id="password" value={fields.password} onChange={handleChange} required />
+                    <span className="input-group-text" aria-hidden="true"><FontAwesomeIcon icon={faLock} className="text-muted" aria-hidden="true" /></span>
+                    <input
+                      className="form-control"
+                      placeholder="Password"
+                      type="password"
+                      id="password"
+                      name="password"
+                      autoComplete="new-password"
+                      value={fields.password}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                 </div>
 

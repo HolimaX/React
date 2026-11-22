@@ -128,6 +128,12 @@ async function build() {
 
     await buildEsm();
     fs.writeFileSync(path.join(esmDir, 'package.json'), JSON.stringify({ type: 'module' }, null, 2));
+    if (fs.existsSync(path.join(cjsDir, 'index.js.LICENSE.txt'))) {
+      fs.copyFileSync(
+        path.join(cjsDir, 'index.js.LICENSE.txt'),
+        path.join(esmDir, 'index.js.LICENSE.txt')
+      );
+    }
 
     console.log('[build-lib] Successfully built dual CJS/ESM distribution in dist/.');
   } catch (error) {

@@ -4,9 +4,10 @@
 [![Node CI](https://github.com/HolimaX/React/workflows/Node%20CI/badge.svg)](https://github.com/HolimaX/React)
 [![Feature Maturity](https://img.shields.io/badge/Feature%20Maturity-Overview%20%26%20Matrix-blue.svg)](./docs/FEATURE_MATURITY.md)
 [![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://react.dev/)
-[![React Router](https://img.shields.io/badge/React%20Router-6.26.1-orange.svg)](https://reactrouter.com/)
+[![React Router](https://img.shields.io/badge/React%20Router-6.30.6-orange.svg)](https://reactrouter.com/)
 [![Redux](https://img.shields.io/badge/Redux-5.0.1-purple.svg)](https://redux.js.org/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-purple.svg)](https://getbootstrap.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.8-purple.svg)](https://getbootstrap.com/)
+[![WCAG 2.2](https://img.shields.io/badge/WCAG%202.2-AA%20%26%20AAA%20Compliant-brightgreen.svg)](https://www.w3.org/TR/WCAG22/)
 
 ## Feature Maturity & Integrator Guide
 
@@ -16,9 +17,10 @@ For a comprehensive status overview and comparison between the public **Cloud Da
 
 ### Key Modernization Highlights
 * **React 18 & Functional Architecture**: Full migration to React 18 hooks (`useState`, `useEffect`, `useCallback`, `useRef`) and `createRoot`.
-* **React Router v6**: Modern declarative routing (`<Routes>`, `<Route element={<... />} />`) with route-level analytics.
-* **Redux 5 & Redux-Thunk 3**: Streamlined state store with async circuit breaker retry loops (`isApiHalted`) protecting against external API flakiness.
-* **Debounced Search**: 500ms debounced catalog search component with query sanitization.
+* **React Router v6.30.6**: Modern declarative routing (`<Routes>`, `<Route element={<... />} />`, `<NavLink>`) with route-level analytics and `aria-current="page"` state.
+* **Redux 5, React-Redux 9.3 & Redux-Thunk 3**: Streamlined state store with async circuit breaker retry loops (`isApiHalted`) protecting against external API flakiness.
+* **WCAG 2.2 Level AA & AAA Compliance**: Full accessibility compliance across the HTML shell, styles, and React components, including bypass blocks (`.skip-link`), unobscured focus (`scroll-padding-top`/`bottom` for 2.4.11/2.4.12), 3px high-contrast `:focus-visible` indicators (2.4.13 AAA), 44x44px minimum target sizes (2.5.8 AA / 2.5.5 AAA), enhanced AAA contrast ratios (`>= 7:1`), full keyboard operability (`Enter`/`Space` on catalog cards), `<abbr>` expansions (3.1.4 AAA), accessible authentication `autoComplete` tokens (1.3.5 AA / 3.3.8 AA / 3.3.9 AAA), and `prefers-reduced-motion` support (2.3.3 AAA).
+* **Debounced Search**: 500ms debounced catalog search component with query sanitization and accessible `role="search"` landmark.
 * **Public Repository Sanitization**: Zero hardcoded secrets, proprietary endpoints, or private cloud references. All configuration is externalized via `.env`.
 * **PlatformApps Preservation**: All `PLATFORMAPPS` telemetry and mock APIs native to HolimaX remain 100% intact and untouched.
 

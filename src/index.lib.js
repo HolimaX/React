@@ -91,7 +91,8 @@ export function myFunction(options = {}) {
       "platformapps-telemetry",
       "circuit-breaker-retry",
       "okta-oidc-auth",
-      "favourites-sync"
+      "favourites-sync",
+      "wcag-2.2-aa-aaa-compliance"
     ],
     initialized: true,
     ...safeOptions

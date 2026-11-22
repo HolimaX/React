@@ -1,4 +1,4 @@
-.TH "" "1" "September 2026" "0.1.26"
+.TH "" "1" "October 2026" "0.1.26"
 .SH "NAME"
 \fB\fRCloud Dashboard (CD) Foundation
 .P
@@ -23,7 +23,7 @@
 
 .br
 .UR https://reactrouter.com/
-.I ![React Router](https://img.shields.io/badge/React%20Router-6.26.1-orange.svg)
+.I ![React Router](https://img.shields.io/badge/React%20Router-6.30.6-orange.svg)
 .UE
 
 .br
@@ -33,7 +33,12 @@
 
 .br
 .UR https://getbootstrap.com/
-.I ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-purple.svg)
+.I ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.8-purple.svg)
+.UE
+
+.br
+.UR https://www.w3.org/TR/WCAG22/
+.I ![WCAG 2.2](https://img.shields.io/badge/WCAG%202.2-AA%20%26%20AAA%20Compliant-brightgreen.svg)
 .UE
 .SH Feature Maturity & Integrator Guide
 .P
@@ -50,11 +55,13 @@ For a comprehensive status overview and comparison between the public \fBCloud D
 .IP \(bu 2
 \fBReact 18 & Functional Architecture\fR: Full migration to React 18 hooks (\fBuseState\fP, \fBuseEffect\fP, \fBuseCallback\fP, \fBuseRef\fP) and \fBcreateRoot\fP\|\.
 .IP \(bu 2
-\fBReact Router v6\fR: Modern declarative routing (\fB<Routes>\fP, \fB<Route element={<\.\.\. />} />\fP) with route\-level analytics\.
+\fBReact Router v6\.30\.6\fR: Modern declarative routing (\fB<Routes>\fP, \fB<Route element={<\.\.\. />} />\fP, \fB<NavLink>\fP) with route\-level analytics and \fBaria\-current=&quot;page&quot;\fP state\.
 .IP \(bu 2
-\fBRedux 5 & Redux\-Thunk 3\fR: Streamlined state store with async circuit breaker retry loops (\fBisApiHalted\fP) protecting against external API flakiness\.
+\fBRedux 5, React\-Redux 9\.3 & Redux\-Thunk 3\fR: Streamlined state store with async circuit breaker retry loops (\fBisApiHalted\fP) protecting against external API flakiness\.
 .IP \(bu 2
-\fBDebounced Search\fR: 500ms debounced catalog search component with query sanitization\.
+\fBWCAG 2\.2 Level AA & AAA Compliance\fR: Full accessibility compliance across the HTML shell, styles, and React components, including bypass blocks (\fB\|\.skip\-link\fP), unobscured focus (\fBscroll\-padding\-top\fP/\fBbottom\fP for 2\.4\.11/2\.4\.12), 3px high\-contrast \fB:focus\-visible\fP indicators (2\.4\.13 AAA), 44x44px minimum target sizes (2\.5\.8 AA / 2\.5\.5 AAA), enhanced AAA contrast ratios (\fB>= 7:1\fP), full keyboard operability (\fBEnter\fP/\fBSpace\fP on catalog cards), \fB<abbr>\fP expansions (3\.1\.4 AAA), accessible authentication \fBautoComplete\fP tokens (1\.3\.5 AA / 3\.3\.8 AA / 3\.3\.9 AAA), and \fBprefers\-reduced\-motion\fP support (2\.3\.3 AAA)\.
+.IP \(bu 2
+\fBDebounced Search\fR: 500ms debounced catalog search component with query sanitization and accessible \fBrole=&quot;search&quot;\fP landmark\.
 .IP \(bu 2
 \fBPublic Repository Sanitization\fR: Zero hardcoded secrets, proprietary endpoints, or private cloud references\. All configuration is externalized via \fB\|\.env\fP\|\.
 .IP \(bu 2
@@ -172,6 +179,34 @@ All JSX is pre\-transpiled to standard \fBReact\.createElement\fP calls, ensurin
 .SS \fBnpm run build:all\fP
 .P
 Sequentially runs \fBnpm run build:lib\fP and \fBnpm run build\fP to compile both the reusable NPM package and the standalone web application\.
+.SS Publishing to GitHub Packages
+.P
+The \fB@HolimaX/beerbank\fP package is published to the GitHub Packages registry configured in \fBpackage\.json\fP\|\. Before publishing, create a GitHub Personal Access Token with the \fBwrite:packages\fP permission\. For private repositories, the token may also require \fBrepo\fP permission\.
+.P
+GitHub Packages does not support npm's web login flow\. Authenticate with legacy npm login:
+.RS 2
+.nf
+npm login \-\-auth\-type=legacy \\
+  \-\-scope=@HolimaX \\
+  \-\-registry=https://npm\.pkg\.github\.com
+.fi
+.RE
+.P
+or
+.RS 2
+.nf
+npm config set //npm\.pkg\.github\.com/:_authToken "$GITHUB_TOKEN"
+.fi
+.RE
+.P
+When using \fBnpm login (\.\.\.)\fP, Enter your GitHub username, the Personal Access Token as the password, and your GitHub email when prompted\. Then publish from the repository root:
+.RS 2
+.nf
+npm run publish
+.fi
+.RE
+.P
+The publish script runs the package preparation steps, creates the package tarball, and publishes the current version with the \fBlatest\fP tag\. Each version must be unique; update the \fBversion\fP field in \fBpackage\.json\fP before publishing a version that has already been released\.
 .SS \fBnpm run generate:man\fP (or \fBnpm run man\fP)
 .P
 Compiles \fBREADME\.md\fP into standard UNIX roff/troff manual documentation format at \fBman/beerbank\.1\fP using \fBmarked\-man\fP\|\.

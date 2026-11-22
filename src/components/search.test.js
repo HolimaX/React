@@ -19,14 +19,21 @@ describe('Search Component', () => {
     );
   });
 
-  test('updates input and triggers debounced search', async () => {
+  test('renders accessible search landmark and label, updates input, and triggers debounced search', async () => {
     render(
       <Provider store={store}>
         <Search />
       </Provider>
     );
 
+    const searchForm = screen.getByRole('search', { name: /catalog search/i });
+    expect(searchForm).toBeInTheDocument();
+
+    const inputByLabel = screen.getByLabelText('Search for beer name');
     const input = screen.getByPlaceholderText('Search for beer name');
+    expect(inputByLabel).toBe(input);
+    expect(input).toHaveAttribute('type', 'search');
+
     fireEvent.change(input, { target: { value: 'IPA' } });
 
     expect(input.value).toBe('IPA');
@@ -40,3 +47,4 @@ describe('Search Component', () => {
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('beer_name=IPA'));
   });
 });
+

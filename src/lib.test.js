@@ -67,6 +67,7 @@ describe('Library Module Integration & Exports', () => {
       expect(result.capabilities).toContain('catalog-browsing');
       expect(result.capabilities).toContain('debounced-search');
       expect(result.capabilities).toContain('platformapps-telemetry');
+      expect(result.capabilities).toContain('wcag-2.2-aa-aaa-compliance');
 
       infoSpy.mockRestore();
     });

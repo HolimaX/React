@@ -35,12 +35,22 @@ const Search = ({ searchBeers, fetchBeers, searchPlatformapps, fetchPlatformApps
 
   return (
     <div className="row justify-content-center">
-      <form className="col-md-6 col-sm-12" onSubmit={e => e.preventDefault()}>
+      <form
+        className="col-md-6 col-sm-12"
+        role="search"
+        aria-label="Catalog search"
+        onSubmit={e => e.preventDefault()}
+      >
         <div className="form-group">
+          <label htmlFor="beer-search-input" className="visually-hidden">
+            Search for beer name
+          </label>
           <input
-            type="text"
+            id="beer-search-input"
+            type="search"
             className="form-control"
             placeholder="Search for beer name"
+            aria-label="Search for beer name"
             value={keyword}
             onChange={onSearch}
           />

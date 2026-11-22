@@ -33,6 +33,12 @@
   ],
   "start_url": ".",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "lang": "en-US",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

@@ -24,13 +24,19 @@ const BeerDetails = ({ beer = {}, onClose }) => {
 
   return (
     <div className="modal-body py-3">
-      <button type="button" className="btn-close float-end" onClick={onClose} aria-label="Close" />
+      <button
+        type="button"
+        className="btn-close float-end"
+        onClick={onClose}
+        aria-label="Close beer details"
+        title="Close beer details"
+      />
 
       <div className="row p-2 beer-detail">
         <div className="col-lg-3 mb-2 p-2">
           <img
             src={beer.image_url}
-            alt={beer.name}
+            alt={beer.name || "Beer illustration"}
             className="img-fluid d-block mx-auto"
           />
         </div>
@@ -38,17 +44,17 @@ const BeerDetails = ({ beer = {}, onClose }) => {
           <h3 className="text-warning font-weight-bold">{beer.name}</h3>
           <h5 className="beer-tagline">{beer.tagline}</h5>
 
-          <div className="divider my-2" />
+          <div className="divider my-2" aria-hidden="true" />
 
           <ul className="list-inline">
             <li className="list-inline-item">
-              <strong>IBU:</strong> {beer.ibu}
+              <strong><abbr title="International Bitterness Units">IBU</abbr>:</strong> {beer.ibu}
             </li>
             <li className="list-inline-item">
-              <strong>ABV:</strong> {beer.abv + "%"}
+              <strong><abbr title="Alcohol by Volume">ABV</abbr>:</strong> {beer.abv + "%"}
             </li>
             <li className="list-inline-item">
-              <strong>EBC:</strong> {beer.ebc}
+              <strong><abbr title="European Brewery Convention">EBC</abbr>:</strong> {beer.ebc}
             </li>
           </ul>
 

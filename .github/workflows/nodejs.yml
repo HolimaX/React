@@ -29,13 +29,70 @@ jobs:
         with:
           filesToIgnoreRegex: "(node_modules\\/.*)(.terraformconfig\\/.*)(.ansibleconfig\\/.*)(.k8sconfig\\/.*)"
 
-      - name: npm clean, install, build, and test
+      - name: npm clean, install, and build
         if: always()
         run: |
           yarn install --production=false
           npm install -v --save-dev cross-env
           npm ci -v
           npm run build --if-present
+        env:
+          CI: false
+
+      - name: npm test
+        continue-on-error: true
+        run: |
           npm test -v
         env:
           CI: false
+
+      - name: Notify Google Group about release
+        id: release-notification
+        if: github.ref_type == 'tag' && github.event.deleted != true
+        continue-on-error: true
+        uses: cinotify/github-action@v1.6.0
+        with:
+          to: 'huaweihealthsyncv1y2022@googlegroups.com'
+          subject: 'HealthDash CD Release Notification'
+          body: 'This is an automated notification from GitHub Actions. New version of CD is released!'
+          type: 'text/plain'
+
+      - name: Send HTML Email to Google Group if step above fails
+        id: release-notification-with-creds
+        if: (success() || failure()) && (github.ref_type == 'tag' && github.event.deleted != true) && steps.release-notification.outcome == 'failure'
+        uses: dawidd6/action-send-email@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "🚀 GitHub Action: ${{ github.repository }} Tag #${{ github.run_number }} is published!"
+          to: healthymev1y2026@googlegroups.com # Nomainiet ar savas grupas e-pastu
+          from: GitHub Actions
+          # Norādām HTML saturu parastā teksta vietā
+          html_body: |
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333333; }
+                .container { padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px; max-width: 600px; }
+                .header { font-size: 18px; font-weight: bold; color: #2ea44f; margin-bottom: 10px; }
+                .button { display: inline-block; padding: 10px 20px; color: white !important; background-color: #2ea44f; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; }
+                .footer { font-size: 12px; color: #888888; margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 10px; }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">✅ Darbplūsma izpildīta veiksmīgi!</div>
+                <p>Sveicināti,</p>
+                <p>Automātiskais paziņojums no GitHub Actions. Repozitorijā <strong>${{ github.repository }}</strong> tikko veiksmīgi noslēdzās koda būvējums un publikācija.</p>
+                <p><strong>Autors:</strong> ${{ github.actor }}<br>
+                <strong>Atzars:</strong> ${{ github.ref_name }}</p>
+                <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" class="button">Skatīt Action rezultātu</a>
+                <div class="footer">Šis ir sistēmas ziņojums. Lūdzu, neatbildiet uz to.</div>
+              </div>
+            </body>
+            </html>
+

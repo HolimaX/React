@@ -103,19 +103,19 @@ const Home = ({
                 Beer Bank | {authState?.isAuthenticated ? 'The Personalized Cloud Dashboard' : 'The Cloud Dashboard'} {process.env.REACT_APP_VERSION || ''}
               </h1>
               {gitInfo && (
-                <label className="d-block small text-dark opacity-75">
+                <p className="d-block small text-dark mb-1">
                   {gitInfo.remoteRepoPath} (Supported apps: {gitInfo.branch}/{gitInfo.shortHash})
-                </label>
+                </p>
               )}
               <p>Find your favourite beer here (or open your personalized dashboard to access your available services)</p>
             </div>
           </div>
           <Search />
-          <div className="d-flex justify-content-center gap-2 mt-3">
-            <TwitterShareButton url={window.location.href}><TwitterIcon size={32} round /></TwitterShareButton>
-            <FacebookShareButton url={window.location.href}><FacebookIcon size={32} round /></FacebookShareButton>
-            <TelegramShareButton url={window.location.href}><TelegramIcon size={32} round /></TelegramShareButton>
-            <LinkedinShareButton url={window.location.href}><LinkedinIcon size={32} round /></LinkedinShareButton>
+          <div className="d-flex justify-content-center gap-2 mt-3" role="group" aria-label="Share this page">
+            <TwitterShareButton url={window.location.href} aria-label="Share on Twitter"><TwitterIcon size={32} round /></TwitterShareButton>
+            <FacebookShareButton url={window.location.href} aria-label="Share on Facebook"><FacebookIcon size={32} round /></FacebookShareButton>
+            <TelegramShareButton url={window.location.href} aria-label="Share on Telegram"><TelegramIcon size={32} round /></TelegramShareButton>
+            <LinkedinShareButton url={window.location.href} aria-label="Share on LinkedIn"><LinkedinIcon size={32} round /></LinkedinShareButton>
           </div>
         </div>
       </header>

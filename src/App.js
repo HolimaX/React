@@ -64,14 +64,19 @@ const App = () => {
   const renderConfigWarning = () => {
     if (!config.client_id || !config.issuer || config.issuer.includes('example.com')) {
       return (
-        <div style={{
-          backgroundColor: '#fff3cd',
-          color: '#856404',
-          padding: '10px',
-          textAlign: 'center',
-          borderBottom: '1px solid #ffeeba',
-          fontSize: '14px'
-        }}>
+        <div
+          role="status"
+          aria-live="polite"
+          aria-label="Authentication configuration notice"
+          style={{
+            backgroundColor: '#fff3cd',
+            color: '#4d3900',
+            padding: '10px',
+            textAlign: 'center',
+            borderBottom: '1px solid #ffeeba',
+            fontSize: '14px'
+          }}
+        >
           <strong>Notice:</strong> OKTA Authentication is not configured. Features requiring login will be disabled, but you can still browse the catalog.
         </div>
       );
@@ -80,29 +85,44 @@ const App = () => {
   };
 
   return (
-    <>
+    <div className="app-layout">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       {renderConfigWarning()}
       <Navbar />
       <CookieConsent
         location="bottom"
         buttonText="I understand and Agree"
+        ariaAcceptLabel="Accept cookies"
         cookieName="CD12_CookieAcceptv12022"
-        style={{ background: "#2B373B", opacity: "0.95", zIndex: 9999 }}
-        buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+        style={{ background: "#1f292d", color: "#ffffff", opacity: "0.98", zIndex: 9999 }}
+        buttonStyle={{
+          background: "#ffd42d",
+          color: "#111111",
+          fontSize: "14px",
+          fontWeight: "700",
+          minHeight: "44px",
+          minWidth: "44px",
+          padding: "8px 16px",
+          borderRadius: "4px"
+        }}
         expires={150}
       >
-        This website uses cookies and data to enhance the user experience. By clicking 'I understand and Agree', you agree to terms.
+        This website uses cookies and data to enhance the user experience. By clicking &apos;I understand and Agree&apos;, you agree to terms.
       </CookieConsent>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginPage baseUrl={config.url} />} />
-        <Route path="/register" element={<RegistrationForm />} />
-        <Route path="/implicit/callback" element={<LoginCallback />} />
-        <Route path="/favourite" element={<Favourites />} />
-        <Route path="/user" element={<Dashboard />} />
-        <Route path="/profile" element={<ProfilePage healthCards={healthCards} />} />
-      </Routes>
-    </>
+      <main id="main-content" className="app-main-content" tabIndex={-1}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginPage baseUrl={config.url} />} />
+          <Route path="/register" element={<RegistrationForm />} />
+          <Route path="/implicit/callback" element={<LoginCallback />} />
+          <Route path="/favourite" element={<Favourites />} />
+          <Route path="/user" element={<Dashboard />} />
+          <Route path="/profile" element={<ProfilePage healthCards={healthCards} />} />
+        </Routes>
+      </main>
+    </div>
   );
 };
 
